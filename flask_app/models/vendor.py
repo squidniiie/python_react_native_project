@@ -13,7 +13,7 @@ class Vendor:
     #GET ALL VENDORS FROM DB
     @classmethod
     def get_all_vendors(cls):
-        query = "SELECT * FROM vendors"
+        query = "SELECT * FROM vendors;"
         vendors_from_db = connectToMySQL(DB).query_db(query)
         vendors = []
         for vendor in vendors_from_db:
@@ -33,3 +33,19 @@ class Vendor:
         query = "SELECT * FROM vendors WHERE id = %(id)s;"
         vendor_from_db = connectToMySQL(DB).query_db(query,data)
         return cls(vendor_from_db)
+
+    #EDIT VENDOR
+    @classmethod
+    def edit_vendor(cls,data):
+        query = "UPDATE vendors SET name = %(name)s, location = %(location)s, email = %(email)s, updated_at = NOW() WHERE id = %(id)s;"
+        return connectToMySQL(DB).query_db(query,data)
+
+    #ALTERNATE GET ONE VENDOR
+    @classmethod
+    def get_one_vendor(cls,**data):
+        query = "SELECT * FROM vendors WHERE "
+        where_str = ' AND '.join(f"{key}=%({key})s" for key in data)
+        query += where_str + ';'
+        results = connectToMySQL(DB).query_db(query,data)
+        if results:
+            return cls(results[0])
