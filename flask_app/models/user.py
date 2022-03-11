@@ -18,7 +18,7 @@ class User:
     #GET ALL USERS FROM DB
     @classmethod
     def get_all_users(cls):
-        query = "SELECT * FROM users"
+        query = "SELECT * FROM users;"
         users_from_db = connectToMySQL(DB).query_db(query)
         users = []
         for user in users_from_db:
@@ -39,6 +39,18 @@ class User:
         user_from_db = connectToMySQL(DB).query_db(query,data)
         return cls(user_from_db)
 
+    #DELETE USER
+    @classmethod
+    def delete_user(cls,data):
+        query = 'DELETE FROM users WHERE id = %(id)s;'
+        return connectToMySQL(DB).query_db(query,data)
+
+    #EDIT USER
+    @classmethod
+    def edit_user(cls,data):
+        query = "UPDATE users SET first_name = %(first_name)s, last_name = %(last_name)s, email = %(email)s, updated_at = NOW() WHERE id = %(id)s;"
+        return connectToMySQL(DB).query_db(query,data)
+
     #ALTERNATE GET ONE USER
     @classmethod
     def get_one_user(cls,**data):
@@ -48,3 +60,40 @@ class User:
         results = connectToMySQL(DB).query_db(query,data)
         if results:
             return cls(results[0])
+
+    #REGISTRATION VALIDATION
+    @staticmethod
+    def validate_register(data):
+        errors = {}
+        if len(data['first_name']) < 2:
+            errors['first_name'] = 'First name should be at least 2 characters'
+        if len(data['last_name']) < 2:
+            errors['last_name'] = 'Last name should be at least 2 characters'
+        if not EMAIL_REGEX.match(data['email']):
+            errors['email'] = 'Email format is invalid'
+        elif User.get_one_user(email=data['email']):
+            errors['email'] = 'Email is already in use'
+        if len(data['password']) < 8:
+            errors['password'] = 'Password should be at least 8 characters'
+        elif data['password'] != data['confirm_password']:
+            errors['confirm_password'] = 'Passwords do not match'
+        
+        for field,msg in errors.items():
+            flash(msg,field)
+
+        return len(errors) == 0
+
+    #LOGIN VALIDATION
+    @staticmethod
+    def validate_login(data):
+        errors = {}
+        user = User.get_one_user(email=data['login_email'])
+        if not user:
+            errors['login'] = "Invalid Credentials"
+        elif not bcrypt.check_password_hash(user.password,data['password']):
+            errors['login'] = 'Invalid Credentails'
+        
+        for field,msg in errors.items():
+            flash(msg,field)
+
+        return len(errors) == 0
