@@ -22,7 +22,7 @@ class User:
         users_from_db = connectToMySQL(DB).query_db(query)
         users = []
         for user in users_from_db:
-            users.append(cls(user))
+            users.append(user)
         return users
 
     #SAVE A USER IN DB

@@ -21,6 +21,12 @@ def dashboard():
     vendors = Vendor.get_all_vendors()
     return jsonify(user=user, vendors=vendors)
 
+#SAMPLE ROUTE TO RETRIEVE ALL USERS
+@app.route('/getusers', methods=['GET'])
+def get_users():
+    users = User.get_all_users()
+    return jsonify(users=users)
+
 #REGISTER A USER ROUTE
 @app.route('/register', methods=['POST'])
 def register():
