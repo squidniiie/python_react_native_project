@@ -7,6 +7,10 @@ from flask import render_template,redirect,request,session,flash, jsonify, json
 from flask_app.models.user import User
 from flask_app.models.vendor import Vendor
 
+
+
+# CREATE (REGISTER) ROUTE-------------------------------------------------------
+
 #LOGIN/REG PAGE ROUTE
 @app.route('/')
 def index():
