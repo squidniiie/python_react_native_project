@@ -1,5 +1,6 @@
 # users.py
 from crypt import methods
+from distutils import errors
 
 import bcrypt
 from flask_app import app, bcrypt
@@ -24,6 +25,12 @@ def dashboard():
     user = User.get_one_user(id=session('id'))
     vendors = Vendor.get_all_vendors()
     return jsonify(user=user, vendors=vendors)
+
+#SAMPLE ROUTE TO RETRIEVE ALL USERS
+@app.route('/getusers', methods=['GET'])
+def get_users():
+    users = User.get_all_users()
+    return jsonify(users=users)
 
 #REGISTER A USER ROUTE
 @app.route('/register', methods=['POST'])
