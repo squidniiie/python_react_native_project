@@ -8,10 +8,6 @@ from flask import render_template,redirect,request,session,flash, jsonify, json
 from flask_app.models.user import User
 from flask_app.models.vendor import Vendor
 
-
-
-# CREATE (REGISTER) ROUTE-------------------------------------------------------
-
 #LOGIN/REG PAGE ROUTE
 @app.route('/')
 def index():
@@ -43,7 +39,7 @@ def register():
     }
     user = User.save(user_data)
     # session['id'] = User.save(user_data)
-    return jsonify(user)
+    return jsonify(user=user)
 
 #LOGIN A USER ROUTE
 @app.route('/login', methods=['POST'])
