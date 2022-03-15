@@ -1,5 +1,6 @@
 # users.py
 from crypt import methods
+from distutils import errors
 
 import bcrypt
 from flask_app import app, bcrypt
