@@ -5,6 +5,7 @@ const Form = (props) => {
     const [first_name, setFirstName] = useState('');
     const [last_name, setLastName] = useState('');
     const [email, setEmail] = useState('');
+    const [location, setLocation] = useState('');
     const [password, setPassword] = useState('');
     const [location, setLocation] = useState('');
     // const [error, setError] = useState('');
@@ -16,16 +17,15 @@ const Form = (props) => {
             headers: {
                 'Content-Type': 'application/json'
             },
+
             body: JSON.stringify({
                 first_name: first_name,
                 last_name: last_name,
                 email: email,
                 password: password,
                 location: location
-            }
-            )
-        }
-        )
+            })
+        })
             .then(res => {
                 if (!res.ok) {
                     throw Error('did not work')
@@ -95,7 +95,7 @@ const Form = (props) => {
                     value={email}
                     autoCapitalize='none'
                     // onEndEditing={validateEmail}
-                    onChangeText={setEmail} />
+                    onChangeText={(text) => {setEmail(text)}} />
                 {/* {!!emailError && (<Text style={styles.error}>{emailError}</Text>)} */}
             </View>
             <View style={styles.row}>
