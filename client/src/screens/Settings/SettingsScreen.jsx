@@ -8,7 +8,7 @@ const SettingsScreen = () => {
     const [data, setData] = useState([]);
     // const [photos, setPhotos] = useState([]);
     useEffect(() => {
-        fetch('http:127.0.0.1:5000/getusers', { method: 'GET' })
+        fetch("http:127.0.0.1:5000/getusers", { method: 'GET' })
             .then(res => res.json())
             .then(res => {
                 setData(res.users)

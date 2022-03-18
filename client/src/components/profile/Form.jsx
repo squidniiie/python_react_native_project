@@ -1,63 +1,52 @@
 import { View, Text, TextInput, StyleSheet, Button } from 'react-native'
 import React, { useState } from 'react'
 
-
-
 const Form = (props) => {
     const [first_name, setFirstName] = useState('');
     const [last_name, setLastName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    // const [emailError, setEmailError] = useState('');
+    const [location, setLocation] = useState('');
+    // const [error, setError] = useState('');
     // const [passwordError, setPasswordError] = useState('');
-    // useEffect(() => {
-    //     fetch('http:127.0.0.1:5000/register', {
-    //         method: 'POST',
-    //         headers: {
-    //             'Accept': 'application/json',
-    //             'Content-Type': 'application/json'
-    //         },
-    //         body: JSON.stringify(
-    //             {
-    //                 firstName: firstName,
-    //                 lastName: lastName,
-    //                 email: email,
-    //                 password: password
-    //             }
-    //         )
-    //             .then(res => res.json())
-    //     })
-    // }, [])
+
     const submitHandler = () => {
-        fetch('http:127.0.0.1:5000/register', {
+        fetch(`http://127.0.0.1:5000/register`, {
             method: 'POST',
             headers: {
-                // 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(
-                {
-                    firstName: first_name,
-                    lastName: last_name,
-                    email: email,
-                    password: password
-                }
+            body: JSON.stringify({
+                first_name: first_name,
+                last_name: last_name,
+                email: email,
+                password: password,
+                location: location
+            }
             )
-        })
+        }
+        )
             .then(res => {
-                res.json()
-                console.log(res)
+                if (!res.ok) {
+                    throw Error('did not work')
+                }
+                return res.json()
             })
             .then(data => {
                 console.log(data)
-                props.navigation.navigate('ProfileScreen')
+                // props.navigation.navigate('ProfileScreen')
             })
-            .catch(error => console.log(error))
-        // if (!!emailError) {
-        //     Alert.alert('Please check all field errors before submission');
-        //     return;
-        // }
+            .catch(error => {
+                console.log(error.message)
+                // setError(error.message)
+            })
     }
+
+
+    // if (!!emailError) {
+    //     Alert.alert('Please check all field errors before submission');
+    //     return;
+    // }
     // const validateEmail = () => {
     //     if (email.length < 3) {
     //         setEmailError('Email address must be more than 3 characters')
@@ -84,10 +73,7 @@ const Form = (props) => {
                     style={[styles.input, styles.shadow]}
                     placeholder="First Name"
                     value={first_name}
-                    onChangeText={(text => {
-                        setFirstName(text)
-
-                    })} />
+                    onChangeText={(text) => { setFirstName(text) }} />
             </View>
             <View
                 style={styles.row}
@@ -99,10 +85,7 @@ const Form = (props) => {
                     style={[styles.input, styles.shadow]}
                     placeholder="Last Name"
                     value={last_name}
-                    onChangeText={(text => {
-                        setLastName(text)
-
-                    })} />
+                    onChangeText={(text) => { setLastName(text) }} />
             </View>
             <View style={styles.row}>
                 <Text style={styles.label}>Email Address</Text>
@@ -112,10 +95,7 @@ const Form = (props) => {
                     value={email}
                     autoCapitalize='none'
                     // onEndEditing={validateEmail}
-                    onChangeText={(text) => {
-                        setEmail(text)
-                        // ; setEmailError('')
-                    }} />
+                    onChangeText={setEmail} />
                 {/* {!!emailError && (<Text style={styles.error}>{emailError}</Text>)} */}
             </View>
             <View style={styles.row}>
@@ -126,18 +106,27 @@ const Form = (props) => {
                     value={password}
                     secureTextEntry={true}
                     // onEndEditing={validatePassword}
-                    onChangeText={(text) => {
-                        setPassword(text)
-
-                        // ; setPasswordError('')
-                    }} />
+                    onChangeText={(text) => { setPassword(text) }} />
                 {/* {!!passwordError && (<Text style={styles.error}>{passwordError}</Text>)} */}
             </View>
-            <Button title='Register' onPress={(props) => {
-                props = "hello"
-                console.log(props)
-                submitHandler
-            }} />
+            <View
+                style={styles.row}
+            >
+                <Text
+                    style={styles.label}
+                >Location</Text>
+                <TextInput
+                    style={[styles.input, styles.shadow]}
+                    placeholder="Location"
+                    value={location}
+                    onChangeText={(text) => { setLocation(text) }} />
+            </View>
+            <Text style={styles.label}>{first_name} {last_name} {email} {location} {password}</Text>
+            <Button
+                title="Register"
+                onPress={() => submitHandler()}>
+                Register
+            </Button>
         </View>
     )
 }

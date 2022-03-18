@@ -1,10 +1,8 @@
 # users.py
 from crypt import methods
 from distutils import errors
-
-import bcrypt
 from flask_app import app, bcrypt
-from flask import render_template,redirect,request,session,flash, jsonify, json
+from flask import redirect,request,session,flash, jsonify, json
 from flask_app.models.user import User
 from flask_app.models.vendor import Vendor
 
@@ -13,9 +11,7 @@ from flask_app.models.vendor import Vendor
 # CREATE (REGISTER) ROUTE-------------------------------------------------------
 
 #LOGIN/REG PAGE ROUTE
-@app.route('/')
-def index():
-    return 'render_template('')'
+# s
 
 #HOME PAGE/DASHBOARD ROUTE FOR USER
 @app.route('/dashboard')
@@ -35,15 +31,14 @@ def get_users():
 #REGISTER A USER ROUTE
 @app.route('/register', methods=['POST'])
 def register():
-    # if not User.validate_register(request.form):
-    #     return redirect('/')
-    user_data = {
-        **request.form,
-        'password' : bcrypt.generate_password_hash(request.form['password'])
-    }
+    print('in register route')
+    print(request.get_json())
+    user_data={**request.get_json()}
+    print(user_data)
     user = User.save(user_data)
-    # session['id'] = User.save(user_data)
-    return jsonify(user)
+    print(user)
+    return jsonify(user=user)
+
 
 #LOGIN A USER ROUTE
 @app.route('/login', methods=['POST'])
