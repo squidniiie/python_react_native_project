@@ -22,6 +22,11 @@ const Profile = () => {
                     </View>
                 </View>
             </View>
+            <View style={[styles.card, styles.shadow]}>
+                <Text>
+                    Add the user's information like location and soon preferences
+                </Text>
+            </View>
         </View>
     )
 }

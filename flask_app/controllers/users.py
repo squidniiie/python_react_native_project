@@ -1,17 +1,13 @@
 # users.py
 from crypt import methods
 from distutils import errors
-
-import bcrypt
 from flask_app import app, bcrypt
-from flask import render_template,redirect,request,session,flash, jsonify, json
+from flask import redirect,request,session,flash, jsonify, json
 from flask_app.models.user import User
 from flask_app.models.vendor import Vendor
 
 #LOGIN/REG PAGE ROUTE
-@app.route('/')
-def index():
-    return 'render_template('')'
+# s
 
 #HOME PAGE/DASHBOARD ROUTE FOR USER
 @app.route('/dashboard')
@@ -44,14 +40,6 @@ def register():
     print(user)
     # session['id'] = User.save(user_data)
     return jsonify(user=user)
-# @app.route('/register', methods=['POST'])
-# def register():
-#     user_data = json.loads(request.data)
-#     user = User(
-#             data= user_data['first_name', 'last_name', 'email', 'password', 'location']
-#         )
-#     user.save()
-#     return jsonify( user=user)
 
 #LOGIN A USER ROUTE
 @app.route('/login', methods=['POST'])

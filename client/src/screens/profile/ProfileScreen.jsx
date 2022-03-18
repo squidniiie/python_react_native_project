@@ -8,7 +8,7 @@ const ProfileScreen = (props) => {
     return (
         <ScrollView showsVerticalScrollIndicator={false}>
             <Profile />
-            <Text>Show here the user's preferences and maybe a stacked list to get to their favorited vendors</Text>
+            {/* <Text>Show here the user's preferences and maybe a stacked list to get to their favorited vendors</Text> */}
             <Pressable
                 style={styles.button}
                 onPress={() => props.navigation.navigate('Login')}>

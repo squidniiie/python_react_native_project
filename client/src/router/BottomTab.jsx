@@ -29,6 +29,11 @@ const BottomTab = () => {
                         (<Entypo name='home' color={color} size={28} />),
                 }}
             /> */}
+            <Tab.Screen component={LoginScreen} name="Login"
+                options={{
+                    tabBarIcon: ({ color }) =>
+                        (<Entypo name='login' color={color} size={28} />),
+                }} />
             <Tab.Screen component={Homescreen} name="Home"
                 options={{
                     tabBarIcon: ({ color }) =>
@@ -49,11 +54,7 @@ const BottomTab = () => {
                     tabBarIcon: ({ color }) =>
                         (<Entypo name='menu' color={color} size={28} />),
                 }} />
-            <Tab.Screen component={LoginScreen} name="Login"
-                options={{
-                    tabBarIcon: ({ color }) =>
-                        (<Entypo name='login' color={color} size={28} />),
-                }} />
+
         </Tab.Navigator >
     )
 }
