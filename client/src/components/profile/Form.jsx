@@ -7,6 +7,7 @@ const Form = (props) => {
     const [first_name, setFirstName] = useState('');
     const [last_name, setLastName] = useState('');
     const [email, setEmail] = useState('');
+    const [location, setLocation] = useState('');
     const [password, setPassword] = useState('');
     // const [emailError, setEmailError] = useState('');
     // const [passwordError, setPasswordError] = useState('');
@@ -29,30 +30,31 @@ const Form = (props) => {
     //     })
     // }, [])
     const submitHandler = () => {
-        fetch('http:127.0.0.1:5000/register', {
+        console.log(first_name,last_name,email,password)
+        fetch('https://a955-76-175-74-35.ngrok.io/register', {
             method: 'POST',
             headers: {
-                // 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(
                 {
-                    firstName: first_name,
-                    lastName: last_name,
+                    first_name: first_name,
+                    last_name: last_name,
                     email: email,
+                    location: location,
                     password: password
                 }
             )
         })
             .then(res => {
-                res.json()
-                console.log(res)
+                return res.json()
+                // console.log("Result: ", res)
             })
             .then(data => {
-                console.log(data)
-                props.navigation.navigate('ProfileScreen')
+                console.log("Data: ", data)
+                // props.navigation.navigate('ProfileScreen')
             })
-            .catch(error => console.log(error))
+            .catch(error => console.log("There is an error: ",error))
         // if (!!emailError) {
         //     Alert.alert('Please check all field errors before submission');
         //     return;
@@ -84,10 +86,10 @@ const Form = (props) => {
                     style={[styles.input, styles.shadow]}
                     placeholder="First Name"
                     value={first_name}
-                    onChangeText={(text => {
+                    onChangeText={(text) => {
                         setFirstName(text)
-
-                    })} />
+                        // console.warn(first_name)
+                    }} />
             </View>
             <View
                 style={styles.row}
@@ -99,10 +101,25 @@ const Form = (props) => {
                     style={[styles.input, styles.shadow]}
                     placeholder="Last Name"
                     value={last_name}
-                    onChangeText={(text => {
+                    onChangeText={(text) => {
                         setLastName(text)
-
-                    })} />
+                        // console.warn(last_name)
+                    }} />
+            </View>
+            <View
+                style={styles.row}
+            >
+                <Text
+                    style={styles.label}
+                >Location</Text>
+                <TextInput
+                    style={[styles.input, styles.shadow]}
+                    placeholder="Location"
+                    value={location}
+                    onChangeText={(text) => {
+                        setLocation(text)
+                        // console.warn(location)
+                    }} />
             </View>
             <View style={styles.row}>
                 <Text style={styles.label}>Email Address</Text>
@@ -114,6 +131,7 @@ const Form = (props) => {
                     // onEndEditing={validateEmail}
                     onChangeText={(text) => {
                         setEmail(text)
+                        // console.warn(email)
                         // ; setEmailError('')
                     }} />
                 {/* {!!emailError && (<Text style={styles.error}>{emailError}</Text>)} */}
@@ -128,16 +146,12 @@ const Form = (props) => {
                     // onEndEditing={validatePassword}
                     onChangeText={(text) => {
                         setPassword(text)
-
+                        // console.warn(password)
                         // ; setPasswordError('')
                     }} />
                 {/* {!!passwordError && (<Text style={styles.error}>{passwordError}</Text>)} */}
             </View>
-            <Button title='Register' onPress={(props) => {
-                props = "hello"
-                console.log(props)
-                submitHandler
-            }} />
+            <Button title='Register' onPress= {() => {submitHandler()}} />
         </View>
     )
 }
