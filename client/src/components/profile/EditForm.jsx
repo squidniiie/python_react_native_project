@@ -1,20 +1,21 @@
-import { View, Text, TextInput, StyleSheet, Button, Alert } from 'react-native'
-import React, { useState } from 'react'
+import { StyleSheet, View, Text, TextInput, Button } from 'react-native'
+import React, { useParams, useEffect, useState } from 'react'
 
-const Form = ({ navigation }) => {
-    // console.log("Form:", navigation)
+const EditForm = ({ navigation }) => {
+    const { id } = useParams();
     const [first_name, setFirstName] = useState('');
     const [last_name, setLastName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [location, setLocation] = useState('');
-    const [error, setError] = useState('');
-    const [emailError, setEmailError] = useState('');
-    const [passwordError, setPasswordError] = useState('');
-
-    const submitHandler = () => {
-        fetch(`http://127.0.0.1:5000/register`, {
-            method: 'POST',
+    const [error, setError] = useState([]);
+    // const [emailError, setEmailError] = useState('');
+    // const [passwordError, setPasswordError] = useState('');
+    console.log(first_name, last_name, email, location)
+    // const id = useParams();
+    useEffect(() => {
+        fetch("http://127.0.0.1:5000/dashboard/" + id, {
+            method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
             },
@@ -26,6 +27,28 @@ const Form = ({ navigation }) => {
                 location: location
             })
         })
+            .then(res => {
+                setFirstName(res.data.first_name);
+                setLastName(res.data.last_name);
+                console.log(res.data.first_name)
+            })
+    }, []);
+    const submitHandler = () => {
+        fetch(`http://127.0.0.1:5000/dashboard`
+            , {
+                method: 'PUT',
+                //     headers: {
+                //         'Content-Type': 'application/json'
+                //     },
+                //     body: JSON.stringify({
+                //         first_name: first_name,
+                //         last_name: last_name,
+                //         email: email,
+                //         password: password,
+                //         location: location
+                //     })
+            }
+        )
             .then(res => {
                 if (!res.ok) {
                     throw Error('did not work')
@@ -40,23 +63,6 @@ const Form = ({ navigation }) => {
                 setError(error)
             })
     }
-
-
-    // if (!!emailError) {
-    //     Alert.alert('Please check all field errors before submission');
-    //     return;
-    // }
-    // const validateEmail = () => {
-    //     if (email.length < 3) {
-    //         setEmailError('Email address must be more than 3 characters')
-    //     }
-    // }
-    // const validatePassword = () => {
-    //     if (password.length < 8) {
-    //         setPasswordError('Password address must be more than 8 characters')
-    //     }
-    // }
-
     return (
         <View style={[styles.card, styles.shadow]}>
             <Text
@@ -71,7 +77,9 @@ const Form = ({ navigation }) => {
                 <TextInput
                     style={[styles.input, styles.shadow]}
                     placeholder="First Name"
+                    defaultValue={first_name}
                     value={first_name}
+                    editable={true}
                     onChangeText={(text) => { setFirstName(text) }} />
             </View>
             <View
@@ -185,4 +193,4 @@ const styles = StyleSheet.create({
         fontWeight: '700'
     }
 })
-export default Form
+export default EditForm

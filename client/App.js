@@ -1,5 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import { Text, View, SafeAreaView } from 'react-native';
+import BottomTab from './src/router/BottomTab';
 
 import Router from './src/router/Router';
 

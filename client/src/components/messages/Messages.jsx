@@ -15,7 +15,7 @@ const Messages = () => {
             .then(res => {
                 setData(res.vendors)
                 setPhotos(res.photos)
-                console.log(res.vendors)
+                // console.log(res.vendors)
             })
             .catch((error) => {
                 console.log(error)

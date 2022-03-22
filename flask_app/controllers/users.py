@@ -14,13 +14,14 @@ from flask_app.models.vendor import Vendor
 # s
 
 #HOME PAGE/DASHBOARD ROUTE FOR USER
-@app.route('/dashboard')
+@app.route('/dashboard', methods=['GET', 'PUT'])
 def dashboard():
-    if 'id' not in session:
-        return redirect('/')
-    user = User.get_one_user(id=session('id'))
-    vendors = Vendor.get_all_vendors()
-    return jsonify(user=user, vendors=vendors)
+    # if 'id' not in session:
+    #     return redirect('/')
+    # id=session('id')
+    user = User.get_one_user()
+    # vendors = Vendor.get_all_vendors()
+    return jsonify(user=user)
 
 #SAMPLE ROUTE TO RETRIEVE ALL USERS
 @app.route('/getusers', methods=['GET'])

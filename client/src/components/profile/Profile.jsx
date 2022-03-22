@@ -1,10 +1,12 @@
-import { View, Text, Pressable, StyleSheet, Image } from 'react-native'
+import { View, Text, StyleSheet, Image, Pressable } from 'react-native'
 import React from 'react'
 import Header from '../header/Header'
 import Feather from 'react-native-vector-icons/Feather'
-
-const Profile = () => {
-
+import { useNavigation } from '@react-navigation/native'
+const Profile = (item) => {
+    const navigation = useNavigation()
+    // console.log(item)
+    // console.log("Profile", navigation)
     return (
         <View>
             <Header />
@@ -14,17 +16,28 @@ const Profile = () => {
                         <Image style={styles.image} source={{ uri: 'https://stabmag.com/wp-content/uploads/2021/04/Mark-Zuckerberg-Spooks-the-Internet-With-Too-Much-Sunscreen-on-His-Face-in-Hawaii-01-1024x538.jpg' }} />
                     </View>
                     <View style={styles.titleBox}>
-                        <Text style={{ fontSize: 28, fontWeight: 'bold', marginBottom: 18 }}>Hello, User</Text>
-                        <Text>Edit Profile
-                            <Feather name='edit' size={16} />
-                        </Text>
+
+                        <Text style={{ fontSize: 28, fontWeight: 'bold', marginBottom: 18 }}>Hello, {item.first_name}</Text>
+                        <Pressable
+                            onPress={() => {
+                                navigation.navigate('Edit')
+                            }}
+                        >
+                            <Text>Edit Profile
+                                <Feather name='edit' size={16} />
+                            </Text>
+                        </Pressable>
+
                         <Text>adding actions here</Text>
                     </View>
                 </View>
             </View>
             <View style={[styles.card, styles.shadow]}>
                 <Text>
-                    Add the user's information like location and soon preferences
+                    {item.email}
+                </Text>
+                <Text>
+                    {item.location}
                 </Text>
             </View>
         </View>
