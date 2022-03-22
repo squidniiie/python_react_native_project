@@ -6,8 +6,8 @@ const Form = ({ navigation }) => {
     const [first_name, setFirstName] = useState('');
     const [last_name, setLastName] = useState('');
     const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
     const [location, setLocation] = useState('');
+    const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const [emailError, setEmailError] = useState('');
     const [passwordError, setPasswordError] = useState('');
@@ -18,6 +18,7 @@ const Form = ({ navigation }) => {
             headers: {
                 'Content-Type': 'application/json'
             },
+
             body: JSON.stringify({
                 first_name: first_name,
                 last_name: last_name,
@@ -94,7 +95,7 @@ const Form = ({ navigation }) => {
                     value={email}
                     autoCapitalize='none'
                     // onEndEditing={validateEmail}
-                    onChangeText={setEmail} />
+                    onChangeText={(text) => { setEmail(text) }} />
                 {/* {!!emailError && (<Text style={styles.error}>{emailError}</Text>)} */}
             </View>
             <View style={styles.row}>
