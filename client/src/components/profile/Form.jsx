@@ -1,5 +1,6 @@
-import { View, Text, TextInput, StyleSheet, Button } from 'react-native'
+import { View, Text, TextInput, StyleSheet, Button, ScrollView } from 'react-native'
 import React, { useState } from 'react'
+import { showMessage, hideMessage } from 'react-native-flash-message'
 
 
 
@@ -9,28 +10,14 @@ const Form = (props) => {
     const [email, setEmail] = useState('');
     const [location, setLocation] = useState('');
     const [password, setPassword] = useState('');
+    const [confirmPass, setConfirmPass] = useState('');
+    const [loginEmail,setLoginEmail] = useState('');
+    const [loginPassword,setLoginPassword] = useState('');
     // const [emailError, setEmailError] = useState('');
     // const [passwordError, setPasswordError] = useState('');
-    // useEffect(() => {
-    //     fetch('http:127.0.0.1:5000/register', {
-    //         method: 'POST',
-    //         headers: {
-    //             'Accept': 'application/json',
-    //             'Content-Type': 'application/json'
-    //         },
-    //         body: JSON.stringify(
-    //             {
-    //                 firstName: firstName,
-    //                 lastName: lastName,
-    //                 email: email,
-    //                 password: password
-    //             }
-    //         )
-    //             .then(res => res.json())
-    //     })
-    // }, [])
+
     const submitHandler = () => {
-        console.log(first_name,last_name,email,password)
+        console.log(first_name, last_name, email, password)
         fetch('https://a955-76-175-74-35.ngrok.io/register', {
             method: 'POST',
             headers: {
@@ -52,13 +39,42 @@ const Form = (props) => {
             })
             .then(data => {
                 console.log("Data: ", data)
+                for(m in data['messages']){
+                    showMessage({
+                        message : m,
+                        type : "Error"
+                    })
+                }
                 // props.navigation.navigate('ProfileScreen')
             })
-            .catch(error => console.log("There is an error: ",error))
+            .catch(error => console.log("There is an error: ", error))
         // if (!!emailError) {
         //     Alert.alert('Please check all field errors before submission');
         //     return;
         // }
+    }
+
+    const loginHandler = () => {
+        fetch('https://a955-76-175-74-35.ngrok.io/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(
+                {
+                    email: loginEmail,
+                    password: loginPassword
+                }
+            )
+        })
+            .then(res => {
+                return res.json()
+            })
+            .then(data => {
+                console.log("Data: ", data)
+                // props.navigation.navigate('ProfileScreen')
+            })
+            .catch(error => console.log("There is an error: ", error))
     }
     // const validateEmail = () => {
     //     if (email.length < 3) {
@@ -72,87 +88,126 @@ const Form = (props) => {
     // }
 
     return (
-        <View style={[styles.card, styles.shadow]}>
-            <Text
-                style={styles.heading}
-            >Get Started with Ding</Text>
-            <View
-                style={styles.row}
-            >
+        <ScrollView>
+            <View style={[styles.card, styles.shadow]}>
                 <Text
-                    style={styles.label}
-                >First Name</Text>
-                <TextInput
-                    style={[styles.input, styles.shadow]}
-                    placeholder="First Name"
-                    value={first_name}
-                    onChangeText={(text) => {
-                        setFirstName(text)
-                        // console.warn(first_name)
-                    }} />
+                    style={styles.heading}
+                >Get Started with Ding</Text>
+                <View
+                    style={styles.row}
+                >
+                    <Text
+                        style={styles.label}
+                    >First Name</Text>
+                    <TextInput
+                        style={[styles.input, styles.shadow]}
+                        placeholder="First Name"
+                        value={first_name}
+                        onChangeText={(text) => {
+                            setFirstName(text)
+                        }} />
+                </View>
+                <View
+                    style={styles.row}
+                >
+                    <Text
+                        style={styles.label}
+                    >Last Name</Text>
+                    <TextInput
+                        style={[styles.input, styles.shadow]}
+                        placeholder="Last Name"
+                        value={last_name}
+                        onChangeText={(text) => {
+                            setLastName(text)
+                        }} />
+                </View>
+                <View
+                    style={styles.row}
+                >
+                    <Text
+                        style={styles.label}
+                    >Location</Text>
+                    <TextInput
+                        style={[styles.input, styles.shadow]}
+                        placeholder="Location"
+                        value={location}
+                        onChangeText={(text) => {
+                            setLocation(text)
+                        }} />
+                </View>
+                <View style={styles.row}>
+                    <Text style={styles.label}>Email Address</Text>
+                    <TextInput
+                        style={[styles.input, styles.shadow]}
+                        placeholder="Email Address"
+                        value={email}
+                        autoCapitalize='none'
+                        // onEndEditing={validateEmail}
+                        onChangeText={(text) => {
+                            setEmail(text)
+                        }} />
+                    {/* {!!emailError && (<Text style={styles.error}>{emailError}</Text>)} */}
+                </View>
+                <View style={styles.row}>
+                    <Text style={styles.label}>Password</Text>
+                    <TextInput
+                        style={[styles.input, styles.shadow]}
+                        placeholder="Password"
+                        value={password}
+                        secureTextEntry={true}
+                        // onEndEditing={validatePassword}
+                        onChangeText={(text) => {
+                            setPassword(text)
+                        }} />
+                    {/* {!!passwordError && (<Text style={styles.error}>{passwordError}</Text>)} */}
+                </View>
+                <View style={styles.row}>
+                    <Text style={styles.label}>Confirm Password</Text>
+                    <TextInput
+                        style={[styles.input, styles.shadow]}
+                        placeholder="Confirm Password"
+                        value={password}
+                        secureTextEntry={true}
+                        // onEndEditing={validatePassword}
+                        onChangeText={(text) => {
+                            setPassword(text)
+                        }} />
+                    {/* {!!passwordError && (<Text style={styles.error}>{passwordError}</Text>)} */}
+                </View>
+                <Button title='Register' onPress={() => { submitHandler() }} /> 
             </View>
-            <View
-                style={styles.row}
-            >
-                <Text
-                    style={styles.label}
-                >Last Name</Text>
-                <TextInput
-                    style={[styles.input, styles.shadow]}
-                    placeholder="Last Name"
-                    value={last_name}
-                    onChangeText={(text) => {
-                        setLastName(text)
-                        // console.warn(last_name)
-                    }} />
+            <View style={[styles.card, styles.shadow]}>
+                <View style={styles.row}>
+                    <Text style={styles.label}>Email Address</Text>
+                    <TextInput
+                        style={[styles.input, styles.shadow]}
+                        placeholder="Email Address"
+                        value={loginEmail}
+                        autoCapitalize='none'
+                        // onEndEditing={validateEmail}
+                        onChangeText={(text) => {
+                            setLoginEmail(text)
+                        }} />
+                    {/* {!!emailError && (<Text style={styles.error}>{emailError}</Text>)} */}
+                </View>
+                <View style={styles.row}>
+                    <Text style={styles.label}>Password</Text>
+                    <TextInput
+                        style={[styles.input, styles.shadow]}
+                        placeholder="Password"
+                        value={loginPassword}
+                        secureTextEntry={true}
+                        // onEndEditing={validatePassword}
+                        onChangeText={(text) => {
+                            setLoginPassword(text)
+                            // console.warn(password)
+                            // ; setPasswordError('')
+                        }} />
+                    {/* {!!passwordError && (<Text style={styles.error}>{passwordError}</Text>)} */}
+                </View>
+                <Button title='Login' onPress={() => { loginHandler() }} />
             </View>
-            <View
-                style={styles.row}
-            >
-                <Text
-                    style={styles.label}
-                >Location</Text>
-                <TextInput
-                    style={[styles.input, styles.shadow]}
-                    placeholder="Location"
-                    value={location}
-                    onChangeText={(text) => {
-                        setLocation(text)
-                        // console.warn(location)
-                    }} />
-            </View>
-            <View style={styles.row}>
-                <Text style={styles.label}>Email Address</Text>
-                <TextInput
-                    style={[styles.input, styles.shadow]}
-                    placeholder="Email Address"
-                    value={email}
-                    autoCapitalize='none'
-                    // onEndEditing={validateEmail}
-                    onChangeText={(text) => {
-                        setEmail(text)
-                        // console.warn(email)
-                        // ; setEmailError('')
-                    }} />
-                {/* {!!emailError && (<Text style={styles.error}>{emailError}</Text>)} */}
-            </View>
-            <View style={styles.row}>
-                <Text style={styles.label}>Password</Text>
-                <TextInput
-                    style={[styles.input, styles.shadow]}
-                    placeholder="Password"
-                    value={password}
-                    secureTextEntry={true}
-                    // onEndEditing={validatePassword}
-                    onChangeText={(text) => {
-                        setPassword(text)
-                        // console.warn(password)
-                        // ; setPasswordError('')
-                    }} />
-                {/* {!!passwordError && (<Text style={styles.error}>{passwordError}</Text>)} */}
-            </View>
-            <Button title='Register' onPress= {() => {submitHandler()}} />
-        </View>
+        </ScrollView>
     )
 }
 const styles = StyleSheet.create({

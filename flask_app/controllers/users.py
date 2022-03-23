@@ -1,10 +1,11 @@
 # users.py
 from crypt import methods
 from distutils import errors
+from email import message
 
 import bcrypt
 from flask_app import app, bcrypt
-from flask import redirect,request,session,flash, jsonify, json
+from flask import get_flashed_messages, redirect,request,session,flash, jsonify, json
 from flask_app.models.user import User
 from flask_app.models.vendor import Vendor
 
@@ -18,7 +19,7 @@ def index():
 def dashboard():
     if 'id' not in session:
         return redirect('/')
-    user = User.get_one_user(id=session('id'))
+    user = User.get_one_user(id=session['id'])
     vendors = Vendor.get_all_vendors()
     return jsonify(user=user, vendors=vendors)
 
@@ -34,6 +35,9 @@ def register():
     print('in register route')
     print(request.get_json())
     user_data = request.get_json()
+    if not User.validate_register(user_data):
+        messages = get_flashed_messages()
+        return jsonify(message = 'There was an error', messages=messages)
     password = user_data['password']
     print(password)
     user_data = {
@@ -50,10 +54,12 @@ def register():
 #LOGIN A USER ROUTE
 @app.route('/login', methods=['POST'])
 def login():
-    if not User.validate_login(request.get_json()):
-        return redirect('/')
-    session['id'] = User.get_one_user(email = request.json['login_email']).id
-    return redirect('/dashboard')
+    user_data = request.get_json()
+    if not User.validate_login(user_data):
+        return jsonify(message = 'There was an error')
+    logged_in_user = User.get_one_user(email = user_data['email'])
+    session['id'] = logged_in_user.id
+    return jsonify(logged_in_user=logged_in_user)
 
 #LOGOUT ROUTE
 @app.route('/logout')

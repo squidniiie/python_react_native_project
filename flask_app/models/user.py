@@ -78,6 +78,8 @@ class User:
             errors['password'] = 'Password should be at least 8 characters'
         elif data['password'] != data['confirm_password']:
             errors['confirm_password'] = 'Passwords do not match'
+        if len(data['location']) < 2:
+            errors['location'] = 'Location should be at least 2 characters'
         
         for field,msg in errors.items():
             flash(msg,field)
