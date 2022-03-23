@@ -42,7 +42,7 @@ const Form = (props) => {
                 for(m in data['messages']){
                     showMessage({
                         message : m,
-                        type : "Error"
+                        type : "danger"
                     })
                 }
                 // props.navigation.navigate('ProfileScreen')
