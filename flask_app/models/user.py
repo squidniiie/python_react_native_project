@@ -76,8 +76,8 @@ class User:
             errors['email'] = 'Email is already in use'
         if len(data['password']) < 8:
             errors['password'] = 'Password should be at least 8 characters'
-        elif data['password'] != data['confirm_password']:
-            errors['confirm_password'] = 'Passwords do not match'
+        elif data['password'] != data['confirmPass']:
+            errors['confirmPass'] = 'Passwords do not match'
         if len(data['location']) < 2:
             errors['location'] = 'Location should be at least 2 characters'
         

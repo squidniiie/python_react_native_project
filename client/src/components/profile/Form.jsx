@@ -29,7 +29,8 @@ const Form = (props) => {
                     last_name: last_name,
                     email: email,
                     location: location,
-                    password: password
+                    password: password,
+                    confirmPass : confirmPass
                 }
             )
         })
@@ -41,7 +42,7 @@ const Form = (props) => {
                 console.log("Data: ", data)
                 for(m in data['messages']){
                     showMessage({
-                        message : m,
+                        message : data['messages'][m],
                         type : "danger"
                     })
                 }
@@ -166,11 +167,11 @@ const Form = (props) => {
                     <TextInput
                         style={[styles.input, styles.shadow]}
                         placeholder="Confirm Password"
-                        value={password}
+                        value={confirmPass}
                         secureTextEntry={true}
                         // onEndEditing={validatePassword}
                         onChangeText={(text) => {
-                            setPassword(text)
+                            setConfirmPass(text)
                         }} />
                     {/* {!!passwordError && (<Text style={styles.error}>{passwordError}</Text>)} */}
                 </View>
