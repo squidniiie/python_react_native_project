@@ -1,13 +1,13 @@
 import { View, Text, TextInput, StyleSheet, Button, Alert } from 'react-native'
 import React, { useState } from 'react'
-
+import { showMessage, hideMessage } from 'react-native-flash-message'
 const Form = ({ navigation }) => {
-    // console.log("Form:", navigation)
     const [first_name, setFirstName] = useState('');
     const [last_name, setLastName] = useState('');
     const [email, setEmail] = useState('');
     const [location, setLocation] = useState('');
     const [password, setPassword] = useState('');
+    const [confirmPass, setConfirmPass] = useState('');
     const [error, setError] = useState('');
     const [emailError, setEmailError] = useState('');
     const [passwordError, setPasswordError] = useState('');
@@ -23,8 +23,10 @@ const Form = ({ navigation }) => {
                 first_name: first_name,
                 last_name: last_name,
                 email: email,
+                location: location,
                 password: password,
-                location: location
+                confirmPass: confirmPass
+
             })
         })
             .then(res => {
@@ -35,10 +37,16 @@ const Form = ({ navigation }) => {
             })
             .then(data => {
                 console.log(data)
+                for (m in data['messages']) {
+                    showMessage({
+                        message: data['messages'][m],
+                        type: "danger"
+                    })
+                }
             })
             .catch(error => {
                 console.log(error.message)
-                setError(error)
+                // setError(error)
             })
     }
 
@@ -87,6 +95,18 @@ const Form = ({ navigation }) => {
                     value={last_name}
                     onChangeText={(text) => { setLastName(text) }} />
             </View>
+            <View
+                style={styles.row}
+            >
+                <Text
+                    style={styles.label}
+                >Location</Text>
+                <TextInput
+                    style={[styles.input, styles.shadow]}
+                    placeholder="Location"
+                    value={location}
+                    onChangeText={(text) => { setLocation(text) }} />
+            </View>
             <View style={styles.row}>
                 <Text style={styles.label}>Email Address</Text>
                 <TextInput
@@ -109,19 +129,19 @@ const Form = ({ navigation }) => {
                     onChangeText={(text) => { setPassword(text) }} />
                 {/* {!!passwordError && (<Text style={styles.error}>{passwordError}</Text>)} */}
             </View>
-            <View
-                style={styles.row}
-            >
-                <Text
-                    style={styles.label}
-                >Location</Text>
+            <View style={styles.row}>
+                <Text style={styles.label}>Confirm Password</Text>
                 <TextInput
                     style={[styles.input, styles.shadow]}
-                    placeholder="Location"
-                    value={location}
-                    onChangeText={(text) => { setLocation(text) }} />
+                    placeholder="Confirm Password"
+                    value={confirmPass}
+                    secureTextEntry={true}
+                    // onEndEditing={validatePassword}
+                    onChangeText={(text) => {
+                        setConfirmPass(text)
+                    }} />
+                {/* {!!passwordError && (<Text style={styles.error}>{passwordError}</Text>)} */}
             </View>
-            <Text style={styles.label}>{first_name} {last_name} {email} {location} {password}</Text>
             <Button
                 title="Register"
                 onPress={() => {

@@ -1,10 +1,32 @@
 import { View, Text, StyleSheet, TextInput, ScrollView, Button } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 import Login from '../../components/login/Login'
 
 const LoginScreen = ({ navigation }) => {
-    const submitHandler = () => {
-        navigation.navigate('Home')
+    const [loginEmail, setLoginEmail] = useState('');
+    const [loginPassword, setLoginPassword] = useState('');
+
+    const loginHandler = () => {
+        fetch('http://127.0.0.1:5000/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(
+                {
+                    email: loginEmail,
+                    password: loginPassword
+                }
+            )
+        })
+            .then(res => {
+                return res.json()
+            })
+            .then(data => {
+                console.log("Data: ", data)
+                navigation.navigate('Home')
+            })
+            .catch(error => console.log("There is an error: ", error))
     }
     return (
         <ScrollView>
@@ -20,9 +42,8 @@ const LoginScreen = ({ navigation }) => {
                     <TextInput
                         style={[styles.input, styles.shadow]}
                         placeholder=" Email"
-                    // defaultValue={email}
-                    // value={email}
-                    // onChangeText={(text) => { setEmail(text) }}
+                        value={loginEmail}
+                        onChangeText={(text) => { setLoginEmail(text) }}
                     />
                 </View>
                 <View style={styles.row}>
@@ -30,16 +51,16 @@ const LoginScreen = ({ navigation }) => {
                     <TextInput
                         style={[styles.input, styles.shadow]}
                         placeholder="Password"
-                        // value={password}
+                        value={loginPassword}
                         secureTextEntry={true}
-                    // onEndEditing={validatePassword}
-                    // onChangeText={(text) => { setPassword(text) }}
+                        // onEndEditing={validatePassword}
+                        onChangeText={(text) => { setLoginPassword(text) }}
                     />
                     {/* {!!passwordError && (<Text style={styles.error}>{passwordError}</Text>)} */}
                 </View>
                 <Button
-                    title="Register"
-                    onPress={submitHandler}>
+                    title="Login"
+                    onPress={loginHandler}>
                     Login
                 </Button>
             </View>

@@ -2,7 +2,7 @@
 from crypt import methods
 from distutils import errors
 from flask_app import app, bcrypt
-from flask import redirect,request,session,flash, jsonify, json
+from flask import get_flashed_messages, redirect,request,session,flash, jsonify, json
 from flask_app.models.user import User
 from flask_app.models.vendor import Vendor
 
@@ -28,10 +28,18 @@ def get_users():
 #REGISTER A USER ROUTE
 @app.route('/register', methods=['POST'])
 def register():
-    password = request.get_json('password')
-    # location = request.body['location']
     print('in register route')
     print(request.get_json())
+    user_data = request.get_json()
+    if not User.validate_register(user_data):
+        messages = get_flashed_messages()
+        return jsonify(message = 'There was an error', messages=messages)
+    password = user_data['password']
+    print(password)
+    # password = request.get_json('password')
+    # # location = request.body['location']
+    # print('in register route')
+    # print(request.get_json())
     user_data = {
         **request.get_json(),
         'password' : bcrypt.generate_password_hash(password)
@@ -39,16 +47,19 @@ def register():
     print(user_data)
     user = User.save(user_data)
     print(user)
-    # session['id'] = User.save(user_data)
+    session['id'] = user
+    print(session['id'])
     return jsonify(user=user)
 
 #LOGIN A USER ROUTE
 @app.route('/login', methods=['POST'])
 def login():
+    user_data = request.get_json()
     if not User.validate_login(request.json):
-        return redirect('/')
-    session['id'] = User.get_one_user(email = request.json['login_email']).id
-    return redirect('/dashboard')
+        return jsonify(message = 'There was an error')
+    logged_in_user = User.get_one_user(email = user_data['email'])
+    session['id'] = logged_in_user.id
+    return jsonify(logged_in_user=logged_in_user)
 
 #LOGOUT ROUTE
 @app.route('/logout')
