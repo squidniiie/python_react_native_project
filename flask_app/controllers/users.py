@@ -1,6 +1,7 @@
 # users.py
 from crypt import methods
 from distutils import errors
+from email import message
 from flask_app import app, bcrypt
 from flask import get_flashed_messages, redirect,request,session,flash, jsonify, json
 from flask_app.models.user import User
@@ -15,7 +16,7 @@ def dashboard():
     # if 'id' not in session:
     #     return redirect('/')
     # id=session('id')
-    user = User.get_one_user()
+    user = User.get_one_user(id=session['id'])
     # vendors = Vendor.get_all_vendors()
     return jsonify(user=user)
 
