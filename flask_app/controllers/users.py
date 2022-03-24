@@ -36,8 +36,13 @@ def register():
     print(request.get_json())
     user_data = request.get_json()
     if not User.validate_register(user_data):
-        messages = get_flashed_messages()
-        return jsonify(message = 'There was an error', messages=messages)
+        messages = get_flashed_messages(with_categories='true')
+        errs = {}
+        for category,description in messages:
+            # print(category + ":" + description)
+            errs[category] = description
+        print(errs)
+        return jsonify(message = 'There was an error', errs=errs)
     password = user_data['password']
     print(password)
     user_data = {

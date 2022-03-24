@@ -13,6 +13,7 @@ const Form = (props) => {
     const [confirmPass, setConfirmPass] = useState('');
     const [loginEmail,setLoginEmail] = useState('');
     const [loginPassword,setLoginPassword] = useState('');
+    const [errors,setErrors] = useState({});
     // const [emailError, setEmailError] = useState('');
     // const [passwordError, setPasswordError] = useState('');
 
@@ -40,12 +41,15 @@ const Form = (props) => {
             })
             .then(data => {
                 console.log("Data: ", data)
-                for(m in data['messages']){
-                    showMessage({
-                        message : data['messages'][m],
-                        type : "danger"
-                    })
-                }
+                setErrors(data['errs']);
+                console.log(errors)
+                // for(m in data['errs']){
+                //     showMessage({
+                //         message : data['errs'][m],
+                //         type : "danger",
+                //         duration : 6000
+                //     })
+                // }
                 // props.navigation.navigate('ProfileScreen')
             })
             .catch(error => console.log("There is an error: ", error))
@@ -107,6 +111,9 @@ const Form = (props) => {
                         onChangeText={(text) => {
                             setFirstName(text)
                         }} />
+                    { errors && errors['first_name'] &&
+                        <Text style={{color:"red"}}>{errors['first_name']}</Text>
+                    }
                 </View>
                 <View
                     style={styles.row}
@@ -121,6 +128,9 @@ const Form = (props) => {
                         onChangeText={(text) => {
                             setLastName(text)
                         }} />
+                        { errors && errors['last_name'] &&
+                        <Text style={{color:"red"}}>{errors['last_name']}</Text>
+                    }
                 </View>
                 <View
                     style={styles.row}
@@ -135,6 +145,9 @@ const Form = (props) => {
                         onChangeText={(text) => {
                             setLocation(text)
                         }} />
+                        { errors && errors['location'] &&
+                        <Text style={{color:"red"}}>{errors['location']}</Text>
+                    }
                 </View>
                 <View style={styles.row}>
                     <Text style={styles.label}>Email Address</Text>
@@ -147,6 +160,9 @@ const Form = (props) => {
                         onChangeText={(text) => {
                             setEmail(text)
                         }} />
+                        { errors && errors['email'] &&
+                        <Text style={{color:"red"}}>{errors['email']}</Text>
+                    }
                     {/* {!!emailError && (<Text style={styles.error}>{emailError}</Text>)} */}
                 </View>
                 <View style={styles.row}>
@@ -160,6 +176,9 @@ const Form = (props) => {
                         onChangeText={(text) => {
                             setPassword(text)
                         }} />
+                        { errors && errors['password'] &&
+                        <Text style={{color:"red"}}>{errors['password']}</Text>
+                    }
                     {/* {!!passwordError && (<Text style={styles.error}>{passwordError}</Text>)} */}
                 </View>
                 <View style={styles.row}>
@@ -173,6 +192,9 @@ const Form = (props) => {
                         onChangeText={(text) => {
                             setConfirmPass(text)
                         }} />
+                        { errors && errors['confirmPass'] &&
+                        <Text style={{color:"red"}}>{errors['confirmPass']}</Text>
+                    }
                     {/* {!!passwordError && (<Text style={styles.error}>{passwordError}</Text>)} */}
                 </View>
                 <Button title='Register' onPress={() => { submitHandler() }} /> 

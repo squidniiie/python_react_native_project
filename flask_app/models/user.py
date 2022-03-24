@@ -83,7 +83,7 @@ class User:
         
         for field,msg in errors.items():
             flash(msg,field)
-
+        
         return len(errors) == 0
 
     #LOGIN VALIDATION
