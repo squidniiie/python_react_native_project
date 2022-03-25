@@ -5,20 +5,30 @@ from email import message
 from flask_app import app, bcrypt
 from flask import get_flashed_messages, redirect,request,session,flash, jsonify, json
 from flask_app.models.user import User
-from flask_app.models.vendor import Vendor
+
 
 #LOGIN/REG PAGE ROUTE
-# s
+
 
 #HOME PAGE/DASHBOARD ROUTE FOR USER
-@app.route('/dashboard', methods=['GET', 'PUT'])
-def dashboard():
-    # if 'id' not in session:
-    #     return redirect('/')
-    # id=session('id')
-    user = User.get_one_user(id=session['id'])
-    # vendors = Vendor.get_all_vendors()
+@app.route('/users/<int:id>', methods=['GET'])
+def show_user(id):
+    print("first", id)
+    user= User.get_one_user(id=id)
+    print("hola",user.__dict__)
+    return jsonify(user=user.__dict__)
+
+# UPDATE USER ROUTE
+@app.route('/users/update/<int:id>', methods=['PUT'])
+def update_user():
+    user_data = request.get_json()
+    print(user_data)  
+    user = User.edit_user(user_data)
+    print(user)
+    session['id'] = user
+    print(session['id'])
     return jsonify(user=user)
+    
 
 #SAMPLE ROUTE TO RETRIEVE ALL USERS
 @app.route('/getusers', methods=['GET'])
@@ -29,8 +39,8 @@ def get_users():
 #REGISTER A USER ROUTE
 @app.route('/register', methods=['POST'])
 def register():
-    print('in register route')
-    print(request.get_json())
+    # print('in register route')
+    # print(request.get_json())
     user_data = request.get_json()
     if not User.validate_register(user_data):
         messages = get_flashed_messages()
@@ -59,8 +69,9 @@ def login():
     if not User.validate_login(request.json):
         return jsonify(message = 'There was an error')
     logged_in_user = User.get_one_user(email = user_data['email'])
+    print('user logged in', logged_in_user.__dict__)
     session['id'] = logged_in_user.id
-    return jsonify(logged_in_user=logged_in_user)
+    return jsonify(logged_in_user=logged_in_user.__dict__)
 
 #LOGOUT ROUTE
 @app.route('/logout')

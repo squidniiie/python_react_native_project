@@ -1,6 +1,7 @@
 import { View, Text, StyleSheet, TextInput, ScrollView, Button } from 'react-native'
 import React, { useState } from 'react'
 import Login from '../../components/login/Login'
+import BottomTab from '../../router/BottomTab';
 
 const LoginScreen = ({ navigation }) => {
     const [loginEmail, setLoginEmail] = useState('');
@@ -29,42 +30,44 @@ const LoginScreen = ({ navigation }) => {
             .catch(error => console.log("There is an error: ", error))
     }
     return (
-        <ScrollView>
-            <Login navigation={navigation} />
-            <View style={[styles.card, styles.shadow]}>
-                <Text style={styles.heading}>Login</Text>
-                <View
-                    style={styles.row}
-                >
-                    <Text
-                        style={styles.label}
-                    >Email</Text>
-                    <TextInput
-                        style={[styles.input, styles.shadow]}
-                        placeholder=" Email"
-                        value={loginEmail}
-                        onChangeText={(text) => { setLoginEmail(text) }}
-                    />
+        <View>
+            <ScrollView>
+                <Login navigation={navigation} />
+                <View style={[styles.card, styles.shadow]}>
+                    <Text style={styles.heading}>Login</Text>
+                    <View
+                        style={styles.row}
+                    >
+                        <Text
+                            style={styles.label}
+                        >Email</Text>
+                        <TextInput
+                            style={[styles.input, styles.shadow]}
+                            placeholder=" Email"
+                            value={loginEmail}
+                            onChangeText={(text) => { setLoginEmail(text) }}
+                        />
+                    </View>
+                    <View style={styles.row}>
+                        <Text style={styles.label}>Password</Text>
+                        <TextInput
+                            style={[styles.input, styles.shadow]}
+                            placeholder="Password"
+                            value={loginPassword}
+                            secureTextEntry={true}
+                            // onEndEditing={validatePassword}
+                            onChangeText={(text) => { setLoginPassword(text) }}
+                        />
+                        {/* {!!passwordError && (<Text style={styles.error}>{passwordError}</Text>)} */}
+                    </View>
+                    <Button
+                        title="Login"
+                        onPress={loginHandler}>
+                        Login
+                    </Button>
                 </View>
-                <View style={styles.row}>
-                    <Text style={styles.label}>Password</Text>
-                    <TextInput
-                        style={[styles.input, styles.shadow]}
-                        placeholder="Password"
-                        value={loginPassword}
-                        secureTextEntry={true}
-                        // onEndEditing={validatePassword}
-                        onChangeText={(text) => { setLoginPassword(text) }}
-                    />
-                    {/* {!!passwordError && (<Text style={styles.error}>{passwordError}</Text>)} */}
-                </View>
-                <Button
-                    title="Login"
-                    onPress={loginHandler}>
-                    Login
-                </Button>
-            </View>
-        </ScrollView>
+            </ScrollView>
+        </View>
     )
 }
 const styles = StyleSheet.create({

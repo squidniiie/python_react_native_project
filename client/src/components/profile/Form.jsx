@@ -8,9 +8,10 @@ const Form = ({ navigation }) => {
     const [location, setLocation] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPass, setConfirmPass] = useState('');
-    const [error, setError] = useState('');
-    const [emailError, setEmailError] = useState('');
-    const [passwordError, setPasswordError] = useState('');
+    // const [error, setError] = useState('');
+    // const [emailError, setEmailError] = useState('');
+    // const [passwordError, setPasswordError] = useState('');
+
 
     const submitHandler = () => {
         fetch(`http://127.0.0.1:5000/register`, {
@@ -39,32 +40,37 @@ const Form = ({ navigation }) => {
                 console.log(data)
                 for (m in data['messages']) {
                     showMessage({
+                        icon: "danger",
+                        description: 'There is an error',
                         message: data['messages'][m],
                         type: "danger"
                     })
+                    console.log((m in data['messages']))
                 }
+                // navigation.navigate('Home')
             })
             .catch(error => {
                 console.log(error.message)
                 // setError(error)
             })
+        // if (!!emailError) {
+        //     Alert.alert('Please check all field errors before submission');
+        //     return;
+        // }
+        // const validateEmail = () => {
+        //     if (email.length < 3) {
+        //         setEmailError('Email address must be more than 3 characters')
+        //     }
+        // }
+        // const validatePassword = () => {
+        //     if (password.length < 8) {
+        //         setPasswordError('Password address must be more than 8 characters')
+        //     }
+        // }
     }
 
 
-    // if (!!emailError) {
-    //     Alert.alert('Please check all field errors before submission');
-    //     return;
-    // }
-    // const validateEmail = () => {
-    //     if (email.length < 3) {
-    //         setEmailError('Email address must be more than 3 characters')
-    //     }
-    // }
-    // const validatePassword = () => {
-    //     if (password.length < 8) {
-    //         setPasswordError('Password address must be more than 8 characters')
-    //     }
-    // }
+
 
     return (
         <View style={[styles.card, styles.shadow]}>
@@ -145,7 +151,7 @@ const Form = ({ navigation }) => {
             <Button
                 title="Register"
                 onPress={() => {
-                    navigation.navigate('Home')
+
                     submitHandler()
                 }}>
                 Register

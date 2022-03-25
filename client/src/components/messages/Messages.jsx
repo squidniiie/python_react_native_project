@@ -1,11 +1,10 @@
-import { View, Text, StyleSheet, ActivityIndicator, FlatList, Pressable, Image, SafeAreaView, ScrollView } from 'react-native'
+import { View, Text, StyleSheet, ActivityIndicator, FlatList, Pressable, Image, SafeAreaView } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import BookButton from '../buttons/BookButton';
 
 
-
-
-const Messages = () => {
+const Messages = ({ navigation }) => {
+    console.log("hello", navigation)
     const [isLoading, setLoading] = useState(true);
     const [data, setData] = useState([]);
     const [photos, setPhotos] = useState([]);
@@ -23,6 +22,9 @@ const Messages = () => {
             })
             .finally(() => setLoading(false))
     }, [])
+    const onPress = (() => {
+        navigation.navigate('VendorScreen')
+    })
 
     return (
         <SafeAreaView style={styles.container}>
@@ -35,7 +37,8 @@ const Messages = () => {
                         keyExtractor={item => `${item.id}`}
                         data={data}
                         renderItem={({ item, index }) => (
-                            <Pressable style={[styles.card, styles.shadow]}>
+                            <Pressable onPress={() => { onPress() }}
+                                style={[styles.card, styles.shadow]}>
                                 <View
                                     style={styles.cardHeader}
                                 >
@@ -52,7 +55,6 @@ const Messages = () => {
                                 <BookButton text='Book with me!' />
                             </Pressable>
                         )}
-
                     />
                 )}
             </View>

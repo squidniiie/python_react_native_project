@@ -6,10 +6,9 @@ const Settings = ({ item, navigation }) => {
 
     const onPress = () => {
         navigation.navigate('ProfileScreen', item
-
         );
-        console.log("Settings:", item.first_name)
-        console.log(navigation)
+        // console.log("Settings:", item.first_name)
+        // console.log(navigation)
     }
     return (
         <Pressable onPress={({ item }) => { onPress(item) }}

@@ -1,52 +1,54 @@
 import { StyleSheet, View, Text, TextInput, Button } from 'react-native'
-import React, { useParams, useEffect, useState } from 'react'
+import React, { useState } from 'react'
+import { useNavigation } from '@react-navigation/native'
 
-const EditForm = ({ navigation }) => {
-    const { id } = useParams();
-    const [first_name, setFirstName] = useState('');
-    const [last_name, setLastName] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [location, setLocation] = useState('');
+const EditForm = (item) => {
+    const navigation = useNavigation()
+    const data = item.route.params.route.params
+    console.log(data)
+    const [first_name, setFirstName] = useState(data.first_name);
+    const [last_name, setLastName] = useState(data.last_name);
+    const [email, setEmail] = useState(data.email);
+    const [password, setPassword] = useState(data.password);
+    const [location, setLocation] = useState(data.location);
     const [error, setError] = useState([]);
     // const [emailError, setEmailError] = useState('');
     // const [passwordError, setPasswordError] = useState('');
-    console.log(first_name, last_name, email, location)
     // const id = useParams();
-    useEffect(() => {
-        fetch("http://127.0.0.1:5000/dashboard/" + id, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                first_name: first_name,
-                last_name: last_name,
-                email: email,
-                password: password,
-                location: location
-            })
-        })
-            .then(res => {
-                setFirstName(res.data.first_name);
-                setLastName(res.data.last_name);
-                console.log(res.data.first_name)
-            })
-    }, []);
+    // useEffect(() => {
+    //     fetch("http://127.0.0.1:5000/dashboard/" + id, {
+    //         method: 'GET',
+    //         headers: {
+    //             'Content-Type': 'application/json'
+    //         },
+    //         body: JSON.stringify({
+    //             first_name: first_name,
+    //             last_name: last_name,
+    //             email: email,
+    //             password: password,
+    //             location: location
+    //         })
+    //     })
+    //         .then(res => {
+    //             setFirstName(res.data.first_name);
+    //             setLastName(res.data.last_name);
+    //             console.log(res.data.first_name)
+    //         })
+    // }, []);
     const submitHandler = () => {
-        fetch(`http://127.0.0.1:5000/dashboard`
+        fetch(`http://127.0.0.1:5000/update/${id}`
             , {
                 method: 'PUT',
-                //     headers: {
-                //         'Content-Type': 'application/json'
-                //     },
-                //     body: JSON.stringify({
-                //         first_name: first_name,
-                //         last_name: last_name,
-                //         email: email,
-                //         password: password,
-                //         location: location
-                //     })
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    first_name: first_name,
+                    last_name: last_name,
+                    email: email,
+                    password: password,
+                    location: location
+                })
             }
         )
             .then(res => {
@@ -128,14 +130,13 @@ const EditForm = ({ navigation }) => {
                     value={location}
                     onChangeText={(text) => { setLocation(text) }} />
             </View>
-            <Text style={styles.label}>{first_name} {last_name} {email} {location} {password}</Text>
             <Button
-                title="Register"
+                title="Update"
                 onPress={() => {
-                    navigation.navigate('Home')
+                    // navigation.navigate('Home')
                     submitHandler()
                 }}>
-                Register
+
             </Button>
         </View>
     )

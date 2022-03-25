@@ -1,7 +1,8 @@
 import { Pressable, ScrollView, Text, StyleSheet, View } from 'react-native'
 import React from 'react'
 import Profile from '../../components/profile/Profile'
-import BottomTab from '../../router/BottomTab'
+// import BottomTab from '../../router/BottomTab'
+import Header from '../../components/header/Header'
 
 const ProfileScreen = ({ navigation, route, item }) => {
     const {
@@ -10,13 +11,14 @@ const ProfileScreen = ({ navigation, route, item }) => {
         email,
         location
     } = route.params
-    // console.log("ProfileScreen:", route.params)
+    console.log("ProfileScreen:", route.params)
     // console.log("ProfileScreen: ", navigation)
     return (
 
         <ScrollView showsVerticalScrollIndicator={false}>
+            <Header />
             <Profile
-                //  route={route} 
+                route={route}
                 item={item} navigation={navigation}
                 first_name={first_name} last_name={last_name} email={email} location={location}
             />

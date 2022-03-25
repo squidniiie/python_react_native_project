@@ -1,25 +1,22 @@
 import { View, Text } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
-import LoginScreen from '../screens/loginscreen/LoginScreen'
 import BottomTab from './BottomTab'
 import React from 'react'
-import ProfileScreen from '../screens/profile/ProfileScreen'
-import HomeScreen from '../screens/homescreen/HomeScreen'
-import EditForm from '../components/profile/EditForm'
-import DrawerStack from '../router/DrawerStack'
-
-
+import HomeStack from './HomeStack'
+import ProfileStack from './ProfileStack'
+// import DrawerStack from '../router/DrawerStack'
+import SettingsStack from './SettingsStack'
 const Stack = createStackNavigator()
 const Router = () => {
     return (
-        <NavigationContainer>
+        <NavigationContainer
+        >
             <Stack.Navigator screenOptions={{ headerShown: false }}>
                 <Stack.Screen component={BottomTab} name="HomeTabs" />
-                <Stack.Screen component={LoginScreen} name="Login" />
-                <Stack.Screen component={HomeScreen} name="Home" />
-                <Stack.Screen component={EditForm} name="Edit" />
-                <Stack.Screen component={ProfileScreen} name="ProfileScreen" />
+                <Stack.Screen component={HomeStack} name="Home" />
+                <Stack.Screen component={SettingsStack} name="SettingsStack" />
+                <Stack.Screen component={ProfileStack} name="ProfileStack" />
             </Stack.Navigator>
         </NavigationContainer>
     )
