@@ -39,21 +39,22 @@ def get_users():
 #REGISTER A USER ROUTE
 @app.route('/register', methods=['POST'])
 def register():
-    # print('in register route')
-    # print(request.get_json())
+    print('in register route')
+    print(request.get_json())
     user_data = request.get_json()
     if not User.validate_register(user_data):
-        messages = get_flashed_messages()
-        return jsonify(message = 'There was an error', messages=messages)
+        messages = get_flashed_messages(with_categories='true')
+        errs = {}
+        for category,description in messages:
+            # print(category + ":" + description)
+            errs[category] = description
+        print(errs)
+        return jsonify(message = 'There was an error', errs=errs)
     password = user_data['password']
     print(password)
-    # password = request.get_json('password')
-    # # location = request.body['location']
-    # print('in register route')
-    # print(request.get_json())
     user_data = {
         **request.get_json(),
-        'password' : bcrypt.generate_password_hash(password)
+        'password' : bcrypt.generate_password_hash(password).decode('utf-8')
     }
     print(user_data)
     user = User.save(user_data)
@@ -66,10 +67,14 @@ def register():
 @app.route('/login', methods=['POST'])
 def login():
     user_data = request.get_json()
-    if not User.validate_login(request.json):
-        return jsonify(message = 'There was an error')
+    if not User.validate_login(user_data):
+        messages = get_flashed_messages(with_categories='true')
+        login_errors = {}
+        for category,description in messages:
+            login_errors[category] = description
+        return jsonify(message = 'There was an error', loginErrors = login_errors)
     logged_in_user = User.get_one_user(email = user_data['email'])
-    print('user logged in', logged_in_user.__dict__)
+    print("Logged in User: ", logged_in_user.__dict__)
     session['id'] = logged_in_user.id
     return jsonify(logged_in_user=logged_in_user.__dict__)
 
