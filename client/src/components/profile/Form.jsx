@@ -14,6 +14,7 @@ const Form = (props) => {
     const [loginEmail,setLoginEmail] = useState('');
     const [loginPassword,setLoginPassword] = useState('');
     const [errors,setErrors] = useState({});
+    const [loginErrors, setLoginErrors] = useState({});
     // const [emailError, setEmailError] = useState('');
     // const [passwordError, setPasswordError] = useState('');
 
@@ -43,20 +44,8 @@ const Form = (props) => {
                 console.log("Data: ", data)
                 setErrors(data['errs']);
                 console.log(errors)
-                // for(m in data['errs']){
-                //     showMessage({
-                //         message : data['errs'][m],
-                //         type : "danger",
-                //         duration : 6000
-                //     })
-                // }
-                // props.navigation.navigate('ProfileScreen')
             })
             .catch(error => console.log("There is an error: ", error))
-        // if (!!emailError) {
-        //     Alert.alert('Please check all field errors before submission');
-        //     return;
-        // }
     }
 
     const loginHandler = () => {
@@ -77,20 +66,11 @@ const Form = (props) => {
             })
             .then(data => {
                 console.log("Data: ", data)
+                setLoginErrors(data['loginErrors'])
                 // props.navigation.navigate('ProfileScreen')
             })
             .catch(error => console.log("There is an error: ", error))
     }
-    // const validateEmail = () => {
-    //     if (email.length < 3) {
-    //         setEmailError('Email address must be more than 3 characters')
-    //     }
-    // }
-    // const validatePassword = () => {
-    //     if (password.length < 8) {
-    //         setPasswordError('Password address must be more than 8 characters')
-    //     }
-    // }
 
     return (
         <ScrollView>
@@ -163,7 +143,6 @@ const Form = (props) => {
                         { errors && errors['email'] &&
                         <Text style={{color:"red"}}>{errors['email']}</Text>
                     }
-                    {/* {!!emailError && (<Text style={styles.error}>{emailError}</Text>)} */}
                 </View>
                 <View style={styles.row}>
                     <Text style={styles.label}>Password</Text>
@@ -179,7 +158,6 @@ const Form = (props) => {
                         { errors && errors['password'] &&
                         <Text style={{color:"red"}}>{errors['password']}</Text>
                     }
-                    {/* {!!passwordError && (<Text style={styles.error}>{passwordError}</Text>)} */}
                 </View>
                 <View style={styles.row}>
                     <Text style={styles.label}>Confirm Password</Text>
@@ -195,7 +173,6 @@ const Form = (props) => {
                         { errors && errors['confirmPass'] &&
                         <Text style={{color:"red"}}>{errors['confirmPass']}</Text>
                     }
-                    {/* {!!passwordError && (<Text style={styles.error}>{passwordError}</Text>)} */}
                 </View>
                 <Button title='Register' onPress={() => { submitHandler() }} /> 
             </View>
@@ -207,11 +184,9 @@ const Form = (props) => {
                         placeholder="Email Address"
                         value={loginEmail}
                         autoCapitalize='none'
-                        // onEndEditing={validateEmail}
                         onChangeText={(text) => {
                             setLoginEmail(text)
                         }} />
-                    {/* {!!emailError && (<Text style={styles.error}>{emailError}</Text>)} */}
                 </View>
                 <View style={styles.row}>
                     <Text style={styles.label}>Password</Text>
@@ -223,10 +198,10 @@ const Form = (props) => {
                         // onEndEditing={validatePassword}
                         onChangeText={(text) => {
                             setLoginPassword(text)
-                            // console.warn(password)
-                            // ; setPasswordError('')
                         }} />
-                    {/* {!!passwordError && (<Text style={styles.error}>{passwordError}</Text>)} */}
+                        { loginErrors && loginErrors['login'] &&
+                        <Text style={{color:"red"}}>{loginErrors['login']}</Text>
+                    }
                 </View>
                 <Button title='Login' onPress={() => { loginHandler() }} />
             </View>

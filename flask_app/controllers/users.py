@@ -47,7 +47,7 @@ def register():
     print(password)
     user_data = {
         **request.get_json(),
-        'password' : bcrypt.generate_password_hash(password)
+        'password' : bcrypt.generate_password_hash(password).decode('utf-8')
     }
     print(user_data)
     user = User.save(user_data)
@@ -61,10 +61,15 @@ def register():
 def login():
     user_data = request.get_json()
     if not User.validate_login(user_data):
-        return jsonify(message = 'There was an error')
+        messages = get_flashed_messages(with_categories='true')
+        login_errors = {}
+        for category,description in messages:
+            login_errors[category] = description
+        return jsonify(message = 'There was an error', loginErrors = login_errors)
     logged_in_user = User.get_one_user(email = user_data['email'])
+    print("Logged in User: ", logged_in_user.__dict__)
     session['id'] = logged_in_user.id
-    return jsonify(logged_in_user=logged_in_user)
+    return jsonify(logged_in_user=logged_in_user.__dict__)
 
 #LOGOUT ROUTE
 @app.route('/logout')
