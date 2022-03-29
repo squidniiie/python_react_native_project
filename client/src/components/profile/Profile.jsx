@@ -4,29 +4,30 @@ import { useParams } from 'react-router-native'
 import Feather from 'react-native-vector-icons/Feather'
 import { useNavigation } from '@react-navigation/native'
 const Profile = (item) => {
-    const { id } = useParams()
-    console.log("hello", id)
+    // const { id } = useParams()
+    // console.log("hello profile component", id)
     const navigation = useNavigation()
     // console.log(item.first_name, navigation)
     // console.log("Profile", navigation)
     const [data, setData] = useState([]);
 
-    useEffect(() => {
-        fetch(`http:127.0.0.1:5000/users/${id}`, { method: 'GET' })
-            .then(res => {
-                if (!res.ok) {
-                    throw Error('did not work')
-                }
-                return res.json()
-            })
-            .then(res => {
-                setData(res.user)
-            })
-            .catch((error) => {
-                console.log(error)
-                alert(error)
-            })
-    }, [])
+    // useEffect(() => {
+    //     fetch(`http:127.0.0.1:5000/users/${id}`, { method: 'GET' })
+    //         .then(res => {
+    //             if (!res.ok) {
+    //                 throw Error('did not work')
+    //             }
+    //             return res.json()
+    //         })
+    //         .then(res => {
+    //             console.log("second")
+    //             setData(res.user)
+    //         })
+    //         .catch((error) => {
+    //             console.log(error)
+    //             alert(error)
+    //         })
+    // }, [])
     return (
         <View>
             <View style={[styles.card, styles.shadow]}>

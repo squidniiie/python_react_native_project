@@ -1,7 +1,6 @@
 import { Pressable, ScrollView, Text, StyleSheet, View } from 'react-native'
 import React from 'react'
 import Profile from '../../components/profile/Profile'
-// import BottomTab from '../../router/BottomTab'
 import Header from '../../components/header/Header'
 
 const ProfileScreen = ({ navigation, route, item }) => {
@@ -11,7 +10,7 @@ const ProfileScreen = ({ navigation, route, item }) => {
         email,
         location
     } = route.params
-    console.log("ProfileScreen:", route.params)
+    // console.log("ProfileScreen:", route.params)
     // console.log("ProfileScreen: ", navigation)
     return (
 

@@ -2,10 +2,11 @@ import { StyleSheet, View, Text, TextInput, Button } from 'react-native'
 import React, { useState } from 'react'
 import { useNavigation } from '@react-navigation/native'
 
+
 const EditForm = (item) => {
     const navigation = useNavigation()
     const data = item.route.params.route.params
-    console.log(data)
+    // console.log(data)
     const [first_name, setFirstName] = useState(data.first_name);
     const [last_name, setLastName] = useState(data.last_name);
     const [email, setEmail] = useState(data.email);
@@ -15,28 +16,10 @@ const EditForm = (item) => {
     // const [emailError, setEmailError] = useState('');
     // const [passwordError, setPasswordError] = useState('');
     // const id = useParams();
-    // useEffect(() => {
-    //     fetch("http://127.0.0.1:5000/dashboard/" + id, {
-    //         method: 'GET',
-    //         headers: {
-    //             'Content-Type': 'application/json'
-    //         },
-    //         body: JSON.stringify({
-    //             first_name: first_name,
-    //             last_name: last_name,
-    //             email: email,
-    //             password: password,
-    //             location: location
-    //         })
-    //     })
-    //         .then(res => {
-    //             setFirstName(res.data.first_name);
-    //             setLastName(res.data.last_name);
-    //             console.log(res.data.first_name)
-    //         })
-    // }, []);
+    // const id = useState(data.id);
+
     const submitHandler = () => {
-        fetch(`http://127.0.0.1:5000/update/${id}`
+        fetch(`http://127.0.0.1:5000/update/${data.id}`
             , {
                 method: 'PUT',
                 headers: {
@@ -52,9 +35,9 @@ const EditForm = (item) => {
             }
         )
             .then(res => {
-                if (!res.ok) {
-                    throw Error('did not work')
-                }
+                // if (!res.ok) {
+                //     throw Error('did not work')
+                // }
                 return res.json()
             })
             .then(data => {

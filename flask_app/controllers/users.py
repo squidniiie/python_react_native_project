@@ -19,15 +19,17 @@ def show_user(id):
     return jsonify(user=user.__dict__)
 
 # UPDATE USER ROUTE
-@app.route('/users/update/<int:id>', methods=['PUT'])
-def update_user():
-    user_data = request.get_json()
-    print(user_data)  
+@app.route('/update/<int:id>', methods=['PUT'])
+def update_user(id):
+    print("hello", id)
+    user_data = {
+        **request.get_json(),
+        'id':id
+        }
+    print("This is Context", user_data)
     user = User.edit_user(user_data)
     print(user)
-    session['id'] = user
-    print(session['id'])
-    return jsonify(user=user)
+    return jsonify(id=id)
     
 
 #SAMPLE ROUTE TO RETRIEVE ALL USERS

@@ -5,7 +5,7 @@ import Header from "../../components/header/Header"
 import Settings from '../../components/settings/Settings';
 
 const SettingsScreen = ({ navigation }) => {
-    // console.log('Props:', navigation)
+    console.log('Props:', navigation)
     const [isLoading, setLoading] = useState(true);
     const [data, setData] = useState([]);
 
