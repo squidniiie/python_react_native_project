@@ -15,13 +15,14 @@ def index():
     return 'render_template('')'
 
 #HOME PAGE/DASHBOARD ROUTE FOR USER
-@app.route('/dashboard')
+@app.route('/dashboard', methods=['GET'])
 def dashboard():
+    print(session['id'])
     if 'id' not in session:
-        return redirect('/')
+        return "No good"
     user = User.get_one_user(id=session['id'])
-    vendors = Vendor.get_all_vendors()
-    return jsonify(user=user, vendors=vendors)
+    # vendors = Vendor.get_all_vendors()
+    return jsonify(user=user)
 
 #SAMPLE ROUTE TO RETRIEVE ALL USERS
 @app.route('/getusers', methods=['GET'])
@@ -69,6 +70,7 @@ def login():
     logged_in_user = User.get_one_user(email = user_data['email'])
     print("Logged in User: ", logged_in_user.__dict__)
     session['id'] = logged_in_user.id
+    print(session['id'])
     return jsonify(logged_in_user=logged_in_user.__dict__)
 
 #LOGOUT ROUTE
