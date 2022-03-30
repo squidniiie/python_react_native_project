@@ -1,7 +1,9 @@
 from flask_app import DB, bcrypt
 from flask_app.config.mysqlconnection import connectToMySQL
-from flask import flash
+from flask import flash, jsonify, make_response
 import re
+import json 
+from json import JSONEncoder
 
 EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$')
 
@@ -76,23 +78,25 @@ class User:
             errors['email'] = 'Email is already in use'
         if len(data['password']) < 8:
             errors['password'] = 'Password should be at least 8 characters'
-        elif data['password'] != data['confirm_password']:
-            errors['confirm_password'] = 'Passwords do not match'
+        elif data['password'] != data['confirmPass']:
+            errors['confirmPass'] = 'Passwords do not match'
+        if len(data['location']) < 2:
+            errors['location'] = 'Location should be at least 2 characters'
         
         for field,msg in errors.items():
             flash(msg,field)
-
+        
         return len(errors) == 0
 
     #LOGIN VALIDATION
     @staticmethod
     def validate_login(data):
         errors = {}
-        user = User.get_one_user(email=data['login_email'])
-        if not user:
-            errors['login'] = "Invalid Credentials"
-        elif not bcrypt.check_password_hash(user.password,data['password']):
-            errors['login'] = 'Invalid Credentails'
+        user_in_db = User.get_one_user(email=data['email'])
+        if not user_in_db:
+            errors['login'] = "Incorrect Email/Password"
+        elif not bcrypt.check_password_hash(user_in_db.password,data['password']):
+            errors['login'] = 'Incorrect Email/Password'
         
         for field,msg in errors.items():
             flash(msg,field)

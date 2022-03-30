@@ -1,46 +1,64 @@
-import { View, Text, TextInput, StyleSheet, Button, Alert } from 'react-native'
+import { StyleSheet, View, Text, TextInput, Button } from 'react-native'
 import React, { useState } from 'react'
-import { showMessage, hideMessage } from 'react-native-flash-message'
-const Form = ({ navigation }) => {
-    const [first_name, setFirstName] = useState('');
-    const [last_name, setLastName] = useState('');
-    const [email, setEmail] = useState('');
-    const [location, setLocation] = useState('');
-    const [password, setPassword] = useState('');
-    const [confirmPass, setConfirmPass] = useState('');
-    const [errors, setErrors] = useState({});
-    // console.log(navigation)
+import { useNavigation } from '@react-navigation/native'
 
+const EditForm = (item) => {
+    const navigation = useNavigation()
+    // console.log("this is the item object", item)
+    const data = item.route.params.route.params
+    // console.log("This is the data", data)
+    const [first_name, setFirstName] = useState(data.first_name);
+    const [last_name, setLastName] = useState(data.last_name);
+    const [email, setEmail] = useState(data.email);
+    const [password, setPassword] = useState(data.password);
+    const [location, setLocation] = useState(data.location);
+    // const [error, setError] = useState([]);
 
     const submitHandler = () => {
-        // https://a955-76-175-74-35.ngrok.io/login
-        fetch(`http://127.0.0.1:5000/register`, {
-            method: 'POST',
+        fetch(`http://127.0.0.1:5000/update/${data.id}`
+            , {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    first_name: first_name,
+                    last_name: last_name,
+                    email: email,
+                    password: password,
+                    location: location
+                })
+            }
+        )
+            // .then(res => {
+            //     // if (!res.ok) {
+            //     //     throw Error('did not work')
+            //     // }
+            //     return res.json()
+            // })
+            .then(data => {
+                console.log("this is the data")
+            })
+            .catch(error => {
+                console.log(error.message)
+            })
+    }
+    const deleteHandler = (data) => {
+        console.log(data.id, "hi jack")
+        fetch(`http://127.0.0.1:5000/delete/${data.id}`, {
+            method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json'
-            },
-
-            body: JSON.stringify({
-                first_name: first_name,
-                last_name: last_name,
-                email: email,
-                location: location,
-                password: password,
-                confirmPass: confirmPass
-
-            })
+            }
         })
             .then(res => {
-                return res.json()
+                if (!res.ok) {
+                    throw Error('did not work')
+                }
+                // navigation.navigate('Home')
+                console.log(res, "deletehandler")
             })
-            .then(data => {
-                console.log("Data: ", data)
-                setErrors(data['errs']);
-                // if (data['success']) {
-                //     navigation.navigate('Home')
-                // }
-            })
-            .catch(error => console.log("There is an error: ", error))
+            .catch(error => console.log(error))
     }
     return (
         <View style={[styles.card, styles.shadow]}>
@@ -56,11 +74,10 @@ const Form = ({ navigation }) => {
                 <TextInput
                     style={[styles.input, styles.shadow]}
                     placeholder="First Name"
+                    defaultValue={first_name}
                     value={first_name}
+                    editable={true}
                     onChangeText={(text) => { setFirstName(text) }} />
-                {errors && errors['first_name'] &&
-                    <Text style={{ color: "red" }}>{errors['first_name']}</Text>
-                }
             </View>
             <View
                 style={styles.row}
@@ -73,8 +90,25 @@ const Form = ({ navigation }) => {
                     placeholder="Last Name"
                     value={last_name}
                     onChangeText={(text) => { setLastName(text) }} />
-                {errors && errors['last_name'] &&
-                    <Text style={{ color: "red" }}>{errors['last_name']}</Text>}
+            </View>
+            <View style={styles.row}>
+                <Text style={styles.label}>Email Address</Text>
+                <TextInput
+                    style={[styles.input, styles.shadow]}
+                    placeholder="Email Address"
+                    value={email}
+                    autoCapitalize='none'
+                    onChangeText={setEmail} />
+            </View>
+            <View style={styles.row}>
+                <Text style={styles.label}>Password</Text>
+                <TextInput
+                    style={[styles.input, styles.shadow]}
+                    placeholder="Password"
+                    value={password}
+                    secureTextEntry={true}
+
+                    onChangeText={(text) => { setPassword(text) }} />
             </View>
             <View
                 style={styles.row}
@@ -87,54 +121,20 @@ const Form = ({ navigation }) => {
                     placeholder="Location"
                     value={location}
                     onChangeText={(text) => { setLocation(text) }} />
-                {errors && errors['location'] &&
-                    <Text style={{ color: "red" }}>{errors['location']}</Text>
-                }
-            </View>
-            <View style={styles.row}>
-                <Text style={styles.label}>Email Address</Text>
-                <TextInput
-                    style={[styles.input, styles.shadow]}
-                    placeholder="Email Address"
-                    value={email}
-                    autoCapitalize='none'
-                    onChangeText={(text) => { setEmail(text) }} />
-                {errors && errors['email'] &&
-                    <Text style={{ color: "red" }}>{errors['email']}</Text>
-                }
-            </View>
-            <View style={styles.row}>
-                <Text style={styles.label}>Password</Text>
-                <TextInput
-                    style={[styles.input, styles.shadow]}
-                    placeholder="Password"
-                    value={password}
-                    secureTextEntry={true}
-                    onChangeText={(text) => { setPassword(text) }} />
-                {errors && errors['password'] &&
-                    <Text style={{ color: "red" }}>{errors['password']}</Text>
-                }
-            </View>
-            <View style={styles.row}>
-                <Text style={styles.label}>Confirm Password</Text>
-                <TextInput
-                    style={[styles.input, styles.shadow]}
-                    placeholder="Confirm Password"
-                    value={confirmPass}
-                    secureTextEntry={true}
-                    onChangeText={(text) => {
-                        setConfirmPass(text)
-                    }} />
-                {errors && errors['confirmPass'] &&
-                    <Text style={{ color: "red" }}>{errors['confirmPass']}</Text>
-                }
             </View>
             <Button
-                title="Register"
+                title="Update"
                 onPress={() => {
                     submitHandler()
                 }}>
-                Register
+            </Button>
+            <Button title="Delete" mode="contained"
+                onPress={() => {
+                    deleteHandler(data)
+                    console.log("deleted", data.id)
+                    // navigation.navigate('Home')
+                }}>
+                <Text>Delete</Text>
             </Button>
         </View>
     )
@@ -192,4 +192,4 @@ const styles = StyleSheet.create({
         fontWeight: '700'
     }
 })
-export default Form
+export default EditForm
