@@ -13,6 +13,7 @@ const Form = ({ navigation }) => {
 
 
     const submitHandler = () => {
+        // https://a955-76-175-74-35.ngrok.io/login
         fetch(`http://127.0.0.1:5000/register`, {
             method: 'POST',
             headers: {
