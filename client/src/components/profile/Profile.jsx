@@ -1,26 +1,43 @@
-import { View, Text, Pressable, StyleSheet, Image } from 'react-native'
+import { View, Text, StyleSheet, Image, Pressable } from 'react-native'
 import React from 'react'
-import Header from '../header/Header'
 import Feather from 'react-native-vector-icons/Feather'
-
-const Profile = () => {
-
+import { useNavigation } from '@react-navigation/native'
+const Profile = (item) => {
+    const navigation = useNavigation()
+    const props = item.route.params
+    // console.log("Profile item object", item)
+    // console.log("Profile: user data successfully passed", props)
     return (
         <View>
-            <Header />
             <View style={[styles.card, styles.shadow]}>
                 <View style={styles.container}>
                     <View>
                         <Image style={styles.image} source={{ uri: 'https://stabmag.com/wp-content/uploads/2021/04/Mark-Zuckerberg-Spooks-the-Internet-With-Too-Much-Sunscreen-on-His-Face-in-Hawaii-01-1024x538.jpg' }} />
                     </View>
                     <View style={styles.titleBox}>
-                        <Text style={{ fontSize: 28, fontWeight: 'bold', marginBottom: 18 }}>Hello, User</Text>
-                        <Text>Edit Profile
-                            <Feather name='edit' size={16} />
-                        </Text>
+
+                        <Text style={{ fontSize: 28, fontWeight: 'bold', marginBottom: 18 }}>Hello, {item.first_name}</Text>
+                        <Pressable
+                            onPress={() => {
+                                navigation.navigate('Edit', item)
+                            }}
+                        >
+                            <Text>Edit Profile
+                                <Feather name='edit' size={16} />
+                            </Text>
+                        </Pressable>
+
                         <Text>adding actions here</Text>
                     </View>
                 </View>
+            </View>
+            <View style={[styles.card, styles.shadow]}>
+                <Text>
+                    {item.email}
+                </Text>
+                <Text>
+                    {item.location}
+                </Text>
             </View>
         </View>
     )

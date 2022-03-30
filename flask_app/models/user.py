@@ -1,7 +1,9 @@
 from flask_app import DB, bcrypt
 from flask_app.config.mysqlconnection import connectToMySQL
-from flask import flash
+from flask import flash, jsonify, make_response
 import re
+import json 
+from json import JSONEncoder
 
 EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$')
 

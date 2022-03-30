@@ -1,209 +1,136 @@
-import { View, Text, TextInput, StyleSheet, Button, ScrollView } from 'react-native'
+import { View, Text, TextInput, StyleSheet, Button, Alert } from 'react-native'
 import React, { useState } from 'react'
 import { showMessage, hideMessage } from 'react-native-flash-message'
-
-
-
-const Form = (props) => {
-    
+const Form = ({ navigation }) => {
     const [first_name, setFirstName] = useState('');
     const [last_name, setLastName] = useState('');
     const [email, setEmail] = useState('');
     const [location, setLocation] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPass, setConfirmPass] = useState('');
-    const [loginEmail,setLoginEmail] = useState('');
-    const [loginPassword,setLoginPassword] = useState('');
-    const [errors,setErrors] = useState({});
-    const [loginErrors, setLoginErrors] = useState({});
+    const [errors, setErrors] = useState({});
+    // console.log(navigation)
+
 
     const submitHandler = () => {
-        console.log(first_name, last_name, email, password)
-        fetch('https://a955-76-175-74-35.ngrok.io/register', {
+        // https://a955-76-175-74-35.ngrok.io/login
+        fetch(`http://127.0.0.1:5000/register`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(
-                {
-                    first_name: first_name,
-                    last_name: last_name,
-                    email: email,
-                    location: location,
-                    password: password,
-                    confirmPass : confirmPass
-                }
-            )
+
+            body: JSON.stringify({
+                first_name: first_name,
+                last_name: last_name,
+                email: email,
+                location: location,
+                password: password,
+                confirmPass: confirmPass
+
+            })
         })
             .then(res => {
                 return res.json()
-                // console.log("Result: ", res)
             })
             .then(data => {
                 console.log("Data: ", data)
                 setErrors(data['errs']);
-                console.log(errors)
+                // if (data['success']) {
+                //     navigation.navigate('Home')
+                // }
             })
             .catch(error => console.log("There is an error: ", error))
     }
-
-    const loginHandler = () => {
-        fetch('https://a955-76-175-74-35.ngrok.io/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(
-                {
-                    email: loginEmail,
-                    password: loginPassword
-                }
-            )
-        })
-            .then(res => {
-                return res.json()
-            })
-            .then(data => {
-                console.log("Data: ", data)
-                setLoginErrors(data['loginErrors'])
-                // props.navigation.navigate('ProfileScreen')
-            })
-            .catch(error => console.log("There is an error: ", error))
-    }
-
     return (
         <ScrollView>
             <View style={[styles.card, styles.shadow]}>
                 <Text
-                    style={styles.heading}
-                >Get Started with Ding</Text>
-                <View
-                    style={styles.row}
-                >
-                    <Text
-                        style={styles.label}
-                    >First Name</Text>
-                    <TextInput
-                        style={[styles.input, styles.shadow]}
-                        placeholder="First Name"
-                        value={first_name}
-                        onChangeText={(text) => {
-                            setFirstName(text)
-                        }} />
-                    { errors && errors['first_name'] &&
-                        <Text style={{color:"red"}}>{errors['first_name']}</Text>
-                    }
-                </View>
-                <View
-                    style={styles.row}
-                >
-                    <Text
-                        style={styles.label}
-                    >Last Name</Text>
-                    <TextInput
-                        style={[styles.input, styles.shadow]}
-                        placeholder="Last Name"
-                        value={last_name}
-                        onChangeText={(text) => {
-                            setLastName(text)
-                        }} />
-                        { errors && errors['last_name'] &&
-                        <Text style={{color:"red"}}>{errors['last_name']}</Text>
-                    }
-                </View>
-                <View
-                    style={styles.row}
-                >
-                    <Text
-                        style={styles.label}
-                    >Location</Text>
-                    <TextInput
-                        style={[styles.input, styles.shadow]}
-                        placeholder="Location"
-                        value={location}
-                        onChangeText={(text) => {
-                            setLocation(text)
-                        }} />
-                        { errors && errors['location'] &&
-                        <Text style={{color:"red"}}>{errors['location']}</Text>
-                    }
-                </View>
-                <View style={styles.row}>
-                    <Text style={styles.label}>Email Address</Text>
-                    <TextInput
-                        style={[styles.input, styles.shadow]}
-                        placeholder="Email Address"
-                        value={email}
-                        autoCapitalize='none'
-                        // onEndEditing={validateEmail}
-                        onChangeText={(text) => {
-                            setEmail(text)
-                        }} />
-                        { errors && errors['email'] &&
-                        <Text style={{color:"red"}}>{errors['email']}</Text>
-                    }
-                </View>
-                <View style={styles.row}>
-                    <Text style={styles.label}>Password</Text>
-                    <TextInput
-                        style={[styles.input, styles.shadow]}
-                        placeholder="Password"
-                        value={password}
-                        secureTextEntry={true}
-                        // onEndEditing={validatePassword}
-                        onChangeText={(text) => {
-                            setPassword(text)
-                        }} />
-                        { errors && errors['password'] &&
-                        <Text style={{color:"red"}}>{errors['password']}</Text>
-                    }
-                </View>
-                <View style={styles.row}>
-                    <Text style={styles.label}>Confirm Password</Text>
-                    <TextInput
-                        style={[styles.input, styles.shadow]}
-                        placeholder="Confirm Password"
-                        value={confirmPass}
-                        secureTextEntry={true}
-                        // onEndEditing={validatePassword}
-                        onChangeText={(text) => {
-                            setConfirmPass(text)
-                        }} />
-                        { errors && errors['confirmPass'] &&
-                        <Text style={{color:"red"}}>{errors['confirmPass']}</Text>
-                    }
-                </View>
-                <Button title='Register' onPress={() => { submitHandler() }} /> 
+                    style={styles.label}
+                >First Name</Text>
+                <TextInput
+                    style={[styles.input, styles.shadow]}
+                    placeholder="First Name"
+                    value={first_name}
+                    onChangeText={(text) => { setFirstName(text) }} />
+                {errors && errors['first_name'] &&
+                    <Text style={{ color: "red" }}>{errors['first_name']}</Text>
+                }
             </View>
-            <View style={[styles.card, styles.shadow]}>
-                <View style={styles.row}>
-                    <Text style={styles.label}>Email Address</Text>
-                    <TextInput
-                        style={[styles.input, styles.shadow]}
-                        placeholder="Email Address"
-                        value={loginEmail}
-                        autoCapitalize='none'
-                        onChangeText={(text) => {
-                            setLoginEmail(text)
-                        }} />
-                </View>
-                <View style={styles.row}>
-                    <Text style={styles.label}>Password</Text>
-                    <TextInput
-                        style={[styles.input, styles.shadow]}
-                        placeholder="Password"
-                        value={loginPassword}
-                        secureTextEntry={true}
-                        // onEndEditing={validatePassword}
-                        onChangeText={(text) => {
-                            setLoginPassword(text)
-                        }} />
-                        { loginErrors && loginErrors['login'] &&
-                        <Text style={{color:"red"}}>{loginErrors['login']}</Text>
-                    }
-                </View>
-                <Button title='Login' onPress={() => { loginHandler() }} />
+            <View
+                style={styles.row}
+            >
+                <Text
+                    style={styles.label}
+                >Last Name</Text>
+                <TextInput
+                    style={[styles.input, styles.shadow]}
+                    placeholder="Last Name"
+                    value={last_name}
+                    onChangeText={(text) => { setLastName(text) }} />
+                {errors && errors['last_name'] &&
+                    <Text style={{ color: "red" }}>{errors['last_name']}</Text>}
             </View>
+            <View
+                style={styles.row}
+            >
+                <Text
+                    style={styles.label}
+                >Location</Text>
+                <TextInput
+                    style={[styles.input, styles.shadow]}
+                    placeholder="Location"
+                    value={location}
+                    onChangeText={(text) => { setLocation(text) }} />
+                {errors && errors['location'] &&
+                    <Text style={{ color: "red" }}>{errors['location']}</Text>
+                }
+            </View>
+            <View style={styles.row}>
+                <Text style={styles.label}>Email Address</Text>
+                <TextInput
+                    style={[styles.input, styles.shadow]}
+                    placeholder="Email Address"
+                    value={email}
+                    autoCapitalize='none'
+                    onChangeText={(text) => { setEmail(text) }} />
+                {errors && errors['email'] &&
+                    <Text style={{ color: "red" }}>{errors['email']}</Text>
+                }
+            </View>
+            <View style={styles.row}>
+                <Text style={styles.label}>Password</Text>
+                <TextInput
+                    style={[styles.input, styles.shadow]}
+                    placeholder="Password"
+                    value={password}
+                    secureTextEntry={true}
+                    onChangeText={(text) => { setPassword(text) }} />
+                {errors && errors['password'] &&
+                    <Text style={{ color: "red" }}>{errors['password']}</Text>
+                }
+            </View>
+            <View style={styles.row}>
+                <Text style={styles.label}>Confirm Password</Text>
+                <TextInput
+                    style={[styles.input, styles.shadow]}
+                    placeholder="Confirm Password"
+                    value={confirmPass}
+                    secureTextEntry={true}
+                    onChangeText={(text) => {
+                        setConfirmPass(text)
+                    }} />
+                {errors && errors['confirmPass'] &&
+                    <Text style={{ color: "red" }}>{errors['confirmPass']}</Text>
+                }
+            </View>
+            <Button
+                title="Register"
+                onPress={() => {
+                    submitHandler()
+                }}>
+                Register
+            </Button>
         </ScrollView>
     )
 }

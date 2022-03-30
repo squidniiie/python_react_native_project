@@ -4,14 +4,14 @@ import { ScrollView } from 'react-native-virtualized-view';
 import Messages from '../../components/messages/Messages'
 import Header from '../../components/header/Header'
 
-const MessagesScreen = () => {
+const MessagesScreen = ({ navigation }) => {
     return (
         <SafeAreaView>
             <ScrollView
                 showsVerticalScrollIndicator={false} >
                 <Header />
                 <Text style={styles.title}>You're in Luck!</Text>
-                <Messages
+                <Messages navigation={navigation}
                 />
             </ScrollView>
         </SafeAreaView>

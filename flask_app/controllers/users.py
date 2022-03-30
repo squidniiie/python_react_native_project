@@ -2,27 +2,35 @@
 from crypt import methods
 from distutils import errors
 from email import message
-
-import bcrypt
 from flask_app import app, bcrypt
 from flask import get_flashed_messages, redirect,request,session,flash, jsonify, json
 from flask_app.models.user import User
-from flask_app.models.vendor import Vendor
+
 
 #LOGIN/REG PAGE ROUTE
-@app.route('/')
-def index():
-    return 'render_template('')'
+
 
 #HOME PAGE/DASHBOARD ROUTE FOR USER
-@app.route('/dashboard', methods=['GET'])
-def dashboard():
-    print(session['id'])
-    if 'id' not in session:
-        return "No good"
-    user = User.get_one_user(id=session['id'])
-    # vendors = Vendor.get_all_vendors()
-    return jsonify(user=user)
+@app.route('/users/<int:id>', methods=['GET'])
+def show_user(id):
+    print("first", id)
+    user= User.get_one_user(id=id)
+    print("hola",user.__dict__)
+    return jsonify(user=user.__dict__)
+
+# UPDATE USER ROUTE
+@app.route('/update/<int:id>', methods=['PUT'])
+def update_user(id):
+    print("hello", id)
+    user_data = {
+        **request.get_json(),
+        'id':id
+        }
+    print("This is Context", user_data)
+    user = User.edit_user(user_data)
+    print(user)
+    return jsonify(id=id)
+    
 
 #SAMPLE ROUTE TO RETRIEVE ALL USERS
 @app.route('/getusers', methods=['GET'])
@@ -70,8 +78,17 @@ def login():
     logged_in_user = User.get_one_user(email = user_data['email'])
     print("Logged in User: ", logged_in_user.__dict__)
     session['id'] = logged_in_user.id
-    print(session['id'])
     return jsonify(logged_in_user=logged_in_user.__dict__)
+
+# DELETE ROUTE
+@app.route('/delete/<int:id>', methods=['DELETE'])
+def delete_user(id):
+    user_data = {
+        'id':id
+        }
+    delete = User.delete_user(user_data)
+    print(delete)
+    return jsonify(id=id)
 
 #LOGOUT ROUTE
 @app.route('/logout')

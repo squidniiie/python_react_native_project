@@ -3,19 +3,25 @@ import React from 'react'
 import Feather from '@expo/vector-icons/Feather'
 const Header = () => {
     return (
-        <SafeAreaView style={{ backgroundColor: 'white' }}>
+        <SafeAreaView style={{ backgroundColor: 'white', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+            <View>
+                <Feather name='menu' size={24} style={{ color: 'gray' }} />
+            </View>
             <View style={styles.container}>
+
                 <TextInput
                     style={{ height: 20, paddingLeft: 5, fontWeight: '500' }}
                     placeholder='Search...'
                 />
                 <Feather name='search' size={24} style={{ color: 'gray' }} />
             </View>
+
         </SafeAreaView>
     )
 }
 const styles = StyleSheet.create({
     container: {
+        width: "85%",
         marginHorizontal: 12,
         marginVertical: 8,
         padding: 8,

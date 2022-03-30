@@ -1,30 +1,37 @@
-import { Pressable, ScrollView, Text, StyleSheet } from 'react-native'
+import { Pressable, ScrollView, Text, StyleSheet, View } from 'react-native'
 import React from 'react'
 import Profile from '../../components/profile/Profile'
-import Form from '../../components/profile/Form'
-import BookButton from '../../components/buttons/BookButton'
+import Header from '../../components/header/Header'
 
-const ProfileScreen = (props) => {
+const ProfileScreen = ({ navigation, route, item }) => {
+    const {
+        first_name,
+        last_name,
+        email,
+        location
+    } = route.params
+    // console.log("ProfileScreen successfully passed user data", route.params)
+    // console.log("ProfileScreen item is undefined", item)
     return (
+
         <ScrollView showsVerticalScrollIndicator={false}>
-            <Profile />
-            <Text>Show here the user's preferences and maybe a stacked list to get to their favorited vendors</Text>
+            <Header />
+            <Profile
+                route={route}
+                navigation={navigation}
+                item={item}
+                first_name={first_name} last_name={last_name} email={email} location={location}
+            />
             <Pressable
                 style={styles.button}
-                onPress={() => props.navigation.navigate('Login')}>
+                onPress={() => navigation.navigate('Login')}>
                 <Text
                     style={styles.buttonText}
                 >Register</Text>
                 {/* //  containerStyles={{ backgroundColor: '#919fe88c' }} */}
             </Pressable>
-            {/* <Pressable>
-                <BookButton
-                    onPress={() => props.navigation.navigate('Login')}
-                    text='Register' />
-            </Pressable>
-
-            <Form /> */}
         </ScrollView>
+
     )
 }
 const styles = StyleSheet.create({
