@@ -5,6 +5,7 @@ import { showMessage, hideMessage } from 'react-native-flash-message'
 
 
 const Form = (props) => {
+    
     const [first_name, setFirstName] = useState('');
     const [last_name, setLastName] = useState('');
     const [email, setEmail] = useState('');
@@ -15,8 +16,6 @@ const Form = (props) => {
     const [loginPassword,setLoginPassword] = useState('');
     const [errors,setErrors] = useState({});
     const [loginErrors, setLoginErrors] = useState({});
-    // const [emailError, setEmailError] = useState('');
-    // const [passwordError, setPasswordError] = useState('');
 
     const submitHandler = () => {
         console.log(first_name, last_name, email, password)

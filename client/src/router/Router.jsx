@@ -11,8 +11,10 @@ const Router = () => {
     return (
         <NavigationContainer>
             <Root.Navigator screenOptions={{ headerShown: false }}>
-                <Root.Screen component={BottomTab} name="HomeTabs" />
-                <Root.Screen component={Login} name="Login" />
+                <Stack.Screen component={BottomTab} name="HomeTabs" />
+                <Stack.Screen component={HomeStack} name="Home" />
+                <Stack.Screen component={SettingsStack} name="SettingsStack" />
+                <Stack.Screen component={ProfileStack} name="ProfileStack" />
             </Root.Navigator>
         </NavigationContainer>
     )
