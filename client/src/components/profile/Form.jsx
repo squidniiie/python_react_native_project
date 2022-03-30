@@ -8,9 +8,8 @@ const Form = ({ navigation }) => {
     const [location, setLocation] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPass, setConfirmPass] = useState('');
-    // const [error, setError] = useState('');
-    // const [emailError, setEmailError] = useState('');
-    // const [passwordError, setPasswordError] = useState('');
+    const [errors, setErrors] = useState({});
+    // console.log(navigation)
 
 
     const submitHandler = () => {
@@ -31,47 +30,17 @@ const Form = ({ navigation }) => {
             })
         })
             .then(res => {
-                if (!res.ok) {
-                    throw Error('did not work')
-                }
                 return res.json()
             })
             .then(data => {
-                console.log(data)
-                for (m in data['messages']) {
-                    showMessage({
-                        icon: "danger",
-                        description: 'There is an error',
-                        message: data['messages'][m],
-                        type: "danger"
-                    })
-                    console.log((m in data['messages']))
-                }
-                // navigation.navigate('Home')
+                console.log("Data: ", data)
+                setErrors(data['errs']);
+                // if (data['success']) {
+                //     navigation.navigate('Home')
+                // }
             })
-            .catch(error => {
-                console.log(error.message)
-                // setError(error)
-            })
-        // if (!!emailError) {
-        //     Alert.alert('Please check all field errors before submission');
-        //     return;
-        // }
-        // const validateEmail = () => {
-        //     if (email.length < 3) {
-        //         setEmailError('Email address must be more than 3 characters')
-        //     }
-        // }
-        // const validatePassword = () => {
-        //     if (password.length < 8) {
-        //         setPasswordError('Password address must be more than 8 characters')
-        //     }
-        // }
+            .catch(error => console.log("There is an error: ", error))
     }
-
-
-
-
     return (
         <View style={[styles.card, styles.shadow]}>
             <Text
@@ -88,6 +57,9 @@ const Form = ({ navigation }) => {
                     placeholder="First Name"
                     value={first_name}
                     onChangeText={(text) => { setFirstName(text) }} />
+                {errors && errors['first_name'] &&
+                    <Text style={{ color: "red" }}>{errors['first_name']}</Text>
+                }
             </View>
             <View
                 style={styles.row}
@@ -100,6 +72,8 @@ const Form = ({ navigation }) => {
                     placeholder="Last Name"
                     value={last_name}
                     onChangeText={(text) => { setLastName(text) }} />
+                {errors && errors['last_name'] &&
+                    <Text style={{ color: "red" }}>{errors['last_name']}</Text>}
             </View>
             <View
                 style={styles.row}
@@ -112,6 +86,9 @@ const Form = ({ navigation }) => {
                     placeholder="Location"
                     value={location}
                     onChangeText={(text) => { setLocation(text) }} />
+                {errors && errors['location'] &&
+                    <Text style={{ color: "red" }}>{errors['location']}</Text>
+                }
             </View>
             <View style={styles.row}>
                 <Text style={styles.label}>Email Address</Text>
@@ -120,9 +97,10 @@ const Form = ({ navigation }) => {
                     placeholder="Email Address"
                     value={email}
                     autoCapitalize='none'
-                    // onEndEditing={validateEmail}
                     onChangeText={(text) => { setEmail(text) }} />
-                {/* {!!emailError && (<Text style={styles.error}>{emailError}</Text>)} */}
+                {errors && errors['email'] &&
+                    <Text style={{ color: "red" }}>{errors['email']}</Text>
+                }
             </View>
             <View style={styles.row}>
                 <Text style={styles.label}>Password</Text>
@@ -131,9 +109,10 @@ const Form = ({ navigation }) => {
                     placeholder="Password"
                     value={password}
                     secureTextEntry={true}
-                    // onEndEditing={validatePassword}
                     onChangeText={(text) => { setPassword(text) }} />
-                {/* {!!passwordError && (<Text style={styles.error}>{passwordError}</Text>)} */}
+                {errors && errors['password'] &&
+                    <Text style={{ color: "red" }}>{errors['password']}</Text>
+                }
             </View>
             <View style={styles.row}>
                 <Text style={styles.label}>Confirm Password</Text>
@@ -142,16 +121,16 @@ const Form = ({ navigation }) => {
                     placeholder="Confirm Password"
                     value={confirmPass}
                     secureTextEntry={true}
-                    // onEndEditing={validatePassword}
                     onChangeText={(text) => {
                         setConfirmPass(text)
                     }} />
-                {/* {!!passwordError && (<Text style={styles.error}>{passwordError}</Text>)} */}
+                {errors && errors['confirmPass'] &&
+                    <Text style={{ color: "red" }}>{errors['confirmPass']}</Text>
+                }
             </View>
             <Button
                 title="Register"
                 onPress={() => {
-
                     submitHandler()
                 }}>
                 Register

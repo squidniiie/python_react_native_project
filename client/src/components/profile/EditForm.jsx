@@ -2,21 +2,17 @@ import { StyleSheet, View, Text, TextInput, Button } from 'react-native'
 import React, { useState } from 'react'
 import { useNavigation } from '@react-navigation/native'
 
-
 const EditForm = (item) => {
     const navigation = useNavigation()
+    // console.log("this is the item object", item)
     const data = item.route.params.route.params
-    // console.log(data)
+    // console.log("This is the data", data)
     const [first_name, setFirstName] = useState(data.first_name);
     const [last_name, setLastName] = useState(data.last_name);
     const [email, setEmail] = useState(data.email);
     const [password, setPassword] = useState(data.password);
     const [location, setLocation] = useState(data.location);
-    const [error, setError] = useState([]);
-    // const [emailError, setEmailError] = useState('');
-    // const [passwordError, setPasswordError] = useState('');
-    // const id = useParams();
-    // const id = useState(data.id);
+    // const [error, setError] = useState([]);
 
     const submitHandler = () => {
         fetch(`http://127.0.0.1:5000/update/${data.id}`
@@ -34,19 +30,35 @@ const EditForm = (item) => {
                 })
             }
         )
-            .then(res => {
-                // if (!res.ok) {
-                //     throw Error('did not work')
-                // }
-                return res.json()
-            })
+            // .then(res => {
+            //     // if (!res.ok) {
+            //     //     throw Error('did not work')
+            //     // }
+            //     return res.json()
+            // })
             .then(data => {
-                console.log(data)
+                console.log("this is the data")
             })
             .catch(error => {
                 console.log(error.message)
-                setError(error)
             })
+    }
+    const deleteHandler = (data) => {
+        console.log(data.id, "hi jack")
+        fetch(`http://127.0.0.1:5000/delete/${data.id}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(res => {
+                if (!res.ok) {
+                    throw Error('did not work')
+                }
+                // navigation.navigate('Home')
+                console.log(res, "deletehandler")
+            })
+            .catch(error => console.log(error))
     }
     return (
         <View style={[styles.card, styles.shadow]}>
@@ -86,9 +98,7 @@ const EditForm = (item) => {
                     placeholder="Email Address"
                     value={email}
                     autoCapitalize='none'
-                    // onEndEditing={validateEmail}
                     onChangeText={setEmail} />
-                {/* {!!emailError && (<Text style={styles.error}>{emailError}</Text>)} */}
             </View>
             <View style={styles.row}>
                 <Text style={styles.label}>Password</Text>
@@ -97,9 +107,8 @@ const EditForm = (item) => {
                     placeholder="Password"
                     value={password}
                     secureTextEntry={true}
-                    // onEndEditing={validatePassword}
+
                     onChangeText={(text) => { setPassword(text) }} />
-                {/* {!!passwordError && (<Text style={styles.error}>{passwordError}</Text>)} */}
             </View>
             <View
                 style={styles.row}
@@ -116,10 +125,16 @@ const EditForm = (item) => {
             <Button
                 title="Update"
                 onPress={() => {
-                    // navigation.navigate('Home')
                     submitHandler()
                 }}>
-
+            </Button>
+            <Button title="Delete" mode="contained"
+                onPress={() => {
+                    deleteHandler(data)
+                    console.log("deleted", data.id)
+                    // navigation.navigate('Home')
+                }}>
+                <Text>Delete</Text>
             </Button>
         </View>
     )

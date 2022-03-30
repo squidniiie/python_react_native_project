@@ -1,33 +1,12 @@
 import { View, Text, StyleSheet, Image, Pressable } from 'react-native'
-import React, { useState, useEffect } from 'react'
-import { useParams } from 'react-router-native'
+import React from 'react'
 import Feather from 'react-native-vector-icons/Feather'
 import { useNavigation } from '@react-navigation/native'
 const Profile = (item) => {
-    // const { id } = useParams()
-    // console.log("hello profile component", id)
     const navigation = useNavigation()
-    // console.log(item.first_name, navigation)
-    // console.log("Profile", navigation)
-    const [data, setData] = useState([]);
-
-    // useEffect(() => {
-    //     fetch(`http:127.0.0.1:5000/users/${id}`, { method: 'GET' })
-    //         .then(res => {
-    //             if (!res.ok) {
-    //                 throw Error('did not work')
-    //             }
-    //             return res.json()
-    //         })
-    //         .then(res => {
-    //             console.log("second")
-    //             setData(res.user)
-    //         })
-    //         .catch((error) => {
-    //             console.log(error)
-    //             alert(error)
-    //         })
-    // }, [])
+    const props = item.route.params
+    // console.log("Profile item object", item)
+    // console.log("Profile: user data successfully passed", props)
     return (
         <View>
             <View style={[styles.card, styles.shadow]}>
@@ -41,7 +20,6 @@ const Profile = (item) => {
                         <Pressable
                             onPress={() => {
                                 navigation.navigate('Edit', item)
-
                             }}
                         >
                             <Text>Edit Profile

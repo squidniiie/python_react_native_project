@@ -4,12 +4,12 @@ import React, { useState, useEffect } from 'react'
 import Header from "../../components/header/Header"
 import Settings from '../../components/settings/Settings';
 
+
 const SettingsScreen = ({ navigation }) => {
-    console.log('Props:', navigation)
+    // console.log('SettingScreen successful', navigation)
     const [isLoading, setLoading] = useState(true);
     const [data, setData] = useState([]);
-
-    useEffect(() => {
+    const loadData = () => {
         fetch("http:127.0.0.1:5000/getusers", { method: 'GET' })
             .then(res => res.json())
             .then(res => {
@@ -20,33 +20,30 @@ const SettingsScreen = ({ navigation }) => {
                 alert(error)
             })
             .finally(() => setLoading(false))
+    }
+    useEffect(() => {
+        loadData()
     }, [])
-
-
     return (
-        <SafeAreaView>
+        <View>
             <Header />
-            <View>
-                <Text style={{ fontSize: 28, fontWeight: '700', textAlign: 'center', marginTop: 8 }}>See all Users</Text>
-                {isLoading ? (<ActivityIndicator />) : (
-                    <FlatList
-                        contentContainerStyle={{
-                            flexGrow: 1
-                        }}
-                        keyExtractor={item => item.id}
-                        // `${item.id}`}
-                        data={data}
-                        renderItem={({ item }) =>
-                            <Settings item={item} navigation={navigation} />
-                            // console.log(item);
-                        }
-                        showsVerticalScrollIndicator={false}
-                    />
-                )}
-            </View>
-        </SafeAreaView >
+            <Text style={{ fontSize: 28, fontWeight: '700', textAlign: 'center', marginTop: 8 }}>See all Users</Text>
+            {isLoading ? (<ActivityIndicator />) : (
+                <FlatList
+                    contentContainerStyle={{
+                        flexGrow: 1
+                    }}
+                    keyExtractor={item => item.id}
+                    onRefresh={loadData}
+                    refreshing={isLoading}
+                    data={data}
+                    renderItem={({ item }) =>
+                        < Settings item={item} navigation={navigation} />
+                    }
+                    showsVerticalScrollIndicator={false}
+                />
+            )}
+        </View >
     )
 }
-
-
 export default SettingsScreen

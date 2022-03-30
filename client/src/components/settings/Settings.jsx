@@ -24,7 +24,6 @@ const Settings = ({ item, navigation }) => {
             <View style={{ marginTop: 5 }}>
                 <Text>*Putting an image carousel here with horizontal scroll*</Text>
             </View>
-            <Button title="delete" />
         </Pressable>
     )
 }

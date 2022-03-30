@@ -80,6 +80,16 @@ def login():
     session['id'] = logged_in_user.id
     return jsonify(logged_in_user=logged_in_user.__dict__)
 
+# DELETE ROUTE
+@app.route('/delete/<int:id>', methods=['DELETE'])
+def delete_user(id):
+    user_data = {
+        'id':id
+        }
+    delete = User.delete_user(user_data)
+    print(delete)
+    return jsonify(id=id)
+
 #LOGOUT ROUTE
 @app.route('/logout')
 def logout():

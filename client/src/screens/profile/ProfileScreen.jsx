@@ -10,15 +10,16 @@ const ProfileScreen = ({ navigation, route, item }) => {
         email,
         location
     } = route.params
-    // console.log("ProfileScreen:", route.params)
-    // console.log("ProfileScreen: ", navigation)
+    // console.log("ProfileScreen successfully passed user data", route.params)
+    // console.log("ProfileScreen item is undefined", item)
     return (
 
         <ScrollView showsVerticalScrollIndicator={false}>
             <Header />
             <Profile
                 route={route}
-                item={item} navigation={navigation}
+                navigation={navigation}
+                item={item}
                 first_name={first_name} last_name={last_name} email={email} location={location}
             />
             <Pressable

@@ -17,16 +17,6 @@ class User:
         self.password = data['password']
         self.created_at = data['created_at']
         self.updated_at = data['updated_at']
-# Encoder subclass:
-        # class UserEncode(JSONEncoder):
-        #         def default(self, o):
-        #             return o.__dict__
-        # u = User(data['id'],data['first_name'],data['last_name'],data['email'],data['location'],data['password'])
-        # print(UserEncode().encode(u)) 
-        # jsonified = json.dumps(u, cls=UserEncode, indent=4)
-        # print(jsonified)
-        # userJSON = json.loads(jsonified)
-        # print(userJSON)
 
     #GET ALL USERS FROM DB
     @classmethod
