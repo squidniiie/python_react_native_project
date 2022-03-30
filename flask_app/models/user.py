@@ -92,11 +92,11 @@ class User:
     @staticmethod
     def validate_login(data):
         errors = {}
-        user = User.get_one_user(email=data['login_email'])
-        if not user:
-            errors['login'] = "Invalid Credentials"
-        elif not bcrypt.check_password_hash(user.password,data['password']):
-            errors['login'] = 'Invalid Credentails'
+        user_in_db = User.get_one_user(email=data['email'])
+        if not user_in_db:
+            errors['login'] = "Incorrect Email/Password"
+        elif not bcrypt.check_password_hash(user_in_db.password,data['password']):
+            errors['login'] = 'Incorrect Email/Password'
         
         for field,msg in errors.items():
             flash(msg,field)

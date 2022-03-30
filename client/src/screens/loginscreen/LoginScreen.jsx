@@ -1,13 +1,14 @@
 import { View, Text, StyleSheet, TextInput, ScrollView, Button } from 'react-native'
 import React, { useState } from 'react'
 import Login from '../../components/login/Login'
-import BottomTab from '../../router/BottomTab';
+
 
 const LoginScreen = ({ navigation }) => {
     const [loginEmail, setLoginEmail] = useState('');
     const [loginPassword, setLoginPassword] = useState('');
-
+    const [loginErrors, setLoginErrors] = useState({});
     const loginHandler = () => {
+        // https://a955-76-175-74-35.ngrok.io/login
         fetch('http://127.0.0.1:5000/login', {
             method: 'POST',
             headers: {
@@ -25,7 +26,8 @@ const LoginScreen = ({ navigation }) => {
             })
             .then(data => {
                 console.log("Data: ", data)
-                navigation.navigate('Home')
+                setLoginErrors(data['loginErrors'])
+                // navigation.navigate('Home')
             })
             .catch(error => console.log("There is an error: ", error))
     }
@@ -55,14 +57,15 @@ const LoginScreen = ({ navigation }) => {
                             placeholder="Password"
                             value={loginPassword}
                             secureTextEntry={true}
-                            // onEndEditing={validatePassword}
                             onChangeText={(text) => { setLoginPassword(text) }}
                         />
-                        {/* {!!passwordError && (<Text style={styles.error}>{passwordError}</Text>)} */}
+                        {loginErrors && loginErrors['login'] &&
+                            <Text style={{ color: "red" }}>{loginErrors['login']}</Text>
+                        }
                     </View>
                     <Button
                         title="Login"
-                        onPress={loginHandler}>
+                        onPress={() => { loginHandler() }}>
                         Login
                     </Button>
                 </View>
