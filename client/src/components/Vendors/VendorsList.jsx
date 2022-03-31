@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react'
 import BookButton from '../buttons/BookButton';
 
 
-const Messages = ({ navigation }) => {
+const VendorsList = ({ navigation }) => {
     console.log("hello", navigation)
     const [isLoading, setLoading] = useState(true);
     const [data, setData] = useState([]);
@@ -106,4 +106,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default Messages
+export default VendorsList

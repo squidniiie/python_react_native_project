@@ -16,7 +16,6 @@ const App = () => {
         position='top'
       />
     </SafeAreaView>
-
   );
 }
 export default App;

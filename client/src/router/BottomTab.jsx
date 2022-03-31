@@ -1,13 +1,13 @@
 import React from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import Feather from 'react-native-vector-icons/Feather'
-import MessagesScreen from '../screens/messagesscreen/MessagesScreen'
-import LoginScreen from '../screens/loginscreen/LoginScreen'
+import MessagesScreen from '../screens/MessagesScreen'
+import LoginScreen from '../screens/LoginScreen'
 import HomeStack from './HomeStack'
-import SettingsStack from './SettingsStack'
+import UsersStack from './UsersStack'
 import ProfileStack from './ProfileStack'
-import ProfileScreen from '../screens/profile/ProfileScreen'
-import MessagesStack from './MessagesStack'
+import ProfileScreen from '../screens/ProfileScreen'
+import VendorsStack from './VendorsStack'
 const Tab = createBottomTabNavigator()
 const BottomTab = () => {
     return (
@@ -36,12 +36,12 @@ const BottomTab = () => {
                     tabBarIcon: ({ color }) =>
                         (<Feather name='user' color={color} size={28} />),
                 }} /> */}
-            <Tab.Screen component={MessagesStack} name="Vendors (messages)"
+            <Tab.Screen component={VendorsStack} name="Vendors"
                 options={{
                     tabBarIcon: ({ color }) =>
                         (<Feather name='inbox' color={color} size={28} />),
                 }} />
-            <Tab.Screen component={SettingsStack} name="Users (Settings)"
+            <Tab.Screen component={UsersStack} name="Users"
                 options={{
                     tabBarIcon: ({ color }) =>
                         (<Feather name='users' color={color} size={28} />),

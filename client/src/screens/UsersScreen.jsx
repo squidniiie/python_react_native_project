@@ -1,16 +1,17 @@
 
 import { View, ActivityIndicator, FlatList, SafeAreaView, Text } from 'react-native'
 import React, { useState, useEffect } from 'react'
-import Header from "../../components/header/Header"
-import Settings from '../../components/settings/Settings';
+import Header from "../components/header/Header"
+import Users from '../components/Users/Users';
 
 
-const SettingsScreen = ({ navigation }) => {
+const UsersScreen = ({ navigation }) => {
     // console.log('SettingScreen successful', navigation)
     const [isLoading, setLoading] = useState(true);
     const [data, setData] = useState([]);
+    
     const loadData = () => {
-        fetch("http:127.0.0.1:5000/getusers", { method: 'GET' })
+        fetch("https://a955-76-175-74-35.ngrok.io/getusers", { method: 'GET' })
             .then(res => res.json())
             .then(res => {
                 setData(res.users)
@@ -38,7 +39,7 @@ const SettingsScreen = ({ navigation }) => {
                     refreshing={isLoading}
                     data={data}
                     renderItem={({ item }) =>
-                        < Settings item={item} navigation={navigation} />
+                        < Users item={item} navigation={navigation} />
                     }
                     showsVerticalScrollIndicator={false}
                 />
@@ -46,4 +47,4 @@ const SettingsScreen = ({ navigation }) => {
         </View >
     )
 }
-export default SettingsScreen
+export default UsersScreen
