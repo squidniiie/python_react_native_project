@@ -1,13 +1,10 @@
-import { View, Text } from 'react-native'
-import HomeScreen from '../screens/homescreen/HomeScreen'
+import HomeScreen from '../screens/HomeScreen'
 import React from 'react'
 import { createStackNavigator } from '@react-navigation/stack'
-import Header from '../components/header/Header'
-import LoginScreen from '../screens/loginscreen/LoginScreen'
+import LoginScreen from '../screens/LoginScreen'
 import EditForm from '../components/profile/EditForm'
-import ProfileScreen from '../screens/profile/ProfileScreen'
-import SettingsScreen from '../screens/Settings/SettingsScreen'
-import VendorScreen from '../screens/messagesscreen/VendorScreen'
+import ProfileScreen from '../screens/ProfileScreen'
+
 const Stack = createStackNavigator()
 const HomeStack = () => {
     return (

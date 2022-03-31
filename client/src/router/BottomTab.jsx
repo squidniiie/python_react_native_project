@@ -1,22 +1,19 @@
 import React from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import Feather from 'react-native-vector-icons/Feather'
-import MessagesScreen from '../screens/messagesscreen/MessagesScreen'
-import LoginScreen from '../screens/loginscreen/LoginScreen'
+import VendorsStack from './VendorsStack'
+import LoginScreen from '../screens/LoginScreen'
 import HomeStack from './HomeStack'
-import SettingsStack from './SettingsStack'
-import ProfileStack from './ProfileStack'
-import ProfileScreen from '../screens/profile/ProfileScreen'
-import MessagesStack from './MessagesStack'
+import UsersStack from './UsersStack'
+// import ProfileStack from './ProfileStack'
+// import ProfileScreen from '../screens/profile/ProfileScreen'
+
 const Tab = createBottomTabNavigator()
 const BottomTab = () => {
     return (
         <Tab.Navigator screenOptions={{
             showLabel: false, headerShown: false,
         }}
-        // , inactiveTintColor: '#919fe88c',
-        // activeTintColor: '#919fe8',
-        // tabBarOptions={{ }}
         >
             <Tab.Screen
                 style={{ backgroundColor: 'white', padding: 20 }}
@@ -36,12 +33,12 @@ const BottomTab = () => {
                     tabBarIcon: ({ color }) =>
                         (<Feather name='user' color={color} size={28} />),
                 }} /> */}
-            <Tab.Screen component={MessagesStack} name="Vendors (messages)"
+            <Tab.Screen component={VendorsStack} name="Vendors"
                 options={{
                     tabBarIcon: ({ color }) =>
                         (<Feather name='inbox' color={color} size={28} />),
                 }} />
-            <Tab.Screen component={SettingsStack} name="Users (Settings)"
+            <Tab.Screen component={UsersStack} name="Users"
                 options={{
                     tabBarIcon: ({ color }) =>
                         (<Feather name='users' color={color} size={28} />),

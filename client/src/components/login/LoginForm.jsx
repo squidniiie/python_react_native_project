@@ -1,9 +1,7 @@
-import { View, Text, StyleSheet, TextInput, ScrollView, Button } from 'react-native'
+import { View, Text, TextInput, StyleSheet, ScrollView, Button } from 'react-native'
 import React, { useState } from 'react'
-import Login from '../../components/login/Login'
 
-
-const LoginScreen = ({ navigation }) => {
+const LoginForm = ({ navigation }) => {
     const [loginEmail, setLoginEmail] = useState('');
     const [loginPassword, setLoginPassword] = useState('');
     const [loginErrors, setLoginErrors] = useState({});
@@ -34,7 +32,6 @@ const LoginScreen = ({ navigation }) => {
     return (
         <View>
             <ScrollView>
-                <Login navigation={navigation} />
                 <View style={[styles.card, styles.shadow]}>
                     <Text style={styles.heading}>Login</Text>
                     <View
@@ -126,4 +123,4 @@ const styles = StyleSheet.create({
         fontWeight: '700'
     }
 })
-export default LoginScreen
+export default LoginForm

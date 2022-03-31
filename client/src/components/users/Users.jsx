@@ -1,8 +1,8 @@
-import { View, Text, Pressable, StyleSheet, Button } from 'react-native'
+import { View, Text, Pressable, StyleSheet, Image } from 'react-native'
 import React from 'react'
 
 
-const Settings = ({ item, navigation }) => {
+const Users = ({ item, navigation }) => {
 
     const onPress = () => {
         navigation.navigate('ProfileScreen', item
@@ -13,13 +13,14 @@ const Settings = ({ item, navigation }) => {
     return (
         <Pressable onPress={({ item }) => { onPress(item) }}
             style={[styles.card, styles.shadow]}>
-            <View
-                style={styles.cardHeader}
-            >
-                <Text style={styles.name}>{item.first_name}</Text>
-            </View>
-            <View style={{ flexDirection: 'column' }}>
-                <Text style={{ textAlign: 'right' }}>{item.location}</Text>
+            <View style={styles.cardHeader}>
+                <Image style={styles.image} source={{ uri: 'https://stabmag.com/wp-content/uploads/2021/04/Mark-Zuckerberg-Spooks-the-Internet-With-Too-Much-Sunscreen-on-His-Face-in-Hawaii-01-1024x538.jpg' }} />
+                <View >
+                    <Text style={styles.name}>{item.first_name}</Text>
+                    <Text style={{ textAlign: 'center' }}>
+                        {item.location}</Text>
+                </View>
+
             </View>
             <View style={{ marginTop: 5 }}>
                 <Text>*Putting an image carousel here with horizontal scroll*</Text>
@@ -54,21 +55,23 @@ const styles = StyleSheet.create({
     name: {
         fontSize: 24,
         fontWeight: '700',
-        textAlign: 'right',
+
+        // backgroundColor: 'red',
     },
     image: {
-        width: 50,
-        height: 50,
-        borderRadius: 20,
+        width: 40,
+        height: 40,
+        borderRadius: 50,
         marginTop: 5
     },
     cardHeader: {
-        // backgroundColor: 'red',
+        // backgroundColor: 'cyan',
         // marginHorizontal: 5,
-        alignItems: 'center',
+        // alignItems: 'center',
         justifyContent: 'space-between',
         flexDirection: 'row',
         textAlign: 'left'
     }
 })
-export default Settings
+
+export default Users

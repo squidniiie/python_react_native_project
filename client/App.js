@@ -10,8 +10,8 @@ const App = () => {
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <StatusBar style="auto" />
-      <Router
-      />
+      <Router />
+      {/* This is where we would swap out the router for the AuthNavigation */}
       <FlashMessage
         position='top'
       />
