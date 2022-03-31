@@ -5,8 +5,10 @@ import BottomTab from './BottomTab'
 import React from 'react'
 import HomeStack from './HomeStack'
 import ProfileStack from './ProfileStack'
+import UsersStack from './UsersStack'
+import VendorsStack from './VendorsStack'
 // import DrawerStack from '../router/DrawerStack'
-import SettingsStack from './SettingsStack'
+
 const Stack = createStackNavigator()
 const Router = () => {
     return (
@@ -15,7 +17,8 @@ const Router = () => {
             <Stack.Navigator screenOptions={{ headerShown: false }}>
                 <Stack.Screen component={BottomTab} name="HomeTabs" />
                 <Stack.Screen component={HomeStack} name="Home" />
-                <Stack.Screen component={SettingsStack} name="SettingsStack" />
+                <Stack.Screen component={UsersStack} name="UsersStack" />
+                <Stack.Screen component={VendorsStack} name="VendorsStack" />
                 <Stack.Screen component={ProfileStack} name="ProfileStack" />
             </Stack.Navigator>
         </NavigationContainer>

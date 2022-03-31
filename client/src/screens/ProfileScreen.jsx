@@ -1,7 +1,7 @@
 import { Pressable, ScrollView, Text, StyleSheet, View } from 'react-native'
 import React from 'react'
-import Profile from '../../components/profile/Profile'
-import Header from '../../components/header/Header'
+import Profile from '../components/profile/Profile'
+import Header from '../components/header/Header'
 
 const ProfileScreen = ({ navigation, route, item }) => {
     const {

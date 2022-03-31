@@ -1,7 +1,8 @@
-import { View, Text, TextInput, StyleSheet, Button, Alert } from 'react-native'
+import { View, Text, TextInput, StyleSheet, Button } from 'react-native'
 import React, { useState } from 'react'
-import { showMessage, hideMessage } from 'react-native-flash-message'
-const Form = ({ navigation }) => {
+
+
+const RegisterForm = ({ navigation }) => {
     const [first_name, setFirstName] = useState('');
     const [last_name, setLastName] = useState('');
     const [email, setEmail] = useState('');
@@ -9,12 +10,11 @@ const Form = ({ navigation }) => {
     const [password, setPassword] = useState('');
     const [confirmPass, setConfirmPass] = useState('');
     const [errors, setErrors] = useState({});
-    // console.log(navigation)
 
 
     const submitHandler = () => {
         // https://a955-76-175-74-35.ngrok.io/login
-        fetch(`http://127.0.0.1:5000/register`, {
+        fetch(`https://a955-76-175-74-35.ngrok.io/register`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -43,7 +43,7 @@ const Form = ({ navigation }) => {
             .catch(error => console.log("There is an error: ", error))
     }
     return (
-        <ScrollView>
+        <View>
             <View style={[styles.card, styles.shadow]}>
                 <Text
                     style={styles.label}
@@ -131,7 +131,7 @@ const Form = ({ navigation }) => {
                 }}>
                 Register
             </Button>
-        </ScrollView>
+        </View>
     )
 }
 const styles = StyleSheet.create({
@@ -187,4 +187,4 @@ const styles = StyleSheet.create({
         fontWeight: '700'
     }
 })
-export default Form
+export default RegisterForm
