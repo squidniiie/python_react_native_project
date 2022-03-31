@@ -7,8 +7,7 @@ const Users = ({ item, navigation }) => {
     const onPress = () => {
         navigation.navigate('ProfileScreen', item
         );
-        // console.log("Settings:", item.first_name)
-        // console.log(navigation)
+        // console.log("Users component:", item)
     }
     return (
         <Pressable onPress={({ item }) => { onPress(item) }}

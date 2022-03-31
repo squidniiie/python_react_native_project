@@ -4,7 +4,7 @@ import BookButton from '../buttons/BookButton';
 
 
 const VendorsList = ({ navigation }) => {
-    console.log("hello", navigation)
+    // console.log("hello", navigation)
     const [isLoading, setLoading] = useState(true);
     const [data, setData] = useState([]);
     const [photos, setPhotos] = useState([]);

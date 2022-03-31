@@ -1,11 +1,10 @@
 import { StyleSheet, View, Text, TextInput, Button } from 'react-native'
 import React, { useState } from 'react'
-import { useNavigation } from '@react-navigation/native'
 
 const EditForm = (item) => {
-    const navigation = useNavigation()
     // console.log("this is the item object", item)
     const data = item.route.params.route.params
+    console.log("This is the edit form data", data)
     // console.log("This is the data", data)
     const [first_name, setFirstName] = useState(data.first_name);
     const [last_name, setLastName] = useState(data.last_name);

@@ -4,9 +4,9 @@ import Feather from 'react-native-vector-icons/Feather'
 import { useNavigation } from '@react-navigation/native'
 const Profile = (item) => {
     const navigation = useNavigation()
-    const props = item.route.params
-    // console.log("Profile item object", item)
-    // console.log("Profile: user data successfully passed", props)
+    const user = item.route.params
+    console.log("This is all the props", user)
+    // console.log("Profile item object is correct", user)
     return (
         <View>
             <View style={[styles.card, styles.shadow]}>
@@ -19,7 +19,7 @@ const Profile = (item) => {
                         <Text style={{ fontSize: 28, fontWeight: 'bold', marginBottom: 18 }}>Hello, {item.first_name}</Text>
                         <Pressable
                             onPress={() => {
-                                navigation.navigate('Edit', item)
+                                navigation.navigate('Edit', item, user)
                             }}
                         >
                             <Text>Edit Profile
