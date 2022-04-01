@@ -34,7 +34,6 @@ const LoginForm = ({ navigation }) => {
 
     return (
         <View>
-            <ScrollView>
                 {/* <LoginForm navigation={navigation} /> */}
                 <View style={[styles.card, styles.shadow]}>
                     <Text style={styles.heading}>Login</Text>
@@ -70,7 +69,6 @@ const LoginForm = ({ navigation }) => {
                         Login
                     </Button>
                 </View>
-            </ScrollView>
         </View>
     )
 }

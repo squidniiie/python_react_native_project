@@ -2,15 +2,18 @@ import { View, Text, StyleSheet, TextInput, ScrollView, Button } from 'react-nat
 import React, { useState } from 'react'
 import LoginForm from '../components/login/LoginForm'
 import RegisterForm from '../components/profile/RegisterForm'
+import { SafeAreaView } from 'react-native-safe-area-context'
 
 
 const LoginScreen = ({ navigation }) => {
     
     return (
-        <View>
-            <RegisterForm navigation={navigation}/>
-            <LoginForm navigation={navigation}/>
-        </View>
+        <SafeAreaView>
+            <ScrollView>
+                <RegisterForm navigation={navigation}/>
+                <LoginForm navigation={navigation}/>
+            </ScrollView>
+        </SafeAreaView>
     )
 }
 const styles = StyleSheet.create({

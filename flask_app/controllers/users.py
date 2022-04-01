@@ -7,10 +7,17 @@ from flask import get_flashed_messages, redirect,request,session,flash, jsonify,
 from flask_app.models.user import User
 
 
-#LOGIN/REG PAGE ROUTE
-
-
 #HOME PAGE/DASHBOARD ROUTE FOR USER
+@app.route('/home', methods=['GET'])
+def home():
+    if 'id' not in session:
+        return jsonify({"error" : "Unauthorized"})
+    user = User.get_one_user(id = session['id'])
+    print("Hello", user.first_name)
+    return jsonify({"User" : user.__dict__})
+
+
+#SELECTED USER'S PAGE
 @app.route('/users/<int:id>', methods=['GET'])
 def show_user(id):
     print("first", id)
@@ -94,4 +101,4 @@ def delete_user(id):
 @app.route('/logout')
 def logout():
     session.clear()
-    return redirect('/')
+    return "Logged out"
