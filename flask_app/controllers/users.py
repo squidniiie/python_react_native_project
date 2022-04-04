@@ -101,4 +101,4 @@ def delete_user(id):
 @app.route('/logout')
 def logout():
     session.clear()
-    return "Logged out"
+    return jsonify("Logged Out")

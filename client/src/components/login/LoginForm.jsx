@@ -27,8 +27,11 @@ const LoginForm = ({ navigation }) => {
             })
             .then(data => {
                 console.log("Data: ", data)
-                setLoginErrors(data['loginErrors'])
-                // navigation.navigate('Home')
+                if(data['loginErrors']){
+                    setLoginErrors(data['loginErrors'])
+                } else {
+                    navigation.navigate('HomeScreen')
+                }
             })
             .catch(error => console.log("There is an error: ", error))
     }

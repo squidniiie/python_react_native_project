@@ -1,7 +1,8 @@
 import { View, Text, TextInput, StyleSheet, Button, Alert } from 'react-native'
 import React, { useState } from 'react'
 import { showMessage, hideMessage } from 'react-native-flash-message'
-const Form = ({ navigation }) => {
+const RegisterForm = ({ navigation }) => {
+
     const [first_name, setFirstName] = useState('');
     const [last_name, setLastName] = useState('');
     const [email, setEmail] = useState('');
@@ -35,7 +36,11 @@ const Form = ({ navigation }) => {
             })
             .then(data => {
                 console.log("Data: ", data)
-                setErrors(data['errs']);
+                if(data['errs']){
+                    setErrors(data['errs']);
+                } else {
+                    navigation.navigate('HomeScreen')
+                }
                 // if (data['success']) {
                 //     navigation.navigate('Home')
                 // }
@@ -192,4 +197,4 @@ const styles = StyleSheet.create({
         fontWeight: '700'
     }
 })
-export default Form
+export default RegisterForm
