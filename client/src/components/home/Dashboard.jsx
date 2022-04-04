@@ -8,7 +8,8 @@ const Dashboard = ({ item }) => {
     return (
         <SafeAreaView>
             <ScrollView
-                style={{ backgroundColor: 'white' }}>
+            // style={{ backgroundColor: 'white' }}
+            >
                 {/* flatlist in a flatlist for the images, use logic to have different color backgrounds for the card titles */}
                 <Pressable style={[styles.card, styles.shadow]}>
                     <Image

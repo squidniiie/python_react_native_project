@@ -1,6 +1,7 @@
-import { View, Text, TextInput, StyleSheet, Button, Alert } from 'react-native'
+import { View, Text, TextInput, StyleSheet, Button } from 'react-native'
 import React, { useState } from 'react'
-import { showMessage, hideMessage } from 'react-native-flash-message'
+import { AuthContext } from '../../AuthContext';
+
 const Form = ({ navigation }) => {
     const [first_name, setFirstName] = useState('');
     const [last_name, setLastName] = useState('');
@@ -9,7 +10,7 @@ const Form = ({ navigation }) => {
     const [password, setPassword] = useState('');
     const [confirmPass, setConfirmPass] = useState('');
     const [errors, setErrors] = useState({});
-    // console.log(navigation)
+    const { signUp, signOut } = React.useContext(AuthContext);
 
 
     const submitHandler = () => {
@@ -132,10 +133,14 @@ const Form = ({ navigation }) => {
             <Button
                 title="Register"
                 onPress={() => {
-                    submitHandler()
-                }}>
-                Register
-            </Button>
+                    submitHandler(signUp)
+                }} />
+            <Button title="Sign out"
+                onPress={() => {
+                    signOut()
+                    console.log("logged out")
+                }} />
+
         </View>
     )
 }

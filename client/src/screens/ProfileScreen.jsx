@@ -27,7 +27,6 @@ const ProfileScreen = ({ navigation, route }) => {
                 <Text
                     style={styles.buttonText}
                 >Register</Text>
-                {/* //  containerStyles={{ backgroundColor: '#919fe88c' }} */}
             </Pressable>
         </ScrollView>
 

@@ -5,10 +5,8 @@ import Header from '../components/header/Header'
 import Dashboard from '../components/home/Dashboard'
 import spots from '../data/spots'
 import SubHeader from '../components/header/SubHeader'
-// import BottomTab from '../../router/BottomTab'
 
-const HomeScreen = ({ searchValue }) => {
-    // console.log(searchValue)
+const HomeScreen = () => {
     return (
         <View>
             <Header />

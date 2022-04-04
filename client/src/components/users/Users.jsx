@@ -3,7 +3,6 @@ import React from 'react'
 
 
 const Users = ({ item, navigation }) => {
-
     const onPress = () => {
         navigation.navigate('ProfileScreen', item
         );
@@ -19,7 +18,6 @@ const Users = ({ item, navigation }) => {
                     <Text style={{ textAlign: 'center' }}>
                         {item.location}</Text>
                 </View>
-
             </View>
             <View style={{ marginTop: 5 }}>
                 <Text>*Putting an image carousel here with horizontal scroll*</Text>

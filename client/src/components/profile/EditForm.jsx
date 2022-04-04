@@ -1,4 +1,4 @@
-import { StyleSheet, View, Text, TextInput, Button } from 'react-native'
+import { StyleSheet, View, Text, TextInput, Button, SafeAreaView } from 'react-native'
 import React, { useState } from 'react'
 
 const EditForm = (item) => {
@@ -60,82 +60,85 @@ const EditForm = (item) => {
             .catch(error => console.log(error))
     }
     return (
-        <View style={[styles.card, styles.shadow]}>
-            <Text
-                style={styles.heading}
-            >Get Started with Ding</Text>
-            <View
-                style={styles.row}
-            >
-                <Text
-                    style={styles.label}
-                >First Name</Text>
-                <TextInput
-                    style={[styles.input, styles.shadow]}
-                    placeholder="First Name"
-                    defaultValue={first_name}
-                    value={first_name}
-                    editable={true}
-                    onChangeText={(text) => { setFirstName(text) }} />
-            </View>
-            <View
-                style={styles.row}
-            >
-                <Text
-                    style={styles.label}
-                >Last Name</Text>
-                <TextInput
-                    style={[styles.input, styles.shadow]}
-                    placeholder="Last Name"
-                    value={last_name}
-                    onChangeText={(text) => { setLastName(text) }} />
-            </View>
-            <View style={styles.row}>
-                <Text style={styles.label}>Email Address</Text>
-                <TextInput
-                    style={[styles.input, styles.shadow]}
-                    placeholder="Email Address"
-                    value={email}
-                    autoCapitalize='none'
-                    onChangeText={setEmail} />
-            </View>
-            <View style={styles.row}>
-                <Text style={styles.label}>Password</Text>
-                <TextInput
-                    style={[styles.input, styles.shadow]}
-                    placeholder="Password"
-                    value={password}
-                    secureTextEntry={true}
+        <SafeAreaView>
 
-                    onChangeText={(text) => { setPassword(text) }} />
-            </View>
-            <View
-                style={styles.row}
-            >
+            <View style={[styles.card, styles.shadow]}>
                 <Text
-                    style={styles.label}
-                >Location</Text>
-                <TextInput
-                    style={[styles.input, styles.shadow]}
-                    placeholder="Location"
-                    value={location}
-                    onChangeText={(text) => { setLocation(text) }} />
+                    style={styles.heading}
+                >Get Started with Ding</Text>
+                <View
+                    style={styles.row}
+                >
+                    <Text
+                        style={styles.label}
+                    >First Name</Text>
+                    <TextInput
+                        style={[styles.input, styles.shadow]}
+                        placeholder="First Name"
+                        defaultValue={first_name}
+                        value={first_name}
+                        editable={true}
+                        onChangeText={(text) => { setFirstName(text) }} />
+                </View>
+                <View
+                    style={styles.row}
+                >
+                    <Text
+                        style={styles.label}
+                    >Last Name</Text>
+                    <TextInput
+                        style={[styles.input, styles.shadow]}
+                        placeholder="Last Name"
+                        value={last_name}
+                        onChangeText={(text) => { setLastName(text) }} />
+                </View>
+                <View style={styles.row}>
+                    <Text style={styles.label}>Email Address</Text>
+                    <TextInput
+                        style={[styles.input, styles.shadow]}
+                        placeholder="Email Address"
+                        value={email}
+                        autoCapitalize='none'
+                        onChangeText={setEmail} />
+                </View>
+                <View style={styles.row}>
+                    <Text style={styles.label}>Password</Text>
+                    <TextInput
+                        style={[styles.input, styles.shadow]}
+                        placeholder="Password"
+                        value={password}
+                        secureTextEntry={true}
+
+                        onChangeText={(text) => { setPassword(text) }} />
+                </View>
+                <View
+                    style={styles.row}
+                >
+                    <Text
+                        style={styles.label}
+                    >Location</Text>
+                    <TextInput
+                        style={[styles.input, styles.shadow]}
+                        placeholder="Location"
+                        value={location}
+                        onChangeText={(text) => { setLocation(text) }} />
+                </View>
+                <Button
+                    title="Update"
+                    onPress={() => {
+                        submitHandler()
+                    }}>
+                </Button>
+                <Button title="Delete" mode="contained"
+                    onPress={() => {
+                        deleteHandler(data)
+                        console.log("deleted", data.id)
+                        // navigation.navigate('Home')
+                    }}>
+                    <Text>Delete</Text>
+                </Button>
             </View>
-            <Button
-                title="Update"
-                onPress={() => {
-                    submitHandler()
-                }}>
-            </Button>
-            <Button title="Delete" mode="contained"
-                onPress={() => {
-                    deleteHandler(data)
-                    console.log("deleted", data.id)
-                    // navigation.navigate('Home')
-                }}>
-                <Text>Delete</Text>
-            </Button>
-        </View>
+        </SafeAreaView>
     )
 }
 const styles = StyleSheet.create({
