@@ -11,6 +11,7 @@ const LoginForm = ({ navigation }) => {
         // https://a955-76-175-74-35.ngrok.io/login
         fetch('https://a955-76-175-74-35.ngrok.io/login', {
             method: 'POST',
+            withCredentials : true,
             headers: {
                 'Content-Type': 'application/json'
             },
