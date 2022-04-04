@@ -1,21 +1,16 @@
 import { StatusBar } from 'expo-status-bar';
-import { Text, View, SafeAreaView } from 'react-native';
+import { Text, View, SafeAreaView, ActivityIndicator } from 'react-native';
 import FlashMessage from 'react-native-flash-message';
 import Router from './src/router/Router';
-
-
-
+import React from 'react';
 
 const App = () => {
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <View style={{ flex: 1 }}>
       <StatusBar style="auto" />
       <Router />
-      {/* This is where we would swap out the router for the AuthNavigation */}
-      <FlashMessage
-        position='top'
-      />
-    </SafeAreaView>
+      <FlashMessage />
+    </View>
 
   );
 }
