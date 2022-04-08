@@ -3,6 +3,7 @@ import React from 'react'
 import Profile from '../components/profile/Profile'
 import Header from '../components/header/Header'
 
+
 const ProfileScreen = ({ navigation, route }) => {
     const {
         first_name,
@@ -30,7 +31,6 @@ const ProfileScreen = ({ navigation, route }) => {
                 >Register</Text>
             </Pressable>
         </ScrollView>
-
     )
 }
 const styles = StyleSheet.create({
@@ -48,5 +48,4 @@ const styles = StyleSheet.create({
         fontWeight: '700'
     }
 })
-
 export default ProfileScreen

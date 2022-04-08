@@ -6,12 +6,10 @@ const Vendors = createStackNavigator()
 const VendorsStack = () => {
     return (
         <Vendors.Navigator
-            screenOptions={{ headerShown: false }}
-        >
+            screenOptions={{ headerShown: false }}>
             <Vendors.Screen component={MessagesScreen} name="MessagesScreen" />
             <Vendors.Screen component={VendorScreen} name="VendorScreen" />
         </Vendors.Navigator>
     )
 }
-
 export default VendorsStack
