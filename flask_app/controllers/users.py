@@ -5,7 +5,7 @@ from email import message
 from flask_app import app, bcrypt
 from flask import get_flashed_messages,request,session, jsonify
 from flask_app.models.user import User
-from flask_cors import cross_origin
+# from flask_cors import cross_origin
 
 
 # SESSION ID LOGIN

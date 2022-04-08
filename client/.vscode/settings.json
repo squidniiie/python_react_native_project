@@ -2,5 +2,6 @@
     "cSpell.words": [
         "flatlist",
         "Pressable"
-    ]
+    ],
+    "react-native.packager.port": 19000
 }

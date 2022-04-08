@@ -1,155 +1,114 @@
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 import BottomTab from './BottomTab'
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import HomeStack from './HomeStack'
 import ProfileStack from './ProfileStack'
 import UsersStack from './UsersStack'
 import VendorsStack from './VendorsStack'
-import { AuthContext } from '../../src/AuthContext'
-import { View, ActivityIndicator } from 'react-native';
-const Stack = createStackNavigator()
-const Router = () => {
-    const [isLoading, setIsLoading] = useState(true);
-    const [userToken, setUserToken] = useState(null);
+import LoginScreen from "../screens/LoginScreen"
+import { AuthContext } from '../AuthContext'
+import Splash from './Splash'
+import HomeScreen from '../screens/HomeScreen'
+import UsersScreen from '../screens/UsersScreen'
+import MessagesScreen from '../screens/MessagesScreen'
+import ProfileScreen from '../screens/ProfileScreen'
+import LoginStack from './LoginStack'
+import VendorScreen from '../screens/VendorScreen'
 
-    // const initialLoginState = {
-    //     isLoading: true,
-    //     email: null,
-    //     userId: null,
-    // }
-    // const loginReducer = (prevState, action) => {
-    //     switch (action.type) {
-    //         case 'RETRIEVE_TOKEN':
-    //             return {
-    //                 ...prevState,
-    //                 userToken: action.token,
-    //                 isLoading: false,
+const SignedIn = createStackNavigator()
+// const SignInStack = ({ navigation }) => (
+//     <SignedIn.Navigator
+//         initialRouteName='LoginScreen'
+//         screenOptions={{ headerShown: false }}>
+//         <SignedIn.Screen component={BottomTab} name="HomeTabs" />
+//         <SignedIn.Screen component={HomeStack} name="HomeStack" navigation={navigation} />
+//         <SignedIn.Screen component={UsersStack} name="UsersStack" />
+//         <SignedIn.Screen component={VendorsStack} name="VendorsStack" />
+//         <SignedIn.Screen component={ProfileStack} name="ProfileStack" />
+//         <SignedIn.Screen component={LoginScreen} name="LoginScreen" />
+//     </SignedIn.Navigator>
+// )
+const SignInStack = ({ navigation }) => (
+    <SignedIn.Navigator
+        initialRouteName='HomeScreen'
+        screenOptions={{ headerShown: false }}>
+        <SignedIn.Screen component={BottomTab} name="HomeTabs" navigation={navigation} />
+        {/* <SignedIn.Screen component={HomeScreen} name="HomeScreen" /> */}
+        <SignedIn.Screen component={UsersScreen} name="UsersScreen" />
+        <SignedIn.Screen component={MessagesScreen} name="MessagesScreen" />
+        <SignedIn.Screen component={ProfileScreen} name="ProfileScreen" />
+        <SignedIn.Screen component={VendorScreen} name="VendorScreen" />
+        <SignedIn.Screen component={LoginScreen} name="LoginScreen" />
+    </SignedIn.Navigator>
+)
+const SignedOut = createStackNavigator()
+const SignOutStack = () => (
+    <SignedOut.Navigator initialRouteName='LoginScreen' screenOptions={{ headerShown: false }}>
+        <SignedOut.Screen component={LoginScreen} name="LoginScreen" />
+    </SignedOut.Navigator>
+)
+// const Stack = createStackNavigator()
+const Router = ({ navigation }) => {
+    const [isLoading, setIsLoading] = React.useState(true)
+    const [userToken, setUserToken] = React.useState({})
 
-    //             };
-    //         case 'LOGIN':
-    //             return {
-    //                 ...prevState,
-    //                 email: action.id,
-    //                 userToken: action.token,
-    //                 isLoading: false,
-    //             };
-    //         case 'LOGOUT':
-    //             return {
-    //                 ...prevState,
-    //                 email: null,
-    //                 userToken: null,
-    //                 isLoading: false,
-    //             };
-    //         case 'REGISTER':
-    //             return {
-    //                 ...prevState,
-    //                 email: action.id,
-    //                 userToken: action.token,
-    //                 isLoading: false,
-    //             };
-    //     }
-    // }
-    // const [loginState, dispatch] = React.useReducer(loginReducer, initialLoginState);
-    const authContext = React.useMemo(() => ({
-        signIn: () => {
-            // email, password
-            setUserToken('userToken');
-            setIsLoading(false);
-            // console.log("Sign in with email and password")
-            // let userToken;
-            // userToken = 'userToken';
-            // email = null
-            // if (email === 'email' && password === 'password') {
-            //     dispatch({ type: 'LOGIN', id: email, token: 'userToken' });
-            // }
-            // console.log("userToken",userToken)
-            // return userToken;
-        },
-        signOut: () => {
-            setUserToken(null);
-            setIsLoading(false);
-            // dispatch({ type: 'LOGOUT' });
-        },
-        signUp: () => {
-            setUserToken('userToken');
-            setIsLoading(false);
-        },
-    }), []);
+    const authContext = React.useMemo(() => {
+        return {
+            user: userToken,
+            setUser: setUserToken,
 
+            signIn: () => {
+                setIsLoading(false)
+                setUserToken(userToken)
+            },
+            signOut: () => {
+                setIsLoading(false)
+                setUserToken(null)
+            },
+            signUp: () => {
+                setIsLoading(false)
+                setUserToken(userToken)
+            },
+        }
+    }, [])
+    const signInHandler = () => {
+        fetch("http:127.0.0.1:5000/home", { method: 'GET' })
+            .then(res => res.json())
+            .then(res => {
+                console.log("This is the res", res)
+                setUserToken(res['User'])
+            })
+            .catch((error) => {
+                console.log(error)
+                alert(error)
+            })
+            .finally(() => setIsLoading(false))
+    }
     useEffect(() => {
+        console.log("This is the userToken", userToken)
+        signInHandler()
+    }, [])
+    React.useEffect(() => {
         setTimeout(() => {
-            setIsLoading(false);
-            // let userToken;
-            // userToken = 'userToken';
-            // console.log("userToken",userToken)
-            // dispatch({ type: "REGISTER", token: "userToken" })
-        }, 1000);
-    }, []);
+            setIsLoading(false)
+        }, 3000)
+    }, [])
     if (isLoading) {
-        return (
-            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                <ActivityIndicator size="large" color="#0000ff" />
-            </View>)
+        console.log("Loading the login from the router")
+        return <Splash />
     }
     return (
         <AuthContext.Provider value={authContext}>
             <NavigationContainer>
-                {userToken == null ? (
-                    <Stack.Navigator screenOptions={{ headerShown: false }}>
-                        <Stack.Screen component={BottomTab} name="HomeTabs" />
-                        <Stack.Screen component={HomeStack} name="Home" />
-                        <Stack.Screen component={UsersStack} name="UsersStack" />
-                        <Stack.Screen component={VendorsStack} name="VendorsStack" />
-                        <Stack.Screen component={ProfileStack} name="ProfileStack" />
-                    </Stack.Navigator>
-
-                ) :
-                    <Stack.Navigator>
-                        <Stack.Screen component={ProfileStack} name="Profile" />
-                    </Stack.Navigator>
-                }
+                {/* <Stack.Navigator> */}
+                {userToken ? (
+                    <SignInStack component={SignInStack} navigation={navigation} />
+                ) : (
+                    <SignOutStack component={SignOutStack} navigation={navigation} />)}
+                {/* </Stack.Navigator> */}
             </NavigationContainer>
         </AuthContext.Provider>
     )
 }
-// in the router we need a SignInStack and SignedOutStack. This is how we will display the default screen as sign in or register and once authenticated we will display the HomeStack.: 
-// const SignInStack = () => (
-//     <NavigationContainer>
-//         <Stack.Navigator
-//             initialRouteName='LoginScreen'
-//             screenOptions={screenOptions}>
-//             <Stack.Screen name='HomeScreen' component={HomeScreen} />
-//             <Stack.Screen name='PostScreen' component={PostScreen} />
-//             <Stack.Screen name='LoginScreen' component={LoginScreen} />
-//             <Stack.Screen name='SignUpScreen' component={SignUpScreen} />
-//         </Stack.Navigator>
-//     </NavigationContainer>
-// )
-
-// const SignedOutStack = () => (
-//     <NavigationContainer>
-//         <Stack.Navigator
-//             initialRouteName='LoginScreen'
-//             screenOptions={screenOptions}
-//         >
-//             <Stack.Screen name='LoginScreen' component={LoginScreen} />
-//             <Stack.Screen name='SignUpScreen' component={SignUpScreen} />
-//         </Stack.Navigator>
-//     </NavigationContainer>
-// )
-// export { SignInStack, SignedOutStack }
-
-// then we need an AuthNavigation that will handle the two functions in the router. This is an example using Firebase Auth: 
-// const AuthNavigation = () => {
-//     const [currentUser, setCurrentUser] = useState(null)
-//     const userHandler = user =>
-//         user ? setCurrentUser(user) : setCurrentUser(null)
-
-//     useEffect(() =>
-//         auth.onAuthStateChanged(user => userHandler(user))
-//         , [])
-//     return <>{currentUser ? <SignInStack /> : <SignedOutStack />}</>
-// }
-// export default AuthNavigation
 export default Router

@@ -7,8 +7,11 @@ import LoginScreen from '../screens/LoginScreen'
 import HomeStack from './HomeStack'
 import UsersStack from './UsersStack'
 import ProfileStack from './ProfileStack'
-
-
+import HomeScreen from '../screens/HomeScreen'
+import MessagesScreen from '../screens/MessagesScreen'
+import ProfileScreen from '../screens/ProfileScreen'
+import UsersScreen from '../screens/UsersScreen'
+import LoginStack from './LoginStack'
 const Tab = createBottomTabNavigator()
 const BottomTab = () => {
     return (
@@ -33,13 +36,6 @@ const BottomTab = () => {
                     marginTop: 10,
                 },
                 tabBarShowLabel: false,
-                // tabBarLabelStyle: {
-                //     fontSize: 10,
-                //     fontFamily: "Avenir-Medium",
-                //     fontWeight: "bold",
-                //     position: 'absolute',
-                //     bottom: -10,
-                // },
                 tabBarActiveTintColor: 'red',
             }}
         >
@@ -51,7 +47,7 @@ const BottomTab = () => {
                         (<Feather name='home' color={color} size={28} />),
                 }}
             />
-            <Tab.Screen component={LoginScreen} name="Log & Reg"
+            <Tab.Screen component={LoginStack} name="Log & Reg"
                 options={{
                     tabBarIcon: ({ color }) =>
                         (<Feather name='log-in' color={color} size={28} />),

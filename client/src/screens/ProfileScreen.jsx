@@ -19,6 +19,7 @@ const ProfileScreen = ({ navigation, route }) => {
             <Header />
             <Profile
                 route={route}
+                navigation={navigation}
                 first_name={first_name} last_name={last_name} email={email} location={location}
             />
             <Pressable

@@ -1,35 +1,17 @@
 import { View, Text, TextInput, StyleSheet, ScrollView, Button } from 'react-native'
 import React, { useState } from 'react'
-import { AuthContext } from '../../AuthContext';
+// import { AuthContext } from '../../AuthContext';
 
 
 const LoginForm = ({ navigation }) => {
+    // const { signIn } = React.useContext(AuthContext)
     const [loginEmail, setLoginEmail] = useState('');
     const [loginPassword, setLoginPassword] = useState('');
     const [loginErrors, setLoginErrors] = useState({});
-
-    // const { signIn } = React.useContext(AuthContext);
-    // const loginUser = async () => {
-    //     console.log(loginEmail, loginPassword)
-    //     const res = await fetch(`http://127.0.0.1:5000/login`, {
-    //         method: 'POST',
-    //         headers: {
-    //             'Content-Type': 'application/json'
-    //         },
-    //         body: JSON.stringify(
-    //             {
-    //                 email: loginEmail,
-    //                 password: loginPassword
-    //             }
-    //         ),
-    //         loginEmail,
-    //         loginPassword
-    //     })
-    //     console.log(res.data)
     const loginHandler = () => {
-        // loginEmail, loginPassword
         // https://a955-76-175-74-35.ngrok.io/login
         fetch('http://127.0.0.1:5000/login', {
+            withCredentials: true,
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -41,59 +23,60 @@ const LoginForm = ({ navigation }) => {
                 }
             )
         })
-            // signIn(loginEmail, loginPassword)
             .then(res => {
                 return res.json()
             })
             .then(data => {
                 console.log("Data: ", data)
-                setLoginErrors(data['loginErrors'])
-                // navigation.navigate('Home')
+                if (data['loginErrors']) {
+                    setLoginErrors(data['loginErrors']);
+                }
+                else {
+                    navigation.navigate('HomeScreen')
+                }
             })
             .catch(error => console.log("There is an error: ", error))
     }
-
     return (
-
-        <View style={[styles.card, styles.shadow]}>
-            <Text style={styles.heading}>Login</Text>
-            <View
-                style={styles.row}
-            >
-                <Text
-                    style={styles.label}
-                >Email</Text>
-                <TextInput
-                    style={[styles.input, styles.shadow]}
-                    placeholder=" Email"
-                    value={loginEmail}
-                    onChangeText={(text) => { setLoginEmail(text) }}
-                />
+        <ScrollView>
+            <View style={[styles.card, styles.shadow]}>
+                <Text style={styles.heading}>Login</Text>
+                <View
+                    style={styles.row}
+                >
+                    <Text
+                        style={styles.label}
+                    >Email</Text>
+                    <TextInput
+                        style={[styles.input, styles.shadow]}
+                        placeholder=" Email"
+                        value={loginEmail}
+                        onChangeText={(text) => { setLoginEmail(text) }}
+                    />
+                </View>
+                <View style={styles.row}>
+                    <Text style={styles.label}>Password</Text>
+                    <TextInput
+                        style={[styles.input, styles.shadow]}
+                        placeholder="Password"
+                        value={loginPassword}
+                        secureTextEntry={true}
+                        onChangeText={(text) => { setLoginPassword(text) }}
+                    />
+                    {loginErrors && loginErrors['login'] &&
+                        <Text style={{ color: "red" }}>{loginErrors['login']}</Text>
+                    }
+                </View>
+                <Button
+                    title="Login"
+                    onPress={() => {
+                        // signIn(loginEmail, loginPassword)
+                        loginHandler()
+                    }}>
+                    Login
+                </Button>
             </View>
-            <View style={styles.row}>
-                <Text style={styles.label}>Password</Text>
-                <TextInput
-                    style={[styles.input, styles.shadow]}
-                    placeholder="Password"
-                    value={loginPassword}
-                    secureTextEntry={true}
-                    onChangeText={(text) => { setLoginPassword(text) }}
-                />
-                {loginErrors && loginErrors['login'] &&
-                    <Text style={{ color: "red" }}>{loginErrors['login']}</Text>
-                }
-            </View>
-            <Button
-                title="Login"
-                onPress={() => {
-                    // signIn(loginEmail, loginPassword);
-                    loginHandler()
-                    // loginEmail, loginPassword
-                }}>
-                Login
-            </Button>
-        </View>
-
+        </ScrollView>
     )
 }
 

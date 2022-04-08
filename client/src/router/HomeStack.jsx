@@ -5,17 +5,17 @@ import LoginScreen from '../screens/LoginScreen'
 import EditForm from '../components/profile/EditForm'
 import ProfileScreen from '../screens/ProfileScreen'
 
-const Stack = createStackNavigator()
+const Home = createStackNavigator()
 const HomeStack = () => {
     return (
-        <Stack.Navigator
+        <Home.Navigator
             screenOptions={{ headerShown: false }}
         >
-            <Stack.Screen component={HomeScreen} name="HomeScreen" />
-            <Stack.Screen component={LoginScreen} name="Login" />
+            <Home.Screen component={HomeScreen} name="HomeScreen" />
+            {/* <Stack.Screen component={LoginScreen} name="Login" />
             <Stack.Screen component={EditForm} name="Edit" />
-            <Stack.Screen component={ProfileScreen} name="ProfileScreen" />
-        </Stack.Navigator>
+            <Stack.Screen component={ProfileScreen} name="ProfileScreen" /> */}
+        </Home.Navigator>
 
 
     )
