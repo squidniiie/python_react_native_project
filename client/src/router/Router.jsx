@@ -43,9 +43,9 @@ const SignInStack = ({ navigation }) => (
     </SignedIn.Navigator>
 )
 const SignedOut = createStackNavigator()
-const SignOutStack = () => (
+const SignOutStack = ({ navigation }) => (
     <SignedOut.Navigator initialRouteName='LoginScreen' screenOptions={{ headerShown: false }}>
-        <SignedOut.Screen component={LoginScreen} name="LoginScreen" />
+        <SignedOut.Screen component={LoginScreen} name="LoginScreen" navigation={navigation} />
     </SignedOut.Navigator>
 )
 // const Stack = createStackNavigator()

@@ -1,4 +1,4 @@
-import { FlatList, View, Button, StyleSheet, Text, ActivityIndicator } from 'react-native'
+import { FlatList, View, Button, StyleSheet, Text, ActivityIndicator, RefreshControl } from 'react-native'
 import { ScrollView } from 'react-native-virtualized-view'
 import React, { useState, useEffect } from 'react'
 import Header from '../components/header/Header'
@@ -6,21 +6,16 @@ import Dashboard from '../components/home/Dashboard'
 import { AuthContext } from '../AuthContext'
 import SubHeader from '../components/header/SubHeader'
 import spots from '../data/spots'
-import { RefreshControl } from 'react-native-web'
+
 
 const HomeScreen = ({ navigation }) => {
     const { user, setUser } = React.useContext(AuthContext)
     // setUser({})
     console.log(user)
     const [userData, setUserData] = useState({});
-    const [refreshing, setRefreshing] = React.useState(false);
+    const [Refreshing, setRefreshing] = useState(false);
     const [isLoading, setLoading] = useState(true);
 
-
-    const onRefresh = React.useCallback(() => {
-        setRefreshing(true);
-        wait(2000).then(() => setRefreshing(false));
-    }, []);
 
     const signInHandler = () => {
         fetch("http:127.0.0.1:5000/home", { method: 'GET' })
@@ -38,6 +33,14 @@ const HomeScreen = ({ navigation }) => {
     useEffect(() => {
         signInHandler()
     }, [])
+    const onRefresh = React.useCallback(() => {
+        setRefreshing(true);
+        signInHandler();
+        setTimeout(() => {
+            setRefreshing(false)
+        }, 1000)
+    }, [Refreshing]);
+
     const logOut = () => {
         fetch("http:127.0.0.1:5000/logout", { method: 'GET' })
             .then(res => {
@@ -48,12 +51,13 @@ const HomeScreen = ({ navigation }) => {
             .finally(() => setLoading(false))
     }
     return (
-        <ScrollView>
+        <ScrollView
+            refreshControl={<RefreshControl
+                refreshing={Refreshing}
+                onRefresh={onRefresh} />}
+            showsVerticalScrollIndicator={false}>
             <ScrollView
-                refreshControl={<RefreshControl
-                    refreshing={refreshing}
-                    onRefresh={onRefresh} />}
-                showsVerticalScrollIndicator={false}>
+            >
                 <Header />
                 <SubHeader />
                 {/* <ScrollView showsVerticalScrollIndicator={false}> */}
