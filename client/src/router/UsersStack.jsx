@@ -14,9 +14,7 @@ const UsersStack = () => {
             <Users.Screen component={ProfileScreen} name="ProfileScreen" />
             <Users.Screen component={EditForm} name="EditForm" />
         </Users.Navigator>
-
-
     )
 }
-
 export default UsersStack
+

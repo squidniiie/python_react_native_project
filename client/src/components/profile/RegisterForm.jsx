@@ -11,6 +11,7 @@ const RegisterForm = ({ navigation }) => {
     const [password, setPassword] = useState('');
     const [confirmPass, setConfirmPass] = useState('');
     const [errors, setErrors] = useState({});
+  
     // const { signUp } = React.useContext(AuthContext);
 
     const submitHandler = () => {

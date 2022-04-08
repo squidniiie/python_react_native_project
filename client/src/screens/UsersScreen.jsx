@@ -5,7 +5,6 @@ import Header from "../components/header/Header"
 import Users from '../components/users/Users';
 import { ScrollView } from 'react-native-virtualized-view';
 
-
 const UsersScreen = ({ navigation }) => {
     const [isLoading, setLoading] = useState(true);
     const [data, setData] = useState([]);

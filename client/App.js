@@ -11,7 +11,6 @@ const App = () => {
       <Router />
       <FlashMessage />
     </View>
-
   );
 }
 export default App;

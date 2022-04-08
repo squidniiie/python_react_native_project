@@ -13,5 +13,4 @@ const ProfileStack = () => {
         </Profile.Group>
     )
 }
-
 export default ProfileStack
