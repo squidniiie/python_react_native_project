@@ -29,7 +29,7 @@ class Vendor:
 
     #GET VENDOR BY ID
     @classmethod
-    def get_user_by_id(cls,data):
+    def get_vendor_by_id(cls,data):
         query = "SELECT * FROM vendors WHERE id = %(id)s;"
         vendor_from_db = connectToMySQL(DB).query_db(query,data)
         return cls(vendor_from_db)

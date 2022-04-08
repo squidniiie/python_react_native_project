@@ -3,13 +3,15 @@ import React from 'react'
 import Profile from '../components/profile/Profile'
 import Header from '../components/header/Header'
 
-const ProfileScreen = ({ navigation, route, item }) => {
+
+const ProfileScreen = ({ navigation, route }) => {
     const {
         first_name,
         last_name,
         email,
         location
     } = route.params
+    console.log("Route params", route.params)
     // console.log("ProfileScreen successfully passed user data", route.params)
     // console.log("ProfileScreen item is undefined", item)
     return (
@@ -19,19 +21,16 @@ const ProfileScreen = ({ navigation, route, item }) => {
             <Profile
                 route={route}
                 navigation={navigation}
-                item={item}
                 first_name={first_name} last_name={last_name} email={email} location={location}
             />
             <Pressable
                 style={styles.button}
-                onPress={() => navigation.navigate('Login')}>
+                onPress={() => navigation.push('Login')}>
                 <Text
                     style={styles.buttonText}
                 >Register</Text>
-                {/* //  containerStyles={{ backgroundColor: '#919fe88c' }} */}
             </Pressable>
         </ScrollView>
-
     )
 }
 const styles = StyleSheet.create({
@@ -49,5 +48,4 @@ const styles = StyleSheet.create({
         fontWeight: '700'
     }
 })
-
 export default ProfileScreen

@@ -2,18 +2,15 @@
 import React from 'react'
 import { createStackNavigator } from '@react-navigation/stack'
 import ProfileScreen from '../screens/ProfileScreen'
-const Stack = createStackNavigator()
+import EditForm from '../components/profile/EditForm'
+const Profile = createStackNavigator()
 const ProfileStack = () => {
 
     return (
-        <Stack.Navigator
-        >
-            <Stack.Screen component={ProfileScreen} name="ProfileScreen" />
-
-        </Stack.Navigator>
-
-
+        <Profile.Group>
+            <Profile.Screen component={ProfileScreen} name="ProfileScreen" />
+            <Profile.Screen component={EditForm} name="EditForm" />
+        </Profile.Group>
     )
 }
-
 export default ProfileStack

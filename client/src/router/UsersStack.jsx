@@ -1,19 +1,20 @@
 import React from 'react'
 import { createStackNavigator } from '@react-navigation/stack'
 import UsersScreen from '../screens/UsersScreen'
-
-const Stack = createStackNavigator()
-const ProfileStack = () => {
+import EditForm from '../components/profile/EditForm'
+import ProfileScreen from '../screens/ProfileScreen'
+const Users = createStackNavigator()
+const UsersStack = () => {
 
     return (
-        <Stack.Navigator
+        <Users.Navigator
             screenOptions={{ headerShown: false }}
         >
-            <Stack.Screen component={UsersScreen} name="SettingsScreen" />
-        </Stack.Navigator>
-
-
+            <Users.Screen component={UsersScreen} name="UsersScreen" />
+            <Users.Screen component={ProfileScreen} name="ProfileScreen" />
+            <Users.Screen component={EditForm} name="EditForm" />
+        </Users.Navigator>
     )
 }
+export default UsersStack
 
-export default ProfileStack

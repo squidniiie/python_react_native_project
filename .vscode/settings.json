@@ -1,5 +1,6 @@
 {
     "cSpell.words": [
         "jsonify"
-    ]
+    ],
+    "react-native.packager.port": 19001
 }

@@ -3,12 +3,19 @@ from crypt import methods
 from distutils import errors
 from email import message
 from flask_app import app, bcrypt
-from flask import get_flashed_messages, redirect,request,session,flash, jsonify, json
+from flask import get_flashed_messages,request,session, jsonify
 from flask_app.models.user import User
+# from flask_cors import cross_origin
 
 
-#LOGIN/REG PAGE ROUTE
-
+# SESSION ID LOGIN
+@app.route('/home', methods=['GET'])
+def home():
+    if 'id' not in session:
+        return jsonify({"error" : "Unauthorized"})
+    user = User.get_one_user(id = session['id'])
+    print("Hello", user.first_name)
+    return jsonify({"User" : user.__dict__})
 
 #HOME PAGE/DASHBOARD ROUTE FOR USER
 @app.route('/users/<int:id>', methods=['GET'])
@@ -52,6 +59,9 @@ def register():
             errs[category] = description
         print(errs)
         return jsonify(message = 'There was an error', errs=errs)
+    # user_exists = User.get_one_user(email=user_data['email'])
+    # if user_exists:
+    #     return jsonify(message='User already exists')
     password = user_data['password']
     print(password)
     user_data = {
@@ -62,6 +72,7 @@ def register():
     user = User.save(user_data)
     print(user)
     session['id'] = user
+    # session['id] = user.id
     print(session['id'])
     return jsonify(user=user)
 
@@ -80,6 +91,7 @@ def login():
     session['id'] = logged_in_user.id
     return jsonify(logged_in_user=logged_in_user.__dict__)
 
+
 # DELETE ROUTE
 @app.route('/delete/<int:id>', methods=['DELETE'])
 def delete_user(id):
@@ -94,4 +106,4 @@ def delete_user(id):
 @app.route('/logout')
 def logout():
     session.clear()
-    return redirect('/')
+    return "Logged out"

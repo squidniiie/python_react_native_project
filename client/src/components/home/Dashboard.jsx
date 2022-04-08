@@ -6,10 +6,8 @@ const image = { uri: "https://www.onlygfx.com/wp-content/uploads/2017/07/paint-b
 
 const Dashboard = ({ item }) => {
     return (
-        <SafeAreaView>
-            <ScrollView
-                style={{ backgroundColor: 'white' }}>
-                {/* flatlist in a flatlist for the images, use logic to have different color backgrounds for the card titles */}
+        <View>
+            <ScrollView>
                 <Pressable style={[styles.card, styles.shadow]}>
                     <Image
                         style={styles.image}
@@ -39,7 +37,7 @@ const Dashboard = ({ item }) => {
                     </View>
                 </Pressable>
             </ScrollView >
-        </SafeAreaView>
+        </View>
     )
 }
 const styles = StyleSheet.create({
