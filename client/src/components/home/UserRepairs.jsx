@@ -1,11 +1,8 @@
-import { View, Text, ScrollView, Image, Pressable, StyleSheet, ImageBackground, SafeAreaView } from 'react-native'
+import { View, Text, StyleSheet, Image, ImageBackground } from 'react-native'
 import React from 'react'
 import { TouchableOpacity } from 'react-native-gesture-handler'
-
-
 const image = { uri: "https://www.onlygfx.com/wp-content/uploads/2017/07/paint-brush-stroke-7-15-1024x244.png" }
-
-const Dashboard = ({ item }) => {
+const UserRepairs = ({ item }) => {
     return (
         <View>
             <TouchableOpacity
@@ -85,4 +82,4 @@ const styles = StyleSheet.create({
         justifyContent: 'space-evenly'
     }
 })
-export default Dashboard
+export default UserRepairs
