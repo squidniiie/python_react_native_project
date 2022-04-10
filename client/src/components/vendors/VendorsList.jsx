@@ -4,26 +4,26 @@ import BookButton from '../buttons/BookButton';
 
 
 const VendorsList = ({ navigation }) => {
+    console.log("hello", navigation)
     const [isLoading, setLoading] = useState(true);
     const [data, setData] = useState([]);
     const [photos, setPhotos] = useState([]);
-    const loadData = () => {
+    useEffect(() => {
         fetch('http:127.0.0.1:5000/api', { method: 'GET' })
             .then(res => res.json())
             .then(res => {
                 setData(res.vendors)
                 setPhotos(res.photos)
+                // console.log(res.vendors)
             })
             .catch((error) => {
                 console.log(error)
                 alert(error)
             })
             .finally(() => setLoading(false))
-    }
-    useEffect(() => {
-        loadData()
     }, [])
     const onPress = (() => {
+        navigation.navigate('VendorScreen')
     })
 
     return (
@@ -35,16 +35,9 @@ const VendorsList = ({ navigation }) => {
                             flexGrow: 1
                         }}
                         keyExtractor={item => `${item.id}`}
-                        onRefresh={loadData}
-                        refreshing={isLoading}
                         data={data}
                         renderItem={({ item, index }) => (
-                            <Pressable onPress={() => {
-                                onPress(
-                                    navigation.push('VendorScreen', item)
-                                )
-                                console.log("Vendor Name:", item)
-                            }}
+                            <Pressable onPress={() => { onPress() }}
                                 style={[styles.card, styles.shadow]}>
                                 <View
                                     style={styles.cardHeader}

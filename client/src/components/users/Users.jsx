@@ -1,23 +1,25 @@
-import { View, Text, Pressable, StyleSheet, Image } from 'react-native'
+import { View, Text, Pressable, StyleSheet, Button } from 'react-native'
 import React from 'react'
 
 
-const Users = ({ item, navigation }) => {
+const Settings = ({ item, navigation }) => {
+
     const onPress = () => {
         navigation.navigate('ProfileScreen', item
         );
-        // console.log("Users component:", item)
+        // console.log("Settings:", item.first_name)
+        // console.log(navigation)
     }
     return (
         <Pressable onPress={({ item }) => { onPress(item) }}
             style={[styles.card, styles.shadow]}>
-            <View style={styles.cardHeader}>
-                <Image style={styles.image} source={{ uri: 'https://stabmag.com/wp-content/uploads/2021/04/Mark-Zuckerberg-Spooks-the-Internet-With-Too-Much-Sunscreen-on-His-Face-in-Hawaii-01-1024x538.jpg' }} />
-                <View >
-                    <Text style={styles.name}>{item.first_name}</Text>
-                    <Text style={{ textAlign: 'center' }}>
-                        {item.location}</Text>
-                </View>
+            <View
+                style={styles.cardHeader}
+            >
+                <Text style={styles.name}>{item.first_name}</Text>
+            </View>
+            <View style={{ flexDirection: 'column' }}>
+                <Text style={{ textAlign: 'right' }}>{item.location}</Text>
             </View>
             <View style={{ marginTop: 5 }}>
                 <Text>*Putting an image carousel here with horizontal scroll*</Text>
@@ -52,23 +54,21 @@ const styles = StyleSheet.create({
     name: {
         fontSize: 24,
         fontWeight: '700',
-
-        // backgroundColor: 'red',
+        textAlign: 'right',
     },
     image: {
-        width: 40,
-        height: 40,
-        borderRadius: 50,
+        width: 50,
+        height: 50,
+        borderRadius: 20,
         marginTop: 5
     },
     cardHeader: {
-        // backgroundColor: 'cyan',
+        // backgroundColor: 'red',
         // marginHorizontal: 5,
-        // alignItems: 'center',
+        alignItems: 'center',
         justifyContent: 'space-between',
         flexDirection: 'row',
         textAlign: 'left'
     }
 })
-
-export default Users
+export default Settings
