@@ -1,4 +1,4 @@
-import { FlatList, View, Button, StyleSheet, Text, ActivityIndicator, RefreshControl, Image, ImageBackground } from 'react-native'
+import { FlatList, View, Button, StyleSheet, Text, ActivityIndicator, RefreshControl, Image, ImageBackground, Pressable } from 'react-native'
 import { ScrollView } from 'react-native-virtualized-view'
 import React, { useState, useEffect } from 'react'
 import Header from '../components/header/Header'
@@ -7,7 +7,8 @@ import { AuthContext } from '../AuthContext'
 import SubHeader from '../components/header/SubHeader'
 import spots from '../data/spots'
 import profilePic from '../assets/profilePic.jpg'
-// import UserRepairs from '../components/home/UserRepairs'
+import PostForm from '../components/home/PostForm'
+
 
 const background = { uri: "https://static.vecteezy.com/system/resources/previews/003/456/895/non_2x/bright-holographic-background-illustration-free-vector.jpg" }
 // const image = { uri: 'https://pagesix.com/wp-content/uploads/sites/3/2022/04/will-smith-agents-clash-04.jpg' }
@@ -56,101 +57,90 @@ const HomeScreen = ({ navigation }) => {
             .finally(() => setLoading(false))
     }
     return (
+
         <ScrollView
             refreshControl={<RefreshControl
                 refreshing={Refreshing}
                 onRefresh={onRefresh} />}
+            overScrollMode='touch'
             showsVerticalScrollIndicator={false}>
             <Header />
             <SubHeader />
-            <ScrollView style={{ backgroundColor: 'white' }}>
+            <View
+            //  style={{ backgroundColor: 'white' }}
+            >
                 {isLoading ? (<ActivityIndicator />) : (
-                    <View>
-                        <ImageBackground
-                            imageStyle={{ opacity: 0.8, }}
-                            source={background} resizeMode='cover' style={styles.container}
-                        >
-                            {userData ?
-                                <View style={{ flexDirection: 'row', padding: 10, justifyContent: 'space-evenly' }}>
-                                    <View>
-                                        <Image style={styles.profile} source={profileImage} />
-                                    </View>
-                                    <View
-                                    // style={{ marginHorizontal: 15, backgroundColor: 'red' }}
-                                    >
-                                        <Text style={styles.heading}>Welcome Back, {userData.first_name}</Text>
-                                        <Text style={styles.description}>of {userData.location}</Text>
-                                    </View>
+                    <ImageBackground
+                        imageStyle={{ opacity: 0.8, }}
+                        source={background} resizeMode='cover' style={styles.container}
+                    >
+                        {userData ?
+                            <View style={{ flexDirection: 'row', padding: 10, justifyContent: 'space-evenly' }}>
+                                <View>
+                                    <Image style={styles.profile} source={profileImage} />
                                 </View>
-                                :
-                                <Text>Loading...</Text>}
-                            <View>
-                                <Text style={styles.title}>SEE YOUR FAVORITES</Text>
-                                <FlatList
-                                    style={styles.list}
-                                    contentContainerStyle={{
-                                        flexGrow: 1
-                                    }}
-                                    refreshing={isLoading}
-                                    onRefresh={signInHandler}
-                                    data={spots}
-                                    horizontal={true}
-                                    renderItem={({ item }) => <Dashboard item={item}
-                                    />}
-                                />
+                                <View style={{
+                                    flexDirection: 'column',
+                                    //  backgroundColor: 'blue'
+                                }}>
+                                    <Text style={styles.heading}>Welcome Back, {userData.first_name}</Text>
+                                    <Text style={styles.description}>of {userData.location}</Text>
+                                    <Pressable
+                                        style={{ backgroundColor: '#Ff5d21', borderRadius: 25, paddingHorizontal: 30, paddingVertical: 10, margin: 10 }}
+                                        onPress={() => {
+                                            logOut()
+                                            console.log("logged out", userData.id)
+                                        }}>
+                                        <Text style={styles.description}>Log Out</Text>
+                                    </Pressable>
+                                </View>
                             </View>
-                        </ImageBackground>
-                        {/* <FlatList
-                            style={styles.secondList}
-                            contentContainerStyle={{
-                                flexGrow: 1
-                            }}
-                            refreshing={isLoading}
-                            onRefresh={signInHandler}
-                            data={spots}
-                            horizontal={true}
-                            renderItem={({ item }) => <UserRepairs item={item}
-                            />}
-                        /> */}
-                    </View>
+                            :
+                            <Text>Loading...</Text>}
+                        <PostForm />
+                        <View>
+                            <Text style={styles.title}>SEE YOUR PAST REPAIRS</Text>
+                            <FlatList
+                                style={styles.list}
+                                contentContainerStyle={{
+                                    flexGrow: 1
+                                }}
+                                refreshing={isLoading}
+                                onRefresh={signInHandler}
+                                data={spots}
+                                horizontal={true}
+                                renderItem={({ item }) => <Dashboard item={item}
+                                />}
+                            />
+                        </View>
+                    </ImageBackground>
                 )}
-            </ScrollView>
-            <View style={styles.button}>
-                <Button
-                    title="Sign out"
-                    onPress={() => {
-                        logOut()
-                        console.log("logged out", userData.id)
-                    }} />
+                <View style={styles.form}>
+                    <Text style={{ marginHorizontal: 15, fontWeight: 'bold', fontSize: 18, color: 'grey' }}>SEE YOUR OPEN REPAIRS</Text>
+
+                </View>
             </View>
-        </ScrollView >
+        </ScrollView>
+
     )
 }
 const styles = StyleSheet.create({
     container: {
         backgroundColor: background,
-        height: '85%',
+        height: '97%',
     },
     list: {
         paddingVertical: 10,
         position: 'absolute',
-        top: 20,
-        // backgroundColor: 'white'
+        top: 10,
     },
-    // secondList: {
-    //     paddingTop: 200,
-    //     position: 'absolute',
-    //     // bottom: 0,
-    //     top: 300,
-    // },
     heading: {
         fontSize: 26,
         fontWeight: 'bold',
         paddingHorizontal: 15,
-        paddingTop: 10,
+        // paddingTop: 10,
         color: 'white',
         textAlign: 'right',
-        // letterSpacing: 3,
     },
     description: {
         fontSize: 18,
@@ -163,13 +153,13 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontWeight: 'bold',
         paddingHorizontal: 15,
-        paddingTop: 20,
-        // paddingVertical: 5,
         color: 'white'
     },
-    button: {
-        height: 150,
-        backgroundColor: '#fff',
+    form: {
+        position: 'absolute',
+        // backgroundColor: 'blue',
+        top: 610,
+        width: '100%',
     },
     profile: {
         width: 70,

@@ -6,4 +6,4 @@ app = Flask(__name__)
 cors = CORS(app, supports_credentials=True)
 app.secret_key = "shhhhhh"
 bcrypt = Bcrypt(app)
-DB = 'python_react_native'
+DB = 'ding'
