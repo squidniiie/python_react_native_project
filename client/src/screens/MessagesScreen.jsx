@@ -1,4 +1,4 @@
-import { Text, StyleSheet, SafeAreaView } from 'react-native'
+import { Text, StyleSheet, View } from 'react-native'
 import React from 'react'
 import { ScrollView } from 'react-native-virtualized-view';
 import Header from '../components/header/Header'
@@ -6,15 +6,15 @@ import VendorsList from '../components/vendors/VendorsList';
 
 const MessagesScreen = ({ navigation }) => {
     return (
-        <SafeAreaView>
+        <View>
             <ScrollView
                 showsVerticalScrollIndicator={false} >
                 <Header />
-                <Text style={styles.title}>You're in Luck!</Text>
+                <Text style={styles.title}>Shapers Near You</Text>
                 <VendorsList navigation={navigation}
                 />
             </ScrollView>
-        </SafeAreaView>
+        </View>
     )
 }
 const styles = StyleSheet.create({
