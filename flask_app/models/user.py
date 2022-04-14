@@ -1,9 +1,10 @@
 from flask_app import DB, bcrypt
 from flask_app.config.mysqlconnection import connectToMySQL
-from flask import flash, jsonify, make_response
+from flask import flash
+from flask import flash
 import re
-import json 
-from json import JSONEncoder
+# import json 
+
 
 EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$')
 
@@ -13,6 +14,7 @@ class User:
         self.first_name = data['first_name']
         self.last_name = data['last_name']
         self.email = data['email']
+        self.image = data['image']
         self.location = data['location']
         self.password = data['password']
         self.created_at = data['created_at']
@@ -31,7 +33,7 @@ class User:
     #SAVE A USER IN DB
     @classmethod
     def save(cls,data):
-        query = "INSERT INTO users (first_name,last_name,email,location,password,created_at,updated_at) VALUES (%(first_name)s,%(last_name)s,%(email)s,%(location)s,%(password)s,NOW(),NOW());"
+        query = "INSERT INTO users (first_name,last_name,email,image,location,password,created_at,updated_at) VALUES (%(first_name)s,%(last_name)s,%(email)s,%(location)s,%(password)s,NOW(),NOW());"
         user_id = connectToMySQL(DB).query_db(query,data)
         return user_id
 
@@ -51,7 +53,7 @@ class User:
     #EDIT USER
     @classmethod
     def edit_user(cls,data):
-        query = "UPDATE users SET first_name = %(first_name)s, last_name = %(last_name)s, email = %(email)s, updated_at = NOW() WHERE id = %(id)s;"
+        query = "UPDATE users SET first_name = %(first_name)s, last_name = %(last_name)s, image = %(image)s, email = %(email)s, updated_at = NOW() WHERE id = %(id)s;"
         return connectToMySQL(DB).query_db(query,data)
 
     #ALTERNATE GET ONE USER

@@ -1,5 +1,5 @@
 from flask_app import app
-from flask_app.controllers import users, vendors
+from flask_app.controllers import users, vendors, posts
 
 if __name__ == "__main__":   
     app.run(debug=True, host='127.0.0.1',
