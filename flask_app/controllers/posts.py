@@ -15,10 +15,17 @@ def create_post():
             errs[category] = description
         return jsonify(message = 'There was an error', errs = errs)
     creator_id = session['id']
-    post_data = {
-        **request.get_json(),
-        'user_id' : creator_id
-    }
+    if 'image' in post_data:
+        post_data = {
+            **request.get_json(),
+            'user_id' : creator_id
+        }
+    else:
+        post_data = {
+            **request.get_json(),
+            'user_id' : creator_id,
+            'image' : ""
+        }
     post = Post.create(post_data)
     return jsonify(post=post)
 
