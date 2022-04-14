@@ -1,10 +1,15 @@
-from flask_app import DB
+from flask_app import DB, bcrypt
 from flask_app.config.mysqlconnection import connectToMySQL
+from flask import flash
+import re
+
+EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$')
 
 class Vendor:
     def __init__(self, data) -> None:
         self.id = data['id']
         self.name = data['name']
+        self.image = data['image']
         self.location = data['location']
         self.email = data['email']
         self.created_at = data['created_at']
@@ -23,7 +28,7 @@ class Vendor:
     #SAVE A VENDOR IN DB
     @classmethod
     def save(cls,data):
-        query = "INSERT INTO vendors (name,location,email,created_at,updated_at) VALUES (%(name)s,%(location)s,%(email)s,NOW(),NOW());"
+        query = "INSERT INTO vendors (name,image,location,email,created_at,updated_at) VALUES (%(name)s,%(image)s,%(location)s,%(email)s,NOW(),NOW());"
         vendor_id = connectToMySQL(DB).query_db(query,data)
         return vendor_id
 
@@ -37,7 +42,7 @@ class Vendor:
     #EDIT VENDOR
     @classmethod
     def edit_vendor(cls,data):
-        query = "UPDATE vendors SET name = %(name)s, location = %(location)s, email = %(email)s, updated_at = NOW() WHERE id = %(id)s;"
+        query = "UPDATE vendors SET name = %(name)s, image = %(image)s location = %(location)s, email = %(email)s, updated_at = NOW() WHERE id = %(id)s;"
         return connectToMySQL(DB).query_db(query,data)
 
     #ALTERNATE GET ONE VENDOR
@@ -49,3 +54,24 @@ class Vendor:
         results = connectToMySQL(DB).query_db(query,data)
         if results:
             return cls(results[0])
+        #VALIDATE VENDOR REGISTRATION
+    @staticmethod
+    def validate_vendor(data):
+        errors = {}
+        if(len(data['name'])) < 2:
+            errors['name'] = 'Name must be at least 2 characters long'
+        if(len(data['location'])) < 2:
+            errors['location'] = 'Location must be at least 2 characters long'
+        if not EMAIL_REGEX.match(data['email']):
+            errors['email'] = 'Email format is invalid'
+        elif Vendor.get_one_vendor(email=data['email']):
+            errors['email'] = 'Email is already in use'
+
+        for field,msg in errors.items():
+            flash(msg,field)
+        return len(errors) == 0
+    # DELETE VENDOR
+    @classmethod
+    def delete_vendor(cls,data):
+        query = 'DELETE FROM vendors WHERE id = %(id)s;'
+        return connectToMySQL(DB).query_db(query,data)

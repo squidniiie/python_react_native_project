@@ -6,12 +6,13 @@ const RegisterForm = ({ navigation }) => {
     // console.log(navigation)
     const [first_name, setFirstName] = useState('');
     const [last_name, setLastName] = useState('');
+    const [image, setImage] = useState('');
     const [email, setEmail] = useState('');
     const [location, setLocation] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPass, setConfirmPass] = useState('');
     const [errors, setErrors] = useState({});
-  
+
     // const { signUp } = React.useContext(AuthContext);
 
     const submitHandler = () => {
@@ -25,6 +26,7 @@ const RegisterForm = ({ navigation }) => {
             body: JSON.stringify({
                 first_name: first_name,
                 last_name: last_name,
+                image: image,
                 email: email,
                 location: location,
                 password: password,
@@ -80,8 +82,21 @@ const RegisterForm = ({ navigation }) => {
                         <Text style={{ color: "red" }}>{errors['last_name']}</Text>}
                 </View>
                 <View
-                    style={styles.row}
-                >
+                    style={styles.row}>
+                    <Text
+                        style={styles.label}
+                    >Image Url</Text>
+                    <TextInput
+                        style={[styles.input, styles.shadow]}
+                        placeholder="image"
+                        value={image}
+                        onChangeText={(text) => { setImage(text) }} />
+                    {errors && errors['image'] &&
+                        <Text style={{ color: "red" }}>{errors['image']}</Text>
+                    }
+                </View>
+                <View
+                    style={styles.row}>
                     <Text
                         style={styles.label}
                     >Location</Text>

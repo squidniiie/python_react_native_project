@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Pressable, TextInput } from 'react-native'
+import { View, Text, StyleSheet, Pressable, TextInput, Button } from 'react-native'
 import React, { useState } from 'react'
 
 const PostForm = () => {
@@ -10,7 +10,7 @@ const PostForm = () => {
             }}>
             {press === false ?
                 <View style={[styles.container, styles.shadow]}>
-                    <Text style={styles.heading}>Press me</Text>
+                    <Text style={styles.heading}>Press Me</Text>
                 </View>
                 :
                 <View style={[styles.pressContainer, styles.shadow]}>
@@ -30,7 +30,7 @@ const PostForm = () => {
                         <TextInput
                             style={[styles.input, styles.shadow]} />
                     </View>
-
+                    <Button title="Collapse" />
                 </View>
             }
         </Pressable>
@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
     pressContainer: {
         margin: 20,
         backgroundColor: 'white',
-        paddingVertical: 10,
+        paddingVertical: 20,
         borderRadius: 25,
     },
     heading: {
@@ -64,6 +64,7 @@ const styles = StyleSheet.create({
         fontSize: 28,
         fontWeight: 'bold',
         textAlign: 'center',
+        color: 'grey'
 
     },
     shadow: {

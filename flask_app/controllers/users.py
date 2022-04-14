@@ -5,7 +5,8 @@ from email import message
 from flask_app import app, bcrypt
 from flask import get_flashed_messages,request,session, jsonify
 from flask_app.models.user import User
-# from flask_cors import cross_origin
+from flask_app.models.post import Post
+
 
 
 # SESSION ID LOGIN
@@ -14,6 +15,7 @@ def home():
     if 'id' not in session:
         return jsonify({"error" : "Unauthorized"})
     user = User.get_one_user(id = session['id'])
+    posts = Post.get_posts_by_user({'user_id' : session['id']})
     print("Hello", user.first_name)
     return jsonify({"User" : user.__dict__})
 
@@ -64,10 +66,17 @@ def register():
     #     return jsonify(message='User already exists')
     password = user_data['password']
     print(password)
-    user_data = {
-        **request.get_json(),
-        'password' : bcrypt.generate_password_hash(password).decode('utf-8')
-    }
+    if 'image' in user_data:
+        user_data = {
+            **request.get_json(),
+            'password' : bcrypt.generate_password_hash(password).decode('utf-8')
+        }
+    else:
+        user_data = {
+            **request.get_json(),
+            'password' : bcrypt.generate_password_hash(password).decode('utf-8'),
+            'image' : ""
+        }
     print(user_data)
     user = User.save(user_data)
     print(user)

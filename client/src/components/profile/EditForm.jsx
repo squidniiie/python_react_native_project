@@ -8,6 +8,7 @@ const EditForm = (item) => {
     // console.log("This is the data", data)
     const [first_name, setFirstName] = useState(data.first_name);
     const [last_name, setLastName] = useState(data.last_name);
+    const [image, setImage] = useState(data.image);
     const [email, setEmail] = useState(data.email);
     const [password, setPassword] = useState(data.password);
     const [location, setLocation] = useState(data.location);
@@ -23,6 +24,7 @@ const EditForm = (item) => {
                 body: JSON.stringify({
                     first_name: first_name,
                     last_name: last_name,
+                    image: image,
                     email: email,
                     password: password,
                     location: location
@@ -108,8 +110,18 @@ const EditForm = (item) => {
                         placeholder="Password"
                         value={password}
                         secureTextEntry={true}
-
                         onChangeText={(text) => { setPassword(text) }} />
+                </View>
+                <View
+                    style={styles.row}>
+                    <Text
+                        style={styles.label}
+                    >Image Url</Text>
+                    <TextInput
+                        style={[styles.input, styles.shadow]}
+                        placeholder="image"
+                        value={image}
+                        onChangeText={(text) => { setImage(text) }} />
                 </View>
                 <View
                     style={styles.row}
