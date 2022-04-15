@@ -33,7 +33,7 @@ class User:
     #SAVE A USER IN DB
     @classmethod
     def save(cls,data):
-        query = "INSERT INTO users (first_name,last_name,email,image,location,password,created_at,updated_at) VALUES (%(first_name)s,%(last_name)s,%(email)s,%(location)s,%(password)s,NOW(),NOW());"
+        query = "INSERT INTO users (first_name,last_name,image,email,location,password,created_at,updated_at) VALUES (%(first_name)s,%(last_name)s,%(image)s,%(email)s,%(location)s,%(password)s,NOW(),NOW());"
         user_id = connectToMySQL(DB).query_db(query,data)
         return user_id
 
@@ -74,6 +74,8 @@ class User:
             errors['first_name'] = 'First name should be at least 2 characters'
         if len(data['last_name']) < 2:
             errors['last_name'] = 'Last name should be at least 2 characters'
+        if len(data['image']) < 1:
+            errors['image'] = 'Image should be at least 1 character'
         if not EMAIL_REGEX.match(data['email']):
             errors['email'] = 'Email format is invalid'
         elif User.get_one_user(email=data['email']):
