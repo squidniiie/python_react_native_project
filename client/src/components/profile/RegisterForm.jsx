@@ -13,7 +13,7 @@ const RegisterForm = ({ navigation }) => {
     const [confirmPass, setConfirmPass] = useState('');
     const [errors, setErrors] = useState({});
 
-    // const { signUp } = React.useContext(AuthContext);
+    const { signUp, setUser } = React.useContext(AuthContext);
 
     const submitHandler = () => {
         // https://a955-76-175-74-35.ngrok.io/login
@@ -37,11 +37,13 @@ const RegisterForm = ({ navigation }) => {
                 return res.json()
             })
             .then(data => {
-                console.log("Data: ", data)
+                console.log("Data from register: ", data)
+                setUser(data.user)
                 if (data['errs']) {
                     setErrors(data['errs']);
                 } else {
-                    navigation.navigate('HomeScreen', { first_name: data['first_name'] })
+                    navigation.navigate('SignIn')
+                    // signUp()
                 }
             })
             .catch(error => console.log("There is an error: ", error))

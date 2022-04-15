@@ -1,11 +1,11 @@
 
 import { View, Text, TextInput, StyleSheet, ScrollView, Button } from 'react-native'
 import React, { useState } from 'react'
-// import { AuthContext } from '../../AuthContext';
+import { AuthContext } from '../../AuthContext';
 
 
 const LoginForm = ({ navigation }) => {
-    // const { signIn } = React.useContext(AuthContext)
+    const { SignIn, setUser } = React.useContext(AuthContext)
     const [loginEmail, setLoginEmail] = useState('');
     const [loginPassword, setLoginPassword] = useState('');
     const [loginErrors, setLoginErrors] = useState({});
@@ -28,12 +28,14 @@ const LoginForm = ({ navigation }) => {
                 return res.json()
             })
             .then(data => {
-                console.log("Data: ", data)
+                console.log("Data from loginForm: ", data)
+                setUser(data.logged_in_user)
                 if (data['loginErrors']) {
                     setLoginErrors(data['loginErrors']);
                 }
                 else {
-                    navigation.navigate('HomeScreen')
+                    navigation.navigate('SignIn')
+                    // SignIn()
                 }
             })
             .catch(error => console.log("There is an error: ", error))

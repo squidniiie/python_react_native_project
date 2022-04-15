@@ -3,48 +3,98 @@ import React, { useState } from 'react'
 
 const PostForm = () => {
     const [press, setPress] = useState(false);
+    const [title, setTitle] = useState('');
+    const [description, setDescription] = useState('');
+    const [image, setImage] = useState('');
+    const [errors, setErrors] = useState({});
+    const submitHandler = () => {
+        fetch(`http://127.0.0.1:5000/create/post`, {
+            withCredentials: true,
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                title: title,
+                description: description,
+                image: image
+            })
+        })
+            .then(res => {
+                return res.json()
+            })
+            .then(data => {
+                console.log("Data from post: ", data)
+                if (data['errs']) {
+                    setErrors(data['errs']);
+                } else {
+                    navigation.navigate('SignIn')
+                }
+            })
+            .catch(error => console.log("There is an error: ", error))
+    }
     return (
-        <Pressable
-            onPress={() => {
-                setPress(!press)
-            }}>
-            {press === false ?
-                <View style={[styles.container, styles.shadow]}>
-                    <Text style={styles.heading}>Press Me</Text>
-                </View>
-                :
-                <View style={[styles.pressContainer, styles.shadow]}>
-                    <Text style={styles.pressHeading}>Create a new Post</Text>
-                    <View>
-                        <Text style={styles.label}>Title</Text>
-                        <TextInput
-                            style={[styles.input, styles.shadow]} />
+        <View>
+
+            <Pressable
+                onPress={() => {
+                    setPress(!press)
+                }}>
+                {press === false ?
+                    <View style={[styles.container, styles.shadow]}>
+                        <Text style={styles.heading}>add a ding</Text>
                     </View>
-                    <View>
-                        <Text style={styles.label}>Description</Text>
-                        <TextInput
-                            style={[styles.input, styles.shadow]} />
+                    :
+                    <View style={[styles.pressContainer, styles.shadow]}>
+                        <Text style={styles.pressHeading}>Create a new Post</Text>
+                        <View>
+                            <Text style={styles.label}>Title</Text>
+                            <TextInput
+                                style={[styles.input, styles.shadow]}
+                                placeholder="Title"
+                                value={title}
+                                onChangeText={(text) => { setTitle(text) }} />
+                            {errors && errors['title'] &&
+                                <Text style={{ color: "red" }}>{errors['title']}</Text>
+                            }
+                        </View>
+                        <View>
+                            <Text style={styles.label}>Description</Text>
+                            <TextInput
+                                style={[styles.input, styles.shadow]}
+                                placeholder="Description"
+                                value={description}
+                                onChangeText={(text) => { setDescription(text) }} />
+                            {errors && errors['description'] &&
+                                <Text style={{ color: "red" }}>{errors['description']}</Text>
+                            }
+                        </View>
+                        <View>
+                            <Text style={styles.label}>Image URL</Text>
+                            <TextInput
+                                style={[styles.input, styles.shadow]}
+                                placeholder="Image"
+                                value={image}
+                                onChangeText={(text) => { setImage(text) }} />
+                        </View>
+                        <Button title="Submit"
+                            onPress={() => {
+                                submitHandler()
+                            }} />
                     </View>
-                    <View>
-                        <Text style={styles.label}>Image URL</Text>
-                        <TextInput
-                            style={[styles.input, styles.shadow]} />
-                    </View>
-                    <Button title="Collapse" />
-                </View>
-            }
-        </Pressable>
+                }
+            </Pressable>
+        </View>
     )
 }
 
 export default PostForm
 const styles = StyleSheet.create({
+
     container: {
         backgroundColor: 'white',
-        padding: 10,
-        marginHorizontal: 20,
+        padding: 5,
         borderRadius: 25,
-        marginVertical: 15,
         justifyContent: 'center',
         backgroundColor: 'orangered',
     },
@@ -55,10 +105,12 @@ const styles = StyleSheet.create({
         borderRadius: 25,
     },
     heading: {
-        fontSize: 28,
+        fontSize: 18,
         fontWeight: 'bold',
         textAlign: 'center',
         color: 'white',
+        textTransform: 'lowercase',
+        letterSpacing: 3,
     },
     pressHeading: {
         fontSize: 28,
@@ -77,11 +129,7 @@ const styles = StyleSheet.create({
         height: 40,
         backgroundColor: 'white',
         margin: 10,
-        // width: '90%',
-        // paddingVertical: 5,
-        // marginVertical: 5,
         borderRadius: 20,
-
     },
     label: {
         fontSize: 16,
